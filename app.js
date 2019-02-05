@@ -11,7 +11,6 @@ var logoutRouter = require('./routes/logout');
 var adminRouter = require('./routes/admin');
 
 var app = express();
-
 var session = require('express-session');
 
 var crypto = require("crypto");
