@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  .ui-corner-all(style='padding: 10px; margin-bottom: 10px; border: 0px solid #333333; background-color: #e0ffff;')
+    p Welcome to #{title}
+  a(href='/login.html') ログイン
+  script.
+    $(function() {$('a').button();});
