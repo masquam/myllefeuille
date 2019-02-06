@@ -14,7 +14,7 @@ router.get('/', csrfProtection, function(req, res, next) {
   res.render('login', {username: req.user, message: req.flash("error"), csrfToken: req.csrfToken() });
 });
 router.post('/', parseForm, csrfProtection,
-  passport.authenticate('local', { successRedirect: '/admin/useronly.html',
+  passport.authenticate('local', { successRedirect: '/admin/menu.html',
                                    failureRedirect: '/login.html',
                                    failureFlash: true })
 );

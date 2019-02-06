@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-var isLogined = function(req, res, next){
-    if(req.isAuthenticated())
+var isAdministrator = function(req, res, next){
+    if(req.isAuthenticated() && req.user.role === 'administrator')
         return next();
     res.redirect("/login.html");
 };
 
-router.get("/useronly.html", isLogined, function(req, res){
-    res.render("useronly", {user: req.user});
+router.get("/menu.html", isAdministrator, function(req, res){
+    res.render("menu", {user: req.user});
 });
 
 module.exports = router;

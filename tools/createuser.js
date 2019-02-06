@@ -19,7 +19,8 @@ db.once('open', function() {
 
   var authSchema = mongoose.Schema({ 
     username: 'string',
-    password: 'string'
+    password: 'string',
+    role: 'string'
   });
   authSchema.methods.validPassword = function( pwd ) {
     return ( this.password === getHash(pwd) );
@@ -28,8 +29,9 @@ db.once('open', function() {
 
   console.log("start creating the user...");
   var testUser = new User();
-  testUser.username = "testuser2";
+  testUser.username = "testuser";
   testUser.password = getHash("password");
+  testUser.role = "administrator";
   testUser.save(function(err, user){
     if (err) return console.error(err); 
     console.log("completed.");

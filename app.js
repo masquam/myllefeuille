@@ -29,7 +29,8 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/MongoDB', {useNewUrlParser: true});
 var authSchema = mongoose.Schema({ 
   username: 'string',
-  password: 'string'
+  password: 'string',
+  role: 'string'
 });
 authSchema.methods.validPassword = function( pwd ) {
     return ( this.password === getHash(pwd) );
