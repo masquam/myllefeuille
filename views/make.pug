@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 ナレッジ作成
+  p ようこそ, #{user.username}
+
+  form(action='/admin/makeconfirm.html', method='post')
+    include csrf
+    p
+      label 内容: 
+      textarea.ui-corner-all(style='width: 100%; min-height:100px', name='content')
+    p
+      input(type='submit', value='保存')
+  p
+    a(href='/admin/menu.html') メニュー
+  p
+    a(href='/logout.html') ログアウト
+  script.
+    $(function() {$('a').button();$('input').button();});

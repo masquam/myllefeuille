@@ -26,7 +26,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/MongoDB', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
 var authSchema = mongoose.Schema({ 
   username: 'string',
   password: 'string',

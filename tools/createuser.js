@@ -1,5 +1,5 @@
 // TODO: command line option to set username/password
-// TODO: for the same username
+// TODO: same username check
 
 var crypto = require("crypto");
 var secretKey = "qw/lQwTSpbW#IW=R3+Ke";
@@ -9,7 +9,7 @@ var getHash = function(target){
                 return sha.digest("hex");
 };
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/MongoDB', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
 
 var db = mongoose.connection; 
 

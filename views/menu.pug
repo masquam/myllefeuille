@@ -4,12 +4,12 @@ block content
   h1 メニュー
   p ようこそ, #{user.username}
   p
-    a(href='/make.html') ナレッジ作成
+    a(href='/admin/make.html') ナレッジ作成
   if user.role === 'administrator'
     p
-      a(href='/approve.html') ナレッジ承認
+      a(href='/admin/approve.html') ナレッジ承認
     p
-      a(href='/users.html') ユーザーメンテナンス
+      a(href='/admin/users.html') ユーザーメンテナンス
   p
     a(href='/logout.html') ログアウト
   script.
