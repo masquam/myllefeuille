@@ -9,6 +9,7 @@ block content
           p #{message}
 
   form(action='/login.html', method='post')
+    include csrf
     p
       label ユーザーID: 
       input(type='text', name='username')
