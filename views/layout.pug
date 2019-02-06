@@ -4,9 +4,12 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/cupertino/jquery-ui.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
     script(src="/javascripts/jquery.js")
     script(src="/javascripts/jquery-ui.js")
   body
+    header.header
+      img(src='/images/title.png', style='width: 160px')
     block content
     script(src="/javascripts/afterbody.js")
 

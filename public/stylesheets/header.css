@@ -1,0 +1,9 @@
+.header{
+  background:#003366;
+  box-shadow:0 2px 8px rgba(30,30,80,.3);
+  position: absolute;
+  left:0;
+  top:0;
+  width:100%;
+  z-index:100;
+}
