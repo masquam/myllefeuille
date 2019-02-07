@@ -25,9 +25,14 @@ router.get("/menu.html", isLogined, function(req, res){
 router.get("/make.html", csrfProtection, isLogined, function(req, res){
     res.render("make", {user: req.user, csrfToken: req.csrfToken()});
 });
+
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
   function(req, res){
-    res.render("makeconfirm", {content: req.body.content});
+    res.render("makeconfirm", {content: req.body.content, csrfToken: req.csrfToken()});
+});
+router.post('/save.html', parseForm, isLogined, csrfProtection,
+  function(req, res){
+    res.render("save", {content: req.body.content});
 });
 
 module.exports = router;

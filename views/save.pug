@@ -1,19 +1,12 @@
 extends layout
-
 block content
-  h1 ナレッジ確認
+  h1 ナレッジ保存
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
 
-  form(action='/admin/save.html', method='post')
-    include csrf
-    p
-      input(type='hidden', name='content', value=content) 
-    p
-      input(type='submit', value='保存')
   p
     a(href='/admin/menu.html') メニュー
   p
     a(href='/logout.html') ログアウト
   script.
-    $(function() {$('a').button();$('input').button();});
+    $(function() {$('a').button();});
