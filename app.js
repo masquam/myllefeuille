@@ -37,6 +37,8 @@ authSchema.methods.validPassword = function( pwd ) {
 };
 var User = mongoose.model('users', authSchema);
 
+var models = require('./models');
+
 passport.use(new LocalStrategy({
   passReqToCallback : true
 }, function(req, username, password, done) {
