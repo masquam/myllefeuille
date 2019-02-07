@@ -30,25 +30,62 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
   function(req, res){
-    res.render("makeconfirm", {content: req.body.content, csrfToken: req.csrfToken()});
+
+  var objid = mongoose.Types.ObjectId();
+  mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
+  var db = mongoose.connection; 
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() { 
+    var saveToken = models('saveToken');
+    var theToken = new saveToken();
+    theToken._id = objid;
+    theToken.tokenType = "saveKnowledge";
+    theToken.save(function(err, user){
+      if (err) return console.error(err); 
+      console.log("completed.");
+      res.render("makeconfirm", {content: req.body.content, csrfToken: req.csrfToken(), saveToken: objid});
+    });
+  }); 
+
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
   function(req, res){
   mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
-  var Counters = models('Counters');
-  var query = {_id: 'knowledgeCounter'};
-  var update = {$inc: {sequence: 1}};
-  var options = {upsert: true};
-  Counters.findOneAndUpdate(query, update, options, function(err, counter)
-  {
-    if (err) {
-      console.log("counter update error.");
-      next(err);
+  //console.log("saveToken=" + req.body.saveToken);
+  var saveToken = models('saveToken');
+  saveToken.findById(req.body.saveToken, function (err, savetoken) {
+    if (savetoken == null){
+      console.log("old saveToken.");
+      res.render("save", {content: "already saved", csrfToken: req.csrfToken()});
     }
-    res.render("save", {content: counter['sequence'].toString()});
-  });
+    else
+    {
+      if (err) {
+        console.log("saveToken find error.");
+        next(err);
+      }
+      saveToken.findOneAndDelete({_id: req.body.saveToken},function (err, doc) {
+        if (err) {
+          console.log("saveToken delete error.");
+        }
+      });
 
+      var Counters = models('Counters');
+      var query = {_id: 'knowledgeCounter'};
+      var update = {$inc: {sequence: 1}};
+      var options = {upsert: true};
+      Counters.findOneAndUpdate(query, update, options, function(err, counter)
+      {
+        if (err) {
+          console.log("counter update error.");
+          next(err);
+        }
+        res.render("save", {content: counter['sequence'].toString(), csrfToken: req.csrfToken()});
+        // TODO: F5 -> re-save
+      });
+    }
+  });
 });
 
 module.exports = router;

@@ -1,9 +1,10 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-module.exports = mongoose.model('Counters', new mongoose.Schema({
-_id: { type: String, required: true },
-sequence: { type: Number, required: true }
+let counterSchema = new mongoose.Schema({
+  _id: { type: String, required: true },
+  sequence: { type: Number, required: true }
 },{
-versionKey: false
-}
-));
+  versionKey: false
+})
+
+module.exports = mongoose.model('Counters', counterSchema);

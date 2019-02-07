@@ -5,10 +5,14 @@ block content
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
 
+  p #{saveToken}
+
   form(action='/admin/save.html', method='post')
     include csrf
     p
       input(type='hidden', name='content', value=content) 
+    p
+      input(type='hidden', name='saveToken', value=saveToken) 
     p
       input(type='submit', value='保存')
   p
@@ -17,3 +21,8 @@ block content
     a(href='/logout.html') ログアウト
   script.
     $(function() {$('a').button();$('input').button();});
+    (function () {
+      $("form").on("submit", function onsubmit (event) {
+        $(this).off("submit", onsubmit).on("submit", false);
+      });
+    })();
