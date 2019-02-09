@@ -3,12 +3,11 @@ extends layout
 block content
   h1 ナレッジ作成
   p ようこそ, #{user.username}
-
   form(action='/admin/makeconfirm.html', method='post')
     include csrf
     p
       label 内容: 
-      textarea.ui-corner-all(style='width: 100%; min-height:100px', name='content')
+      textarea(name='content')
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
