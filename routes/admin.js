@@ -55,37 +55,44 @@ router.post('/save.html', parseForm, isLogined, csrfProtection,
   //console.log("saveToken=" + req.body.saveToken);
   var saveToken = models('saveToken');
   saveToken.findById(req.body.saveToken, function (err, savetoken) {
-    if (savetoken == null){
-      console.log("old saveToken.");
-      res.render("save", {content: "already saved", csrfToken: req.csrfToken()});
-    }
-    else
-    {
-      if (err) {
-        console.log("saveToken find error.");
-        next(err);
-      }
-      saveToken.findOneAndDelete({_id: req.body.saveToken},function (err, doc) {
-        if (err) {
-          console.log("saveToken delete error.");
-        }
-      });
-
-      var Counters = models('Counters');
-      var query = {_id: 'knowledgeCounter'};
-      var update = {$inc: {sequence: 1}};
-      var options = {upsert: true};
-      Counters.findOneAndUpdate(query, update, options, function(err, counter)
-      {
-        if (err) {
-          console.log("counter update error.");
-          next(err);
-        }
-        res.render("save", {content: counter['sequence'].toString(), csrfToken: req.csrfToken()});
-        // TODO: F5 -> re-save
-      });
-    }
+    handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res);
   });
 });
+
+function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
+  if (savetoken == null){
+    console.log("old saveToken.");
+    res.render("save", {content: "already saved", csrfToken: req.csrfToken()});
+  }
+  else
+  {
+    if (err) {
+      console.log("saveToken find error.");
+      next(err);
+    }
+    saveToken.findOneAndDelete({_id: req.body.saveToken},function (err, doc) {
+      if (err) {
+        console.log("saveToken delete error.");
+      }
+    });
+    var Counters = models('Counters');
+    var query = {_id: 'knowledgeCounter'};
+    var update = {$inc: {sequence: 1}};
+    var options = {upsert: true};
+    Counters.findOneAndUpdate(query, update, options, function(err, counter)
+    {
+      renderSaveHtml(err, counter, req, res);
+    });
+  }
+}
+
+function renderSaveHtml(err, counter, req, res){
+  if (err) {
+    console.log("counter update error.");
+    next(err);
+  }
+  res.render("save", {content: counter['sequence'].toString(), csrfToken: req.csrfToken()});
+}
+
 
 module.exports = router;
