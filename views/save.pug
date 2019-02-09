@@ -4,8 +4,6 @@ block content
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
   p
-    a(href='/admin/menu.html') メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
-    a(href='/logout.html') ログアウト
-  script.
-    $(function() {$('a').button();});
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト

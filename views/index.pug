@@ -2,8 +2,5 @@ extends layout
 
 block content
   p
-  .ui-corner-all(style='padding: 10px; margin-bottom: 10px; border: 0px solid #333333; background-color: #e0ffff;')
-    p Welcome to #{title}
-  a(href='/login.html') ログイン
-  script.
-    $(function() {$('a').button();});
+  p Welcome to #{title}
+  a.ui-btn.ui-btn-inline(href='/login.html') ログイン

@@ -2,11 +2,7 @@ extends layout
 
 block content
   if message != ''
-    .ui-widget
-      .ui-state-error.ui-corner-all(style='padding: 0.7em;')
-        p
-          span.ui-icon.ui-icon-alert(style='float: left; margin-right: .3em;')
-          p #{message}
+    p #{message}
 
   form(action='/login.html', method='post')
     include csrf
@@ -17,4 +13,4 @@ block content
       label パスワード: 
       input(type='password', name='password')
     p
-      input#button(type='submit', value='ログイン')
+      input.ui-btn.ui-btn-inline(type='submit', value='ログイン')

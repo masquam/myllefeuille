@@ -14,13 +14,12 @@ block content
     p
       input(type='hidden', name='saveToken', value=saveToken) 
     p
-      input(type='submit', value='保存')
+      input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
-    a(href='/admin/menu.html') メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
-    a(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
   script.
-    $(function() {$('a').button();$('input').button();});
     (function () {
       $("form").on("submit", function onsubmit (event) {
         $(this).off("submit", onsubmit).on("submit", false);

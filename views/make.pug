@@ -10,10 +10,8 @@ block content
       label 内容: 
       textarea.ui-corner-all(style='width: 100%; min-height:100px', name='content')
     p
-      input(type='submit', value='保存')
+      input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
-    a(href='/admin/menu.html') メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
-    a(href='/logout.html') ログアウト
-  script.
-    $(function() {$('a').button();$('input').button();});
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
