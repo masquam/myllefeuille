@@ -43,7 +43,7 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     theToken.save(function(err, user){
       if (err) return console.error(err); 
       console.log("completed.");
-      res.render("makeconfirm", {content: req.body.content, csrfToken: req.csrfToken(), saveToken: objid});
+      res.render("makeconfirm", {title: req.body.ktitle, content: req.body.content, csrfToken: req.csrfToken(), saveToken: objid});
     });
   }); 
 
@@ -81,9 +81,28 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
     var options = {upsert: true};
     Counters.findOneAndUpdate(query, update, options, function(err, counter)
     {
-      renderSaveHtml(err, counter, req, res);
+      executeSave(err, counter, req, res);
     });
   }
+}
+
+function executeSave(err, counter, req, res){
+  var Knowledge = models('Knowledge');
+  var theKnowledge = new Knowledge();
+  theKnowledge._id = mongoose.Types.ObjectId();
+  theKnowledge.id = counter['sequence'];
+  theKnowledge.version = 1;
+  theKnowledge.current = true;
+  theKnowledge.title = req.body.ktitle;
+  theKnowledge.content = req.body.content;
+  theKnowledge.content_summary = req.body.content.substring(0, 40);
+  theKnowledge.author = req.user.username;
+  theKnowledge.accesscount = 0;
+  theKnowledge.like = 0;
+  theKnowledge.save(function(err){
+    if (err) return console.error(err); 
+    renderSaveHtml(err, counter, req, res);
+  });
 }
 
 function renderSaveHtml(err, counter, req, res){

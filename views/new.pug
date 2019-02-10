@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  p
+  p Welcome to #{title}
+  p
+    h2 新着情報
+  ul(data-role='listview')
+    each doc in docs
+      li
+        a(href=`${doc.id}.html`)
+          div(style='font-size: 1.2em;') #{doc.title}
+          div(style='font-size: 1.0em;') #{doc.content_summary}
+          div(style='font-size: 0.8em;') #{doc.author}
+  a.ui-btn.ui-btn-inline(href='/') メニュー

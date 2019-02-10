@@ -6,6 +6,7 @@ var csrf = require('csurf')
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var newRouter = require('./routes/new');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
@@ -87,6 +88,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
+app.use('/new.html', newRouter);
 app.use('/users.html', usersRouter);
 app.use('/login.html', loginRouter);
 app.use('/logout.html', logoutRouter);

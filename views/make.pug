@@ -6,6 +6,9 @@ block content
   form(action='/admin/makeconfirm.html', method='post')
     include csrf
     p
+      label タイトル: 
+      input(name='ktitle', type='text')
+    p
       label 内容: 
       textarea(name='content')
     p
