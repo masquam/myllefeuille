@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var models = require('../models');
 
 /* GET home page. */
-//    { limit: 5, sort:{_id: -1} },
 router.get('/', function(req, res, next) {
   console.log('new.js');
   var Knowledge = models('Knowledge');
@@ -22,6 +21,8 @@ router.get('/', function(req, res, next) {
 
 function renderNew(err, docs, res){
   console.log('renderNew');
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
+  res.setHeader( 'Pragma', 'no-cache' );
   res.render('new', { title: 'myllefeuille' , docs: docs});
 }
 

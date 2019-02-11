@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var newRouter = require('./routes/new');
+var newAjaxRouter = require('./routes/newAjax');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
@@ -70,6 +71,14 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+
+// CORS
+//app.use(function(req, res, next) {
+//  res.header("Access-Control-Allow-Origin", "*");
+//  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//  next();
+//});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -89,6 +98,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/new.html', newRouter);
+app.use('/newAjax.json', newAjaxRouter);
 app.use('/users.html', usersRouter);
 app.use('/login.html', loginRouter);
 app.use('/logout.html', logoutRouter);
