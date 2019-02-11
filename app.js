@@ -104,6 +104,15 @@ app.use('/login.html', loginRouter);
 app.use('/logout.html', logoutRouter);
 app.use('/admin/', adminRouter);
 
+app.get('/:page.html', function(req, res, next) {
+  console.log("number");
+  console.log(Number(req.params.page));
+  if (isNaN(Number(req.params.page))){
+    next(createError(404));
+  }
+  res.render('number', { id: req.params.page });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
