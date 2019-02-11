@@ -109,8 +109,23 @@ app.get('/:page.html', function(req, res, next) {
   console.log(Number(req.params.page));
   if (isNaN(Number(req.params.page))){
     next(createError(404));
+  } else {
+    var Knowledge = models('Knowledge');
+    Knowledge.findOne({ id: Number(req.params.page) })
+      .exec(function (err, knowl) {
+        if (err || knowl == null) {
+          console.log('Knowledge find error');
+          next(createError(404));
+        } else {
+          res.render('number', 
+            { id: knowl.id,
+              title: knowl.title,
+              content: knowl.content,
+              author: knowl.author });
+        }
+      });
   }
-  res.render('number', { id: req.params.page });
+
 });
 
 // catch 404 and forward to error handler
