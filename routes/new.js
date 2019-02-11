@@ -5,7 +5,6 @@ var models = require('../models');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log('new.js');
   var Knowledge = models('Knowledge');
   Knowledge.find(
     {},
@@ -20,10 +19,9 @@ router.get('/', function(req, res, next) {
 });
 
 function renderNew(err, docs, res){
-  console.log('renderNew');
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render('new', { title: 'myllefeuille' , docs: docs});
+  res.render('new', {docs: docs});
 }
 
 module.exports = router;
