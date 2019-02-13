@@ -7,7 +7,6 @@ let knowledgeSchema = new mongoose.Schema({
   current: Boolean,
   title: String,
   content_summary: String,
-  content: String,
   author: String,
   timestamp: { type: Date, default: Date.now },
   accesscount: Number,

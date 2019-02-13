@@ -8,6 +8,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var newRouter = require('./routes/new');
 var newAjaxRouter = require('./routes/newAjax');
+var searchRouter = require('./routes/search');
+var searchAjaxRouter = require('./routes/searchAjax');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
@@ -28,6 +30,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 var mongoose = require('mongoose');
+var models = require('./models');
 mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
 var authSchema = mongoose.Schema({ 
   username: 'string',
@@ -38,8 +41,6 @@ authSchema.methods.validPassword = function( pwd ) {
     return ( this.password === getHash(pwd) );
 };
 var User = mongoose.model('users', authSchema);
-
-var models = require('./models');
 
 passport.use(new LocalStrategy({
   passReqToCallback : true
@@ -71,15 +72,6 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-
-// CORS
-//app.use(function(req, res, next) {
-//  res.header("Access-Control-Allow-Origin", "*");
-//  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//  next();
-//});
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -99,6 +91,8 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/new.html', newRouter);
 app.use('/newAjax.json', newAjaxRouter);
+app.use('/search.html', searchRouter);
+app.use('/searchAjax.json', searchAjaxRouter);
 app.use('/users.html', usersRouter);
 app.use('/login.html', loginRouter);
 app.use('/logout.html', logoutRouter);
@@ -110,22 +104,31 @@ app.get('/:page.html', function(req, res, next) {
   if (isNaN(Number(req.params.page))){
     next(createError(404));
   } else {
-    var Knowledge = models('Knowledge');
-    Knowledge.findOne({ id: Number(req.params.page) })
-      .exec(function (err, knowl) {
-        if (err || knowl == null) {
-          console.log('Knowledge find error');
-          next(createError(404));
-        } else {
-          res.render('number', 
-            { id: knowl.id,
-              title: knowl.title,
-              content: knowl.content,
-              author: knowl.author });
-        }
-      });
+  var Knowledge = models('Knowledge');
+  Knowledge.findOne({ id: Number(req.params.page) })
+    .exec(function (err, knowl) {
+      if (err || knowl == null) {
+        console.log('Knowledge find error');
+        next(createError(404));
+      } else {
+      var KnowledgeContents = models('KnowledgeContents');
+      KnowledgeContents.findOne({ id: Number(req.params.page) })
+        .exec(function (err, knowlcon) {
+          if (err || knowl == null) {
+            console.log('Knowledge find error');
+            next(createError(404));
+          } else {
+            console.log("rendering: id=" + knowl.id);
+            res.render('number', 
+              { id: knowl.id,
+                title: knowl.title,
+                content: knowlcon.content,
+                author: knowl.author });
+          }
+        });
+      }
+    });
   }
-
 });
 
 // catch 404 and forward to error handler

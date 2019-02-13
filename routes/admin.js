@@ -88,19 +88,48 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
 
 function executeSave(err, counter, req, res){
   var Knowledge = models('Knowledge');
-  var theKnowledge = new Knowledge();
-  theKnowledge._id = mongoose.Types.ObjectId();
-  theKnowledge.id = counter['sequence'];
-  theKnowledge.version = 1;
-  theKnowledge.current = true;
-  theKnowledge.title = req.body.ktitle;
-  theKnowledge.content = req.body.content;
-  theKnowledge.content_summary = req.body.content.substring(0, 40);
-  theKnowledge.author = req.user.username;
-  theKnowledge.accesscount = 0;
-  theKnowledge.like = 0;
-  theKnowledge.save(function(err){
+  var theKnowl = new Knowledge();
+  theKnowl._id = mongoose.Types.ObjectId();
+  theKnowl.id = counter['sequence'];
+  theKnowl.version = 1;
+  theKnowl.current = true;
+  theKnowl.title = req.body.ktitle;
+  theKnowl.content_summary = req.body.content.substring(0, 80);
+  theKnowl.author = req.user.username;
+  theKnowl.accesscount = 0;
+  theKnowl.like = 0;
+    console.log("Knowledge saving: id=" + theKnowl.id);
+  theKnowl.save(function(err){
     if (err) return console.error(err); 
+    console.log("Knowledge saved: id=" + theKnowl.id);
+    saveKnowledgeContent(err, counter, res, req, theKnowl)
+  });
+}
+
+function saveKnowledgeContent(err, counter, res, req, theKnowl){
+  var KnowledgeContents = models('KnowledgeContents');
+  var theKnowlContent = new KnowledgeContents();
+  theKnowlContent._id = theKnowl._id;
+  theKnowlContent.id = theKnowl.id;
+  theKnowlContent.version = theKnowl.version;
+  theKnowlContent.content = req.body.content;
+  theKnowlContent.save(function(err){
+    if (err) return console.error(err); 
+    console.log("KnowledgeContent saved: id=" + theKnowl.id);
+    saveKnowledgeFTS(err, counter, res, req, theKnowl, theKnowlContent);
+  });
+}
+
+function saveKnowledgeFTS(err, counter, res, req, theKnowl, theKnowlContent){
+  var KnowledgeFTS = models('KnowledgeFTS');
+  var theKnowlFTS = new KnowledgeFTS();
+  theKnowlFTS.id = theKnowl.id.toString();
+  theKnowlFTS.title = theKnowl.title;
+  theKnowlFTS.content = theKnowlContent.content;
+  theKnowlFTS.author = theKnowl.author;
+  theKnowlFTS.save(function(err){
+    if (err) return console.error(err); 
+    console.log("KnowledgeFTS saved: id=" + theKnowl.id);
     renderSaveHtml(err, counter, req, res);
   });
 }

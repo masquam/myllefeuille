@@ -1,0 +1,100 @@
+extends layout
+
+block content
+  p
+    h2 検索
+  p
+    form(action='/searchAjax.json', method='get')
+      input(type='search' id='searchInput' size='30' maxlength='1024' autofocus='' )
+      //input.ui-btn.ui-btn-inline(type='submit', value='検索' )
+    button.ui-btn.ui-btn-inline(id='searchButton') 検索
+
+
+  ul.listView(data-role='listview')
+
+  p.more
+  a.ui-btn.ui-btn-inline(href='/') トップページ
+  script.
+    var url = '/searchAjax.json';
+    var skipcount = 0;
+    var resps = {};
+
+    $("#searchButton").click(function () {
+      executeAjax(url, skipcount, handlefirstMoreButton);
+    });
+
+    function executeAjax(url, skipcount, callback){
+      jQuery(function($){
+        $.ajax({
+          url : url,
+          type : 'GET',
+          dataType : 'json',
+          contentType : 'json',
+          data : {searchstring: $('#searchInput').val(), skip: skipcount},
+          cache : false,
+          error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("failed ajax");
+          },
+          success : function(response) {
+            resps = JSON.parse(response);
+            console.log("succeeded ajax");
+            console.log(resps[0]);
+            callback(resps);
+          }
+        });
+      });
+    }
+
+    function handleMoreButton(responses){
+      if (responses.length > 0){
+        if ($('.more').children().length == 0){
+          $('.more').append('<a class="ui-btn" href="#">もっと表示</a>')
+            .click(function(){
+              renderNextList(resps);
+            });
+        }
+      } else {
+        $('.more').remove();
+      }
+    }
+
+    function renderNextList(resps){
+      if (resps.length > 0){
+        resps.forEach(resp => {
+          $('.listView').append(
+            '<li><a href="' + resp.id + '.html">'
+            + '<div style="font-size: 1.2em;">' + resp.title + '</div>'
+            + '<div style="font-size: 1.0em;">' + resp.content + '</div>'
+            + '<div style="font-size: 0.8em;">' + resp.author + '</div>'
+            + '</a></li>');
+        });
+        $('.listView').listview("refresh");
+      }
+      if (resps.length < 5){
+        $('.more').remove();
+      } else {
+          skipcount += 5;
+          executeAjax(url, skipcount, handleMoreButton);
+      }
+    }
+
+    function handlefirstMoreButton(resps){
+      if (resps.length > 0){
+        resps.forEach(resp => {
+          $('.listView').append(
+            '<li><a href="' + resp.id + '.html">'
+            + '<div style="font-size: 1.2em;">' + resp.title + '</div>'
+            + '<div style="font-size: 1.0em;">' + resp.content + '</div>'
+            + '<div style="font-size: 0.8em;">' + resp.author + '</div>'
+            + '</a></li>');
+        });
+        $('.listView').listview("refresh");
+      }
+      if (resps.length < 5){
+        $('.more').remove();
+      } else {
+          skipcount += 5;
+          $('.more').append('<a class="ui-btn" href="#">もっと表示</a>')
+          executeAjax(url, skipcount, handleMoreButton);
+      }
+    }
