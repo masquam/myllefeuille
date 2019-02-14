@@ -2,7 +2,7 @@ extends layout
 
 block content
   p
-    h2 検索
+    h2 検索結果
   p 検索文字列: #{searchstring}
   if Object.keys(docs).length == 0
     p 該当するナレッジがありません。
@@ -11,9 +11,9 @@ block content
       each doc in docs
         li
           a(href=`${doc.id}.html`)
-            div(style='font-size: 1.2em;') #{doc.title}
-            div(style='font-size: 1.0em;') #{doc.content}
-            div(style='font-size: 0.8em;') #{doc.author}
+            H3 #{doc.title}
+            p(style='font-size: 1.0em;') #{doc.content}
+            p(style='font-size: 0.8em;') #{doc.author}
   p.more
   a.ui-btn.ui-btn-inline(href='/') トップページ
   script.
@@ -62,9 +62,9 @@ block content
         resps.forEach(resp => {
           $('.listView').append(
             '<li><a href="' + resp.id + '.html">'
-            + '<div style="font-size: 1.0em;">' + resp.title + '</div>'
-            + '<div style="font-size: 1.0em;">' + resp.content + '</div>'
-            + '<div style="font-size: 0.8em;">' + resp.author + '</div>'
+            + '<h3>' + resp.title + '</h3>'
+            + '<p style="font-size: 1.0em;">' + resp.content + '</p>'
+            + '<p style="font-size: 0.8em;">' + resp.author + '</p>'
             + '</a></li>');
         });
         $('.listView').listview("refresh");

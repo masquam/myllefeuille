@@ -6,7 +6,6 @@ var csrf = require('csurf')
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var newRouter = require('./routes/new');
 var newAjaxRouter = require('./routes/newAjax');
 var searchRouter = require('./routes/search');
 var searchAjaxRouter = require('./routes/searchAjax');
@@ -89,7 +88,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/new.html', newRouter);
 app.use('/newAjax.json', newAjaxRouter);
 app.use('/search.html', searchRouter);
 app.use('/searchAjax.json', searchAjaxRouter);

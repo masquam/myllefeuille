@@ -2,12 +2,88 @@ extends layout
 
 block content
   p
-  p Welcome to #{title}
-
+  p Welcome to myllefeuille, a tiny knowledge management system
+  p
+    h2 検索
   form(action='/search.html', method='get')
     input(type='search' name='searchstring' size='30' maxlength='255' autofocus='' )
     input.ui-btn.ui-btn-inline(type='submit', value='検索', data-ajax="false" )
 
-  a.ui-btn.ui-btn-inline(href='/new.html', data-ajax="false") 新着情報
-  a.ui-btn.ui-btn-inline(href='/search.html', data-ajax="false") 検索
+  //a.ui-btn.ui-btn-inline(href='/search.html', data-ajax="false") 検索
+  p
+    h2 新着情報
+  if Object.keys(docs).length == 0
+    p 該当するナレッジがありません。
+  else
+    ul.listView(data-role='listview')
+      each doc in docs
+        li
+          a(href=`${doc.id}.html`)
+            H3 #{doc.title}
+            p(style='font-size: 1.0em;') #{doc.content_summary}
+            p(style='font-size: 0.8em;') #{doc.author}
+  p.more
+  p
+    h2 メニュー
+  a.ui-btn.ui-btn-inline(href='/', data-ajax="false") リロード(トップページ)
   a.ui-btn.ui-btn-inline(href='/login.html') ログイン
+  script.
+    var url = '/newAjax.json';
+    var skipcount = 5;
+    var resps = {};
+    executeAjax(url, skipcount, handleMoreButton);
+
+    function executeAjax(url, skipcount, callback){
+      jQuery(function($){
+        $.ajax({
+          url : url,
+          type : 'GET',
+          dataType : 'json',
+          contentType : 'json',
+          data : {skip: skipcount},
+          cache : false,
+          error : function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("failed ajax");
+          },
+          success : function(response) {
+            resps = JSON.parse(response);
+            console.log("succeeded ajax");
+            console.log(resps[0]);
+            callback(resps);
+          }
+        });
+      });
+    }
+
+    function handleMoreButton(responses){
+      if (responses.length > 0){
+        if ($('.more').children().length == 0){
+          $('.more').append('<a class="ui-btn" href="#">もっと表示</a>')
+            .click(function(){
+              renderNextList(resps);
+            });
+        }
+      } else {
+        $('.more').remove();
+      }
+    }
+
+    function renderNextList(resps){
+      if (resps.length > 0){
+        resps.forEach(resp => {
+          $('.listView').append(
+            '<li><a href="' + resp.id + '.html">'
+            + '<h3>' + resp.title + '</h3>'
+            + '<p style="font-size: 1.0em;">' + resp.content_summary + '</p>'
+            + '<p style="font-size: 0.8em;">' + resp.author + '</p>'
+            + '</a></li>');
+        });
+        $('.listView').listview("refresh");
+      }
+      if (resps.length < 5){
+        $('.more').remove();
+      } else {
+          skipcount += 5;
+          executeAjax(url, skipcount, handleMoreButton);
+      }
+    }
