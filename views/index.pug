@@ -3,6 +3,11 @@ extends layout
 block content
   p
   p Welcome to #{title}
+
+  form(action='/search.html', method='get')
+    input(type='search' name='searchstring' size='30' maxlength='255' autofocus='' )
+    input.ui-btn.ui-btn-inline(type='submit', value='検索', data-ajax="false" )
+
   a.ui-btn.ui-btn-inline(href='/new.html', data-ajax="false") 新着情報
   a.ui-btn.ui-btn-inline(href='/search.html', data-ajax="false") 検索
   a.ui-btn.ui-btn-inline(href='/login.html') ログイン
