@@ -7,5 +7,4 @@ block content
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
   p #{author}
-  a.ui-btn.ui-btn-inline(href='/new.html', data-ajax="false") 新着情報
   a.ui-btn.ui-btn-inline(href='/') トップページ

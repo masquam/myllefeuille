@@ -12,7 +12,7 @@ block content
         li
           a(href=`${doc.id}.html`)
             h3 #{doc.title}
-            p(style='font-size: 1.0em;') #{doc.content}
+            p(style='font-size: 1.0em;') #{doc.content_summary}
             p(style='font-size: 0.8em;') #{doc.author}
   p
     a.ui-btn.more(href='#', style='display: none') もっと表示
@@ -63,7 +63,7 @@ block content
           $('.listView').append(
             '<li><a href="' + resp.id + '.html">'
             + '<h3>' + resp.title + '</h3>'
-            + '<p style="font-size: 1.0em;">' + resp.content + '</p>'
+            + '<p style="font-size: 1.0em;">' + resp.content_summary + '</p>'
             + '<p style="font-size: 0.8em;">' + resp.author + '</p>'
             + '</a></li>');
         });

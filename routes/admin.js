@@ -6,6 +6,7 @@ var flash = require("connect-flash");
 var passport = require('passport')
 var mongoose = require('mongoose');
 var models = require('../models');
+var ngram = require('../lib/ngram');
 
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
@@ -78,7 +79,7 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
     var Counters = models('Counters');
     var query = {_id: 'knowledgeCounter'};
     var update = {$inc: {sequence: 1}};
-    var options = {upsert: true};
+    var options = {upsert: true, new: true};
     Counters.findOneAndUpdate(query, update, options, function(err, counter)
     {
       executeSave(err, counter, req, res);
@@ -90,7 +91,12 @@ function executeSave(err, counter, req, res){
   var Knowledge = models('Knowledge');
   var theKnowl = new Knowledge();
   theKnowl._id = mongoose.Types.ObjectId();
-  theKnowl.id = counter['sequence'];
+  if (counter == null) {
+    counterValue = 1
+  } else {
+    counterValue = counter['sequence'];
+  }
+  theKnowl.id = counterValue;
   theKnowl.version = 1;
   theKnowl.current = true;
   theKnowl.title = req.body.ktitle;
@@ -102,11 +108,11 @@ function executeSave(err, counter, req, res){
   theKnowl.save(function(err){
     if (err) return console.error(err); 
     console.log("Knowledge saved: id=" + theKnowl.id);
-    saveKnowledgeContent(err, counter, res, req, theKnowl)
+    saveKnowledgeContent(err, counterValue, res, req, theKnowl)
   });
 }
 
-function saveKnowledgeContent(err, counter, res, req, theKnowl){
+function saveKnowledgeContent(err, counterValue, res, req, theKnowl){
   var KnowledgeContents = models('KnowledgeContents');
   var theKnowlContent = new KnowledgeContents();
   theKnowlContent._id = theKnowl._id;
@@ -116,30 +122,30 @@ function saveKnowledgeContent(err, counter, res, req, theKnowl){
   theKnowlContent.save(function(err){
     if (err) return console.error(err); 
     console.log("KnowledgeContent saved: id=" + theKnowl.id);
-    saveKnowledgeFTS(err, counter, res, req, theKnowl, theKnowlContent);
+    saveKnowledgeFTS(err, counterValue, res, req, theKnowl, theKnowlContent);
   });
 }
 
-function saveKnowledgeFTS(err, counter, res, req, theKnowl, theKnowlContent){
+function saveKnowledgeFTS(err, counterValue, res, req, theKnowl, theKnowlContent){
   var KnowledgeFTS = models('KnowledgeFTS');
   var theKnowlFTS = new KnowledgeFTS();
   theKnowlFTS.id = theKnowl.id.toString();
-  theKnowlFTS.title = theKnowl.title;
-  theKnowlFTS.content = theKnowlContent.content;
-  theKnowlFTS.author = theKnowl.author;
+  theKnowlFTS.title = ngram.getNgramText(theKnowl.title);
+  theKnowlFTS.content = ngram.getNgramText(theKnowlContent.content);
+  theKnowlFTS.author = ngram.getNgramText(theKnowl.author);
   theKnowlFTS.save(function(err){
     if (err) return console.error(err); 
     console.log("KnowledgeFTS saved: id=" + theKnowl.id);
-    renderSaveHtml(err, counter, req, res);
+    renderSaveHtml(err, counterValue, req, res);
   });
 }
 
-function renderSaveHtml(err, counter, req, res){
+function renderSaveHtml(err, counterValue, req, res){
   if (err) {
     console.log("counter update error.");
     next(err);
   }
-  res.render("save", {content: counter['sequence'].toString(), csrfToken: req.csrfToken()});
+  res.render("save", {content: counterValue.toString(), csrfToken: req.csrfToken()});
 }
 
 
