@@ -11,16 +11,21 @@ block content
       each doc in docs
         li
           a(href=`${doc.id}.html`)
-            H3 #{doc.title}
+            h3 #{doc.title}
             p(style='font-size: 1.0em;') #{doc.content}
             p(style='font-size: 0.8em;') #{doc.author}
-  p.more
+  p
+    a.ui-btn.more(href='#', style='display: none') もっと表示
   a.ui-btn.ui-btn-inline(href='/') トップページ
   script.
     var url = '/searchAjax.json';
     var skipcount = 5;
     var resps = {};
     executeAjax(url, skipcount, '#{searchstring}', handleMoreButton);
+
+    $('.more').click(function(){
+      renderNextList(resps);
+    });
 
     function executeAjax(url, skipcount, searchstring, callback){
       jQuery(function($){
@@ -46,14 +51,9 @@ block content
 
     function handleMoreButton(responses){
       if (responses.length > 0){
-        if ($('.more').children().length == 0){
-          $('.more').append('<a class="ui-btn" href="#">もっと表示</a>')
-            .click(function(){
-              renderNextList(resps);
-            });
-        }
+        $('.more').show();
       } else {
-        $('.more').remove();
+        $('.more').hide();
       }
     }
 

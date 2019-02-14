@@ -1,8 +1,10 @@
 extends layout
 block content
-  h1 ナレッジ保存
+  h1 ナレッジを保存しました
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/make.html') ナレッジ作成
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
