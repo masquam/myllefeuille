@@ -71,25 +71,22 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
         console.log("saveToken delete error.");
       }
     });
-    counters.increment(
-      dburi,
-      "knowledgeCounter",
-      function(err, counter){
+    counters.increment(dburi, "knowledgeCounter", function(err, counter){
         if (err) return console.error(err);
-        executeSave(err, counter, req, res);
+        if (counter == null) {
+          counterValue = 1
+        } else {
+          counterValue = counter['sequence'];
+        }
+        executeSave(err, counterValue, req, res);
     });
   }
 }
 
-function executeSave(err, counter, req, res){
+function executeSave(err, counterValue, req, res){
   var Knowledge = models('Knowledge');
   var theKnowl = new Knowledge();
   theKnowl._id = mongoose.Types.ObjectId();
-  if (counter == null) {
-    counterValue = 1
-  } else {
-    counterValue = counter['sequence'];
-  }
   theKnowl.id = counterValue;
   theKnowl.version = 1;
   theKnowl.current = true;
