@@ -9,6 +9,7 @@ var models = require('../models');
 var ngram = require('../lib/ngram');
 var saveToken = require('../lib/saveToken');
 var counters = require('../lib/counters');
+var saveKnowledge = require('../lib/saveKnowledge');
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
 
@@ -35,10 +36,7 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  saveToken.generateAndSave(
-    dburi,
-    "saveKnowledge",
-    function(err, objid){
+  saveToken.generateAndSave(dburi, "saveKnowledge", function(err, objid){
       if (err) return console.error(err); 
       res.render("makeconfirm", 
         {title: req.body.ktitle, content: req.body.content,
@@ -72,38 +70,32 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
       }
     });
     counters.increment(dburi, "knowledgeCounter", function(err, counter){
-        if (err) return console.error(err);
-        if (counter == null) {
-          counterValue = 1
-        } else {
-          counterValue = counter['sequence'];
-        }
-        executeSave(err, counterValue, req, res);
+      if (err) return console.error(err);
+      if (counter == null) {
+        counterValue = 1
+      } else {
+        counterValue = counter['sequence'];
+      }
+      executeSave(err, counterValue, req, res);
     });
   }
 }
 
 function executeSave(err, counterValue, req, res){
-  var Knowledge = models('Knowledge');
-  var theKnowl = new Knowledge();
-  theKnowl._id = mongoose.Types.ObjectId();
-  theKnowl.id = counterValue;
-  theKnowl.version = 1;
-  theKnowl.current = true;
-  theKnowl.title = req.body.ktitle;
-  theKnowl.content_summary = req.body.content.substring(0, 80);
-  theKnowl.author = req.user.username;
-  theKnowl.accesscount = 0;
-  theKnowl.like = 0;
-    console.log("Knowledge saving: id=" + theKnowl.id);
-  theKnowl.save(function(err){
-    if (err) return console.error(err); 
-    console.log("Knowledge saved: id=" + theKnowl.id);
-    saveKnowledgeContent(err, counterValue, res, req, theKnowl)
+  saveKnowledge.saveKnowledge(
+    dburi,
+    counterValue,
+    1,
+    req.body.ktitle,
+    req.body.content.substring(0, 80),
+    req.user.username,
+    function(err, theKnowledge){
+      if (err) return console.error(err);
+      saveKnowledgeContent(err, req, res, theKnowledge)
   });
 }
 
-function saveKnowledgeContent(err, counterValue, res, req, theKnowl){
+function saveKnowledgeContent(err, req, res, theKnowl){
   var KnowledgeContents = models('KnowledgeContents');
   var theKnowlContent = new KnowledgeContents();
   theKnowlContent._id = theKnowl._id;
