@@ -7,6 +7,10 @@ var passport = require('passport')
 var mongoose = require('mongoose');
 var models = require('../models');
 var ngram = require('../lib/ngram');
+var saveToken = require('../lib/saveToken');
+var counters = require('../lib/counters');
+
+var dburi = "mongodb://localhost:27017/myllefeuille";
 
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
@@ -30,30 +34,21 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 });
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
-  function(req, res){
-
-  var objid = mongoose.Types.ObjectId();
-  mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
-  var db = mongoose.connection; 
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() { 
-    var saveToken = models('saveToken');
-    var theToken = new saveToken();
-    theToken._id = objid;
-    theToken.tokenType = "saveKnowledge";
-    theToken.save(function(err, user){
+    function(req, res){
+  saveToken.generateAndSave(
+    dburi,
+    "saveKnowledge",
+    function(err, objid){
       if (err) return console.error(err); 
-      console.log("completed.");
-      res.render("makeconfirm", {title: req.body.ktitle, content: req.body.content, csrfToken: req.csrfToken(), saveToken: objid});
-    });
-  }); 
-
+      res.render("makeconfirm", 
+        {title: req.body.ktitle, content: req.body.content,
+         csrfToken: req.csrfToken(), saveToken: objid});
+  });
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
   function(req, res){
-  mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
-  //console.log("saveToken=" + req.body.saveToken);
+  mongoose.connect(dburi, {useNewUrlParser: true});
   var saveToken = models('saveToken');
   saveToken.findById(req.body.saveToken, function (err, savetoken) {
     handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res);
@@ -76,13 +71,12 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
         console.log("saveToken delete error.");
       }
     });
-    var Counters = models('Counters');
-    var query = {_id: 'knowledgeCounter'};
-    var update = {$inc: {sequence: 1}};
-    var options = {upsert: true, new: true};
-    Counters.findOneAndUpdate(query, update, options, function(err, counter)
-    {
-      executeSave(err, counter, req, res);
+    counters.increment(
+      dburi,
+      "knowledgeCounter",
+      function(err, counter){
+        if (err) return console.error(err);
+        executeSave(err, counter, req, res);
     });
   }
 }
