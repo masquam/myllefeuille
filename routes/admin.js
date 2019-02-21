@@ -53,8 +53,15 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
-    handleSaveHtmlSaveToken(err, savetoken, req, res);
+  mongoose.connect(dburi, {useNewUrlParser: true});
+  var db = mongoose.connection; 
+  db.on('error', function(err){
+    callback(err, null);
+  });
+  db.once('open', function() { 
+    handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
+      handleSaveHtmlSaveToken(err, savetoken, req, res);
+    });
   });
 });
 
