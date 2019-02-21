@@ -6,7 +6,7 @@ var saveKnowledge = require('../../lib/saveKnowledge');
 var dburi = "mongodb://localhost:27017/myllefeuilletest";
 
 describe("saveKnowledge", function() {
-  this.timeout(5000);
+  this.timeout(10000);
   before(function(done) {
     mongoose.connect(dburi, {useNewUrlParser: true});
     let db = mongoose.connection; 
@@ -29,7 +29,6 @@ describe("saveKnowledge", function() {
   });
 
   describe('saveKnowledge()', function() {
-    this.timeout(5000);
     it('should save without error', function(done) {
       saveKnowledge.saveKnowledge(
         dburi,
@@ -46,7 +45,6 @@ describe("saveKnowledge", function() {
   });
 
   describe('saveKnowledgeContent()', function() {
-    this.timeout(5000);
     it('should save without error', function(done) {
       saveKnowledge.saveKnowledgeContent(
         dburi,
@@ -55,14 +53,15 @@ describe("saveKnowledge", function() {
         1,
         "content",
         function(err, theKnowledgeContent){
-          if (err) done(err);
+          if (err) {
+            done(err);
+          }
           done();
       });
     });
   });
 
   describe('saveKnowledgeFTS()', function() {
-    this.timeout(5000);
     it('should save without error', function(done) {
       saveKnowledge.saveKnowledgeFTS(
         dburi,

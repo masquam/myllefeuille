@@ -1,11 +1,13 @@
 var assert = require('assert');
 var mongoose = require('mongoose');
 var models = require('../../models');
-var saveToken = require('../../lib/saveToken');
+var handlesaveToken = require('../../lib/handlesaveToken');
 
 var dburi = "mongodb://localhost:27017/myllefeuilletest";
 
-describe("saveToken", function() {
+var test_objid = "";
+
+describe("handlesaveToken", function() {
 
   before(function(done) {
     mongoose.connect(dburi, {useNewUrlParser: true});
@@ -22,12 +24,31 @@ describe("saveToken", function() {
 
   describe('generateAndSave()', function() {
     it('should save without error and return objid', function(done) {
-      saveToken.generateAndSave(
+      handlesaveToken.generateAndSave(
         dburi,
         "saveKnowledge",
         function(err, objid){
-          if (err) done(err);
-          else done();
+          if (err) {
+            done(err);
+          } else {
+            test_objid = objid;
+            done();
+          }
+      });
+    });
+  });
+
+  describe('findTokenByid()', function() {
+    it('should find the objid', function(done) {
+      handlesaveToken.findTokenByid(
+        dburi,
+        test_objid,
+        function(err, objid){
+          if (err) {
+            done(err);
+          } else {
+            done();
+          }
       });
     });
   });

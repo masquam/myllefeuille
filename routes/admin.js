@@ -7,7 +7,7 @@ var passport = require('passport')
 var mongoose = require('mongoose');
 var models = require('../models');
 var ngram = require('../lib/ngram');
-var saveToken = require('../lib/saveToken');
+var handlesaveToken = require('../lib/handlesaveToken');
 var counters = require('../lib/counters');
 var saveKnowledge = require('../lib/saveKnowledge');
 
@@ -36,7 +36,7 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  saveToken.generateAndSave(dburi, "saveKnowledge", function(err, objid){
+  handlesaveToken.generateAndSave(dburi, "saveKnowledge", function(err, objid){
       if (err) return console.error(err); 
       res.render("makeconfirm", 
         {title: req.body.ktitle, content: req.body.content,
@@ -45,15 +45,13 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
-  function(req, res){
-  mongoose.connect(dburi, {useNewUrlParser: true});
-  var saveToken = models('saveToken');
-  saveToken.findById(req.body.saveToken, function (err, savetoken) {
-    handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res);
+    function(req, res){
+  handlesaveToken.findTokenByid(dburi, req.body.saveToken, function(err, savetoken){
+    handleSaveHtmlSaveToken(err, savetoken, req, res);
   });
 });
 
-function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
+function handleSaveHtmlSaveToken(err, savetoken, req, res){
   if (savetoken == null){
     console.log("old saveToken.");
     res.render("save", {content: "already saved", csrfToken: req.csrfToken()});
@@ -64,18 +62,18 @@ function handleSaveHtmlSaveToken(err, savetoken, saveToken, req, res){
       console.log("saveToken find error.");
       next(err);
     }
+    var saveToken = models('saveToken');
     saveToken.findOneAndDelete({_id: req.body.saveToken},function (err, doc) {
       if (err) {
         console.log("saveToken delete error.");
+        // do not execute next(err)
       }
     });
     counters.increment(dburi, "knowledgeCounter", function(err, counter){
-      if (err) return console.error(err);
-      if (counter == null) {
-        counterValue = 1
-      } else {
-        counterValue = counter['sequence'];
+      if (err) {
+        next(err);
       }
+      counterValue = counter['sequence'];
       executeSave(err, counterValue, req, res);
     });
   }
