@@ -46,7 +46,8 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  handlesaveToken.findTokenByid(dburi, req.body.saveToken, function(err, savetoken){
+  handlesaveToken.findTokenByid(dburi, req.body.saveToken,
+      function(err, savetoken){
     handleSaveHtmlSaveToken(err, savetoken, req, res);
   });
 });
@@ -62,8 +63,7 @@ function handleSaveHtmlSaveToken(err, savetoken, req, res){
       console.log("saveToken find error.");
       next(err);
     }
-    var saveToken = models('saveToken');
-    saveToken.findOneAndDelete({_id: req.body.saveToken},function (err, doc) {
+    handlesaveToken.DeleteToken(dburi, req.body.saveToken, function (err, doc){
       if (err) {
         console.log("saveToken delete error.");
         // do not execute next(err)

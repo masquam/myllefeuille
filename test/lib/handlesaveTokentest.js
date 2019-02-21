@@ -53,4 +53,19 @@ describe("handlesaveToken", function() {
     });
   });
 
+  describe('DeleteToken()', function() {
+    it('should delete the objid', function(done) {
+      handlesaveToken.DeleteToken(
+        dburi,
+        test_objid,
+        function(err, doc){
+          if (err) {
+            done(err);
+          } else {
+            done();
+          }
+      });
+    });
+  });
+
 });
