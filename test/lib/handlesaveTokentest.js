@@ -24,46 +24,64 @@ describe("handlesaveToken", function() {
 
   describe('generateAndSave()', function() {
     it('should save without error and return objid', function(done) {
-      handlesaveToken.generateAndSave(
-        dburi,
-        "saveKnowledge",
-        function(err, objid){
-          if (err) {
-            done(err);
-          } else {
-            test_objid = objid;
-            done();
-          }
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
       });
+      db.once('open', function() { 
+        handlesaveToken.generateAndSave(
+          "saveKnowledge",
+          function(err, objid){
+            if (err) {
+              done(err);
+            } else {
+              test_objid = objid;
+              done();
+            }
+        });
+      }); 
     });
   });
 
   describe('findTokenByid()', function() {
     it('should find the objid', function(done) {
-      handlesaveToken.findTokenByid(
-        dburi,
-        test_objid,
-        function(err, objid){
-          if (err) {
-            done(err);
-          } else {
-            done();
-          }
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        handlesaveToken.findTokenByid(
+          test_objid,
+          function(err, objid){
+            if (err) {
+              done(err);
+            } else {
+              done();
+            }
+        });
       });
     });
   });
 
   describe('DeleteToken()', function() {
     it('should delete the objid', function(done) {
-      handlesaveToken.DeleteToken(
-        dburi,
-        test_objid,
-        function(err, doc){
-          if (err) {
-            done(err);
-          } else {
-            done();
-          }
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        handlesaveToken.DeleteToken(
+          test_objid,
+          function(err, doc){
+            if (err) {
+              done(err);
+            } else {
+              done();
+            }
+        });
       });
     });
   });

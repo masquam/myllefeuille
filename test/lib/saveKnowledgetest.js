@@ -30,50 +30,71 @@ describe("saveKnowledge", function() {
 
   describe('saveKnowledge()', function() {
     it('should save without error', function(done) {
-      saveKnowledge.saveKnowledge(
-        dburi,
-        1,
-        1,
-        "test title",
-        "content summary",
-        "author",
-        function(err, theKnowledge){
-          if (err) done(err);
-          done();
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        saveKnowledge.saveKnowledge(
+          dburi,
+          1,
+          1,
+          "test title",
+          "content summary",
+          "author",
+          function(err, theKnowledge){
+            if (err) done(err);
+            done();
+        });
       });
     });
-  });
+  }); 
 
   describe('saveKnowledgeContent()', function() {
     it('should save without error', function(done) {
-      saveKnowledge.saveKnowledgeContent(
-        dburi,
-        mongoose.Types.ObjectId(),
-        1,
-        1,
-        "content",
-        function(err, theKnowledgeContent){
-          if (err) {
-            done(err);
-          }
-          done();
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        saveKnowledge.saveKnowledgeContent(
+          dburi,
+          mongoose.Types.ObjectId(),
+          1,
+          1,
+          "content",
+          function(err, theKnowledgeContent){
+            if (err) {
+              done(err);
+            }
+            done();
+        });
       });
     });
-  });
+  }); 
 
   describe('saveKnowledgeFTS()', function() {
     it('should save without error', function(done) {
-      saveKnowledge.saveKnowledgeFTS(
-        dburi,
-        "1",
-        "ti it tl le",
-        "co on nt te en nt",
-        "au ut th ho or",
-        function(err){
-          if (err) done(err);
-          done();
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        saveKnowledge.saveKnowledgeFTS(
+          dburi,
+          "1",
+          "ti it tl le",
+          "co on nt te en nt",
+          "au ut th ho or",
+          function(err){
+            if (err) done(err);
+            done();
+        });
       });
     });
-  });
+  }); 
 
 });

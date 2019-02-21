@@ -36,18 +36,24 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  handlesaveToken.generateAndSave(dburi, "saveKnowledge", function(err, objid){
+  mongoose.connect(dburi, {useNewUrlParser: true});
+  var db = mongoose.connection; 
+  db.on('error', function(err){
+    callback(err, null);
+  });
+  db.once('open', function() { 
+    handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
       if (err) return console.error(err); 
       res.render("makeconfirm", 
         {title: req.body.ktitle, content: req.body.content,
-         csrfToken: req.csrfToken(), saveToken: objid});
+        csrfToken: req.csrfToken(), saveToken: objid});
+    });
   });
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  handlesaveToken.findTokenByid(dburi, req.body.saveToken,
-      function(err, savetoken){
+  handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
     handleSaveHtmlSaveToken(err, savetoken, req, res);
   });
 });
@@ -63,7 +69,7 @@ function handleSaveHtmlSaveToken(err, savetoken, req, res){
       console.log("saveToken find error.");
       next(err);
     }
-    handlesaveToken.DeleteToken(dburi, req.body.saveToken, function (err, doc){
+    handlesaveToken.DeleteToken(req.body.saveToken, function (err, doc){
       if (err) {
         console.log("saveToken delete error.");
         // do not execute next(err)
