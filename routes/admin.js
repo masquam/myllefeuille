@@ -90,36 +90,43 @@ function executeSave(err, counterValue, req, res){
     req.body.content.substring(0, 80),
     req.user.username,
     function(err, theKnowledge){
-      if (err) return console.error(err);
+      if (err) {
+        next(err);
+      }
+      console.log("Knowledge saved: id=" + theKnowledge.id);
       saveKnowledgeContent(err, req, res, theKnowledge)
   });
 }
 
-function saveKnowledgeContent(err, req, res, theKnowl){
-  var KnowledgeContents = models('KnowledgeContents');
-  var theKnowlContent = new KnowledgeContents();
-  theKnowlContent._id = theKnowl._id;
-  theKnowlContent.id = theKnowl.id;
-  theKnowlContent.version = theKnowl.version;
-  theKnowlContent.content = req.body.content;
-  theKnowlContent.save(function(err){
-    if (err) return console.error(err); 
-    console.log("KnowledgeContent saved: id=" + theKnowl.id);
-    saveKnowledgeFTS(err, counterValue, res, req, theKnowl, theKnowlContent);
+function saveKnowledgeContent(err, req, res, theKnowledge){
+  saveKnowledge.saveKnowledgeContent(
+    dburi,
+    theKnowledge._id,
+    theKnowledge.id,
+    theKnowledge.version,
+    req.body.content,
+    function(err, theKnowledgeContent){
+      if (err) {
+        next(err);
+      }
+      console.log("KnowledgeContent saved: id=" + theKnowledge.id);
+      saveKnowledgeFTS(err, counterValue, req, res, theKnowledge, req.body.content);
   });
 }
 
-function saveKnowledgeFTS(err, counterValue, res, req, theKnowl, theKnowlContent){
-  var KnowledgeFTS = models('KnowledgeFTS');
-  var theKnowlFTS = new KnowledgeFTS();
-  theKnowlFTS.id = theKnowl.id.toString();
-  theKnowlFTS.title = ngram.getNgramText(theKnowl.title);
-  theKnowlFTS.content = ngram.getNgramText(theKnowlContent.content);
-  theKnowlFTS.author = ngram.getNgramText(theKnowl.author);
-  theKnowlFTS.save(function(err){
-    if (err) return console.error(err); 
-    console.log("KnowledgeFTS saved: id=" + theKnowl.id);
-    renderSaveHtml(err, counterValue, req, res);
+function saveKnowledgeFTS(err, counterValue, req, res, theKnowledge, content){
+  saveKnowledge.saveKnowledgeFTS(
+    dburi,
+    ngram.getNgramText(theKnowledge.id.toString()),
+    ngram.getNgramText(theKnowledge.title),
+    ngram.getNgramText(content),
+    ngram.getNgramText(theKnowledge.author),
+    function(err){
+      if (err) {
+        next(err);
+      }
+      console.log("KnowledgeFTS saved: id=" + theKnowledge.id.toString());
+      renderSaveHtml(err, counterValue, req, res);
   });
 }
 
