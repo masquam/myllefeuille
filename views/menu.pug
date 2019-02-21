@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  h1 メニュー
+  h1 管理メニュー
   p ようこそ, #{user.username}
   p
     a.ui-btn.ui-btn-inline(href='/admin/make.html') ナレッジ作成
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/select.html') ナレッジ編集
   if user.role === 'administrator'
     p
       a.ui-btn.ui-btn-inline(href='/admin/users.html') ユーザーメンテナンス

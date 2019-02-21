@@ -1,16 +1,17 @@
 extends layout
 
 block content
-  h1 ナレッジ作成
+  h1 ナレッジ編集
   p ようこそ, #{user.username}
-  form(action='/admin/makeconfirm.html', method='post')
+  p ナレッジ # #{id}
+  form(action='/admin/editconfirm.html', method='post')
     include csrf
     p
       label タイトル: 
-      input(name='ktitle', type='text')
+      input(name='ktitle', type='text')&attributes({value: title})
     p
       label 内容: 
-      textarea(name='content')
+      textarea(name='content') #{content}
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
