@@ -13,6 +13,7 @@ var handlesaveToken = require('../lib/handlesaveToken');
 var counters = require('../lib/counters');
 var saveKnowledge = require('../lib/saveKnowledge');
 var searchKnowledgeList = require('../lib/searchKnowledgeList');
+var readKnowledge = require('../lib/readKnowledge');
 
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
@@ -63,15 +64,26 @@ router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
 router.get("/edit.html", csrfProtection, isLogined, function(req, res){
   console.log("edit.html start");
   var url_parse = url.parse(req.url, true);
+  readKnowledge.read(
+    res,
+    Number(url_parse.query.id),
+    function(err, res, id, knowledge, knowledgeContent){
+      if (err) {
+        next(err);
+      } else {
+        console.log("rendering: id=" + id);
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render("edit",
+          { user: req.user,
+            title: knowledge.title,
+            content: knowledgeContent.content,
+            id: id,
+            csrfToken: req.csrfToken()});
+      }
+  });
 
-  //TODO: db read
-
-  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
-  res.setHeader( 'Pragma', 'no-cache' );
-  res.render("edit", {user: req.user, title: "test title", content: "test content", id: url_parse.query.id, csrfToken: req.csrfToken()});
 });
-
-
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
