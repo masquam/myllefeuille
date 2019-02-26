@@ -44,6 +44,11 @@ router.get("/select.html", csrfProtection, isLogined, function(req, res){
     res.render("select", {user: req.user, csrfToken: req.csrfToken()});
 });
 
+router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
+    // TODO: POST selectresult => a knowledge => back button
+    res.redirect("/admin/select.html");
+});
+
 router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
   console.log("selectresult start");
   //var url_parse = url.parse(req.url, true);
