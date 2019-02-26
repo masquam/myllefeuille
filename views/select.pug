@@ -4,7 +4,7 @@ block content
   p
   p 編集対象ナレッジの検索
   p
-  form(action='/admin/selectresult.html', method='get')
+  form(action='/admin/selectresult.html', method='post')
     include csrf
     input(type='search' name='searchstring' size='30' maxlength='255' autofocus='' )
     input.ui-btn.ui-btn-inline(type='submit', value='検索', data-ajax="false" )

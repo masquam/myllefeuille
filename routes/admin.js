@@ -12,6 +12,8 @@ var ngram = require('../lib/ngram');
 var handlesaveToken = require('../lib/handlesaveToken');
 var counters = require('../lib/counters');
 var saveKnowledge = require('../lib/saveKnowledge');
+var searchKnowledgeList = require('../lib/searchKnowledgeList');
+
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
 
@@ -41,54 +43,22 @@ router.get("/select.html", csrfProtection, isLogined, function(req, res){
     res.render("select", {user: req.user, csrfToken: req.csrfToken()});
 });
 
-router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
+router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
   console.log("selectresult start");
   var url_parse = url.parse(req.url, true);
-  console.log("url.parse");
-  var KnowledgeFTS = models('KnowledgeFTS');
-  KnowledgeFTS
-    .find(
-        { $text : { $search : ngram.getNgramTextSpaceSeparated(url_parse.query.searchstring) } }, 
-        { score : { $meta: "textScore" } }
-    )
-    .sort({ score : { $meta : 'textScore' } })
-    .skip(Number(url_parse.query.skip))
-    .limit(5)
-    .exec(function (err, docs) {
-      if (err) {
-        console.log('search.js find error');
-        return console.error(err);
-      }
-      console.log("search.js find success");
-      ftsToKnowledgesSelect(err, docs, res, url_parse.query.searchstring);
+  searchKnowledgeList.getList(
+    res,
+    ngram.getNgramTextSpaceSeparated(req.body.searchstring),
+    5,
+    Number(req.body.skip),
+    function (res, searchstring, listKnowledge){
+      console.log("rendering search.html...");
+      res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
+      res.setHeader( 'Pragma', 'no-cache' );
+      res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
     });
 });
 
-function ftsToKnowledgesSelect(err, docs, res, searchstring){
-  var docsIdArray = [];
-  for (var i = 0, len = docs.length; i < len; i++) {
-    docsIdArray.push(docs[i].id);
-  }
-  console.log(docsIdArray);
-  var Knowledge = models('Knowledge');
-  Knowledge.find(
-    {'id': { $in: docsIdArray}},
-    '_id id title content_summary author accesscount like',
-    function (err, docsKnowledge) {
-      if (err) {
-        console.log('find error');
-        return console.error(err);
-      }
-      renderSelectResult(err, docsKnowledge, res, searchstring);
-    });
-}
-
-function renderSelectResult(err, docsKnowledge, res, searchstring){
-  console.log("rendering selectresult.html...");
-  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
-  res.setHeader( 'Pragma', 'no-cache' );
-  res.render('selectresult', {docs: docsKnowledge, searchstring: searchstring});
-}
 
 router.get("/edit.html", csrfProtection, isLogined, function(req, res){
   console.log("edit.html start");

@@ -8,7 +8,7 @@ var searchKnowledgeList = require('../lib/searchKnowledgeList');
 
 
 router.get('/', function(req, res, next) {
-  console.log("search.js");
+  console.log("search.js start");
   var url_parse = url.parse(req.url, true);
   searchKnowledgeList.getList(
     res,
