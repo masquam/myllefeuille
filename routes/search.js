@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var models = require('../models');
 var url = require('url');
 var ngram = require('../lib/ngram');
+var searchKnowledgeList = require('../lib/searchKnowledgeList');
+
 
 router.get('/', function(req, res, next) {
   console.log("search.js");
