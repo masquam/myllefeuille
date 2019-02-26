@@ -14,6 +14,8 @@ var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var adminRouter = require('./routes/admin');
 
+var readKnowledge = require('./lib/readKnowledge');
+
 var app = express();
 var session = require('express-session');
 
@@ -97,34 +99,25 @@ app.use('/logout.html', logoutRouter);
 app.use('/admin/', adminRouter);
 
 app.get('/:page.html', function(req, res, next) {
-  console.log("number");
-  console.log(Number(req.params.page));
+  console.log("/:page.html");
+  console.log("id = " + Number(req.params.page));
   if (isNaN(Number(req.params.page))){
     next(createError(404));
   } else {
-  var Knowledge = models('Knowledge');
-  Knowledge.findOne({ id: Number(req.params.page) })
-    .exec(function (err, knowl) {
-      if (err || knowl == null) {
-        console.log('Knowledge find error');
-        next(createError(404));
-      } else {
-      var KnowledgeContents = models('KnowledgeContents');
-      KnowledgeContents.findOne({ id: Number(req.params.page) })
-        .exec(function (err, knowlcon) {
-          if (err || knowl == null) {
-            console.log('Knowledge find error');
-            next(createError(404));
-          } else {
-            console.log("rendering: id=" + knowl.id);
-            res.render('number', 
-              { id: knowl.id,
-                title: knowl.title,
-                content: knowlcon.content,
-                author: knowl.author });
-          }
-        });
-      }
+    readKnowledge.read(
+      res,
+      Number(req.params.page),
+      function(err, res, id, knowledge, knowledgeContent){
+        if (err) {
+          next(err);
+        } else {
+          console.log("rendering: id=" + id);
+          res.render('number', 
+            { id: id,
+              title: knowledge.title,
+              content: knowledgeContent.content,
+              author: knowledge.author });
+        }
     });
   }
 });

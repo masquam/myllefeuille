@@ -45,7 +45,7 @@ router.get("/select.html", csrfProtection, isLogined, function(req, res){
 
 router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
   console.log("selectresult start");
-  var url_parse = url.parse(req.url, true);
+  //var url_parse = url.parse(req.url, true);
   searchKnowledgeList.getList(
     res,
     ngram.getNgramTextSpaceSeparated(req.body.searchstring),
