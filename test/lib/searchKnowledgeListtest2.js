@@ -247,8 +247,8 @@ function saveTestData6(done){
           "te en nt",
           5,
           0,
-          function(res, searchstring, listKnowledge){
-            assert.strictEqual(listKnowledge.length,5);
+          function(err, res, searchstring, listKnowledge){
+            assert.strictEqual(listKnowledge.length, 5);
             done();
         });
 

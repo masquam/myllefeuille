@@ -15,11 +15,15 @@ router.get('/', function(req, res, next) {
     ngram.getNgramTextSpaceSeparated(url_parse.query.searchstring),
     5,
     Number(url_parse.query.skip),
-    function (res, searchstring, listKnowledge){
-      console.log("rendering search.html...");
-      res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
-      res.setHeader( 'Pragma', 'no-cache' );
-      res.render('search', {docs: listKnowledge, searchstring: searchstring});
+    function (err, res, searchstring, listKnowledge){
+      if (err) {
+        console.log('search.js Knowledge find error');
+        next(err);
+      } else {
+        console.log("rendering search.html...");
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render('search', {docs: listKnowledge, searchstring: searchstring});      }
     });
 });
 

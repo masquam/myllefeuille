@@ -58,10 +58,15 @@ router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
     5,
     Number(req.body.skip),
     function (res, searchstring, listKnowledge){
-      console.log("rendering search.html...");
-      res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
-      res.setHeader( 'Pragma', 'no-cache' );
-      res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
+      if (err) {
+        console.log('search.js Knowledge find error');
+        next(err);
+      } else {
+        console.log("rendering search.html...");
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
+      }
     });
 });
 

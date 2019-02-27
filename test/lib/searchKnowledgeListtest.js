@@ -73,8 +73,8 @@ describe("searchKnowledgeList", function() {
           "te en nt",
           5,
           0,
-          function(res, searchstring, listKnowledge){
-            assert.strictEqual(listKnowledge.length,1);
+          function(err, res, searchstring, listKnowledge){
+            assert.strictEqual(listKnowledge.length, 1);
             done();
         });
 
@@ -82,6 +82,50 @@ describe("searchKnowledgeList", function() {
     });
   }); 
 
+  describe('searchKnowledgeList()', function() {
+    it('should not read without error when not hit', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
 
+        searchKnowledgeList.getList(
+          null,
+          "xy yz",
+          5,
+          0,
+          function(err, res, searchstring, listKnowledge){
+            assert.strictEqual(listKnowledge.length, 0);
+            done();
+        });
+
+      });
+    });
+  }); 
+
+  describe('searchKnowledgeList()', function() {
+    it('should not read when one character is specified', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+
+        searchKnowledgeList.getList(
+          null,
+          "t",
+          5,
+          0,
+          function(err, res, searchstring, listKnowledge){
+            assert.strictEqual(listKnowledge.length, 0);
+            done();
+        });
+
+      });
+    });
+  }); 
 
 });

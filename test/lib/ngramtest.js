@@ -51,8 +51,8 @@ describe('ngram', function() {
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the just one character plus asterisk when the value is just one character', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("a"), "a*");
+    it('should return the just one character when the value is just one character', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("a"), "a");
     });
   });
 
