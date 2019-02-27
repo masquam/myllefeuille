@@ -57,7 +57,7 @@ router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
     ngram.getNgramTextSpaceSeparated(req.body.searchstring),
     5,
     Number(req.body.skip),
-    function (res, searchstring, listKnowledge){
+    function (err, res, searchstring, listKnowledge){
       if (err) {
         console.log('search.js Knowledge find error');
         next(err);
