@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
     .exec(function (err, docs) {
       if (err) {
         console.log('searchAjax.js find error');
-        return console.error(err);
+        next(err);
       }
       console.log("searchAjax.js find success");
       ftsToKnowledges(err, docs, res);
@@ -42,7 +42,7 @@ function ftsToKnowledges(err, docs, res, searchstring){
     function (err, docsKnowledge) {
       if (err) {
         console.log('find error');
-        return console.error(err);
+        next(err);
       }
       renderNewAjax(err, docsKnowledge, res);
     });

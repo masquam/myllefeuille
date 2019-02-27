@@ -226,4 +226,17 @@ router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
   });
 });
 
+router.post('/update.html', parseForm, isLogined, csrfProtection,
+    function(req, res){
+  mongoose.connect(dburi, {useNewUrlParser: true});
+  var db = mongoose.connection; 
+  db.on('error', function(err){
+    callback(err, null);
+  });
+  db.once('open', function() { 
+    handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
+      handleSaveHtmlSaveToken(err, savetoken, req, res);
+    });
+  });
+});
 module.exports = router;

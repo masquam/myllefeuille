@@ -1,3 +1,5 @@
+var dburi = "mongodb://localhost:27017/myllefeuille";
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -32,7 +34,13 @@ var passport = require('passport')
 
 var mongoose = require('mongoose');
 var models = require('./models');
-mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
+mongoose.connect(dburi, {useNewUrlParser: true}, function(error) {
+  if (error) {
+    console.log("MongoDB connection error");
+    process.exit(1);
+  }
+});
+
 var authSchema = mongoose.Schema({ 
   username: 'string',
   password: 'string',

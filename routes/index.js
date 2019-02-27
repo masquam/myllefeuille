@@ -10,8 +10,8 @@ router.get('/', function(req, res, next) {
     '_id id title content_summary author accesscount like',
     function (err, docs) {
       if (err) {
-        console.log('find error');
-        return console.error(err);
+        console.log('index.html find error');
+        next(err);
       }
       renderIndex(err, docs, res);
     }).sort({_id: -1}).limit(5);

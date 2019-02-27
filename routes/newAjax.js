@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
     .exec(function (err, docs) {
       if (err) {
         console.log('find error');
-        return console.error(err);
+        next(err);
       }
       renderNewAjax(err, docs, res);
     });
