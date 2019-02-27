@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 ナレッジ確認
+  h1 ナレッジ保存確認
   p #{title}
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
@@ -15,6 +15,8 @@ block content
       input(type='hidden', name='saveToken', value=saveToken) 
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/make.html') 戻る
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
