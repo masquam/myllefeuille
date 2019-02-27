@@ -42,33 +42,19 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  mongoose.connect(dburi, {useNewUrlParser: true});
-  var db = mongoose.connection; 
-  db.on('error', function(err){
-    next(err);
-  });
-  db.once('open', function() { 
     handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
       if (err) return console.error(err); 
       res.render("makeconfirm", 
         {title: req.body.ktitle, content: req.body.content,
         csrfToken: req.csrfToken(), saveToken: objid});
     });
-  });
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  mongoose.connect(dburi, {useNewUrlParser: true});
-  var db = mongoose.connection; 
-  db.on('error', function(err){
-    callback(err, null);
-  });
-  db.once('open', function() { 
     handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
       handleSaveHtmlSaveToken(err, savetoken, req, res);
     });
-  });
 });
 
 function handleSaveHtmlSaveToken(err, savetoken, req, res){
