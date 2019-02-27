@@ -51,38 +51,38 @@ describe('ngram', function() {
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the just one character when the value is just one character', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("a"), "a");
+    it('should return the just one character with doublequote when the value is just one character', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("a"), "\"a\"");
     });
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the string value with just two characters when the value is their characters', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("ab"), "ab");
+    it('should return the string value with just two characters with doublequote when the value is their characters', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("ab"), "\"ab\"");
     });
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the string value with divided two characters when the value is three characters', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abc"), "ab bc");
+    it('should return the string value with divided two characters with doublequote when the value is three characters', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abc"), "\"ab bc\"");
     });
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the string value with divided two characters when the value is four characters', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abcd"), "ab bc cd");
+    it('should return the string value with divided two characters with doublequote when the value is four characters', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abcd"), "\"ab bc cd\"");
     });
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the string value with separated two characters when the value is space-separated characters', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("ab cd"), "ab cd");
+    it('should return the string value with separated two characters with doublequote when the value is space-separated characters', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("ab cd"), "\"ab\" \"cd\"");
     });
   });
 
   describe('getNgramTextSpaceSeparated()', function() {
-    it('should return the string value with separated two characters when the value is space-separated characters', function() {
-      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abc de"), "ab bc de");
+    it('should return the string value with separated two characters with doublequote when the value is space-separated characters', function() {
+      assert.strictEqual(ngram.getNgramTextSpaceSeparated("abc de"), "\"ab bc\" \"de\"");
     });
   });
 
