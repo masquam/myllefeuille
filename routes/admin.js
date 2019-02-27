@@ -40,67 +40,12 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
     res.render("make", {user: req.user, csrfToken: req.csrfToken()});
 });
 
-router.get("/select.html", csrfProtection, isLogined, function(req, res){
-    res.render("select", {user: req.user, csrfToken: req.csrfToken()});
-});
-
-router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
-    // TODO: POST selectresult => a knowledge => back button
-    res.redirect("/admin/select.html");
-});
-
-router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
-  console.log("selectresult start");
-  //var url_parse = url.parse(req.url, true);
-  searchKnowledgeList.getList(
-    res,
-    ngram.getNgramTextSpaceSeparated(req.body.searchstring),
-    5,
-    Number(req.body.skip),
-    function (err, res, searchstring, listKnowledge){
-      if (err) {
-        console.log('search.js Knowledge find error');
-        next(err);
-      } else {
-        console.log("rendering search.html...");
-        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader( 'Pragma', 'no-cache' );
-        res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
-      }
-    });
-});
-
-
-router.get("/edit.html", csrfProtection, isLogined, function(req, res){
-  console.log("edit.html start");
-  var url_parse = url.parse(req.url, true);
-  readKnowledge.read(
-    res,
-    Number(url_parse.query.id),
-    function(err, res, id, knowledge, knowledgeContent){
-      if (err) {
-        next(err);
-      } else {
-        console.log("rendering: id=" + id);
-        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader( 'Pragma', 'no-cache' );
-        res.render("edit",
-          { user: req.user,
-            title: knowledge.title,
-            content: knowledgeContent.content,
-            id: id,
-            csrfToken: req.csrfToken()});
-      }
-  });
-
-});
-
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
   mongoose.connect(dburi, {useNewUrlParser: true});
   var db = mongoose.connection; 
   db.on('error', function(err){
-    callback(err, null);
+    next(err);
   });
   db.once('open', function() { 
     handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
@@ -210,5 +155,75 @@ function renderSaveHtml(err, counterValue, req, res){
   res.render("save", {content: counterValue.toString(), csrfToken: req.csrfToken()});
 }
 
+router.get("/select.html", csrfProtection, isLogined, function(req, res){
+    res.render("select", {user: req.user, csrfToken: req.csrfToken()});
+});
+
+router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
+    // TODO: POST selectresult => a knowledge => back button
+    res.redirect("/admin/select.html");
+});
+
+router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
+  console.log("selectresult start");
+  //var url_parse = url.parse(req.url, true);
+  searchKnowledgeList.getList(
+    res,
+    ngram.getNgramTextSpaceSeparated(req.body.searchstring),
+    5,
+    Number(req.body.skip),
+    function (err, res, searchstring, listKnowledge){
+      if (err) {
+        console.log('search.js Knowledge find error');
+        next(err);
+      } else {
+        console.log("rendering search.html...");
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
+      }
+    });
+});
+
+router.get("/edit.html", csrfProtection, isLogined, function(req, res){
+  console.log("edit.html start");
+  var url_parse = url.parse(req.url, true);
+  readKnowledge.read(
+    res,
+    Number(url_parse.query.id),
+    function(err, res, id, knowledge, knowledgeContent){
+      if (err) {
+        next(err);
+      } else {
+        console.log("rendering: id=" + id);
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render("edit",
+          { user: req.user,
+            title: knowledge.title,
+            content: knowledgeContent.content,
+            id: id,
+            csrfToken: req.csrfToken()});
+      }
+  });
+
+});
+
+router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
+    function(req, res){
+  mongoose.connect(dburi, {useNewUrlParser: true});
+  var db = mongoose.connection; 
+  db.on('error', function(err){
+    next(err);
+  });
+  db.once('open', function() { 
+    handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
+      if (err) return console.error(err); 
+      res.render("editconfirm", 
+        {title: req.body.ktitle, content: req.body.content,
+        csrfToken: req.csrfToken(), saveToken: objid, id: req.body.id});
+    });
+  });
+});
 
 module.exports = router;
