@@ -14,6 +14,7 @@ var counters = require('../lib/counters');
 var saveKnowledge = require('../lib/saveKnowledge');
 var searchKnowledgeList = require('../lib/searchKnowledgeList');
 var readKnowledge = require('../lib/readKnowledge');
+var editKnowledge = require('../lib/editKnowledge');
 
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
@@ -42,19 +43,19 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-    handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
-      if (err) return console.error(err); 
-      res.render("makeconfirm", 
-        {title: req.body.ktitle, content: req.body.content,
-        csrfToken: req.csrfToken(), saveToken: objid});
-    });
+  handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
+    if (err) return console.error(err); 
+    res.render("makeconfirm", 
+      {title: req.body.ktitle, content: req.body.content,
+      csrfToken: req.csrfToken(), saveToken: objid});
+  });
 });
 
 router.post('/save.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-    handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
-      handleSaveHtmlSaveToken(err, savetoken, req, res);
-    });
+  handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
+    handleSaveHtmlSaveToken(err, savetoken, req, res);
+  });
 });
 
 function handleSaveHtmlSaveToken(err, savetoken, req, res){
@@ -197,32 +198,86 @@ router.get("/edit.html", csrfProtection, isLogined, function(req, res){
 
 router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  mongoose.connect(dburi, {useNewUrlParser: true});
-  var db = mongoose.connection; 
-  db.on('error', function(err){
-    next(err);
-  });
-  db.once('open', function() { 
-    handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
-      if (err) return console.error(err); 
-      res.render("editconfirm", 
-        {title: req.body.ktitle, content: req.body.content,
-        csrfToken: req.csrfToken(), saveToken: objid, id: req.body.id});
-    });
+  handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
+    if (err) return console.error(err); 
+    res.render("editconfirm", 
+      {title: req.body.ktitle, content: req.body.content,
+      csrfToken: req.csrfToken(), saveToken: objid, id: req.body.id});
   });
 });
 
 router.post('/update.html', parseForm, isLogined, csrfProtection,
     function(req, res){
-  mongoose.connect(dburi, {useNewUrlParser: true});
-  var db = mongoose.connection; 
-  db.on('error', function(err){
-    callback(err, null);
-  });
-  db.once('open', function() { 
-    handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
-      handleSaveHtmlSaveToken(err, savetoken, req, res);
-    });
+  handlesaveToken.findTokenByid(req.body.saveToken, function(err, savetoken){
+    handleUpdateHtmlSaveToken(err, savetoken, req, res);
   });
 });
+
+function handleUpdateHtmlSaveToken(err, savetoken, req, res){
+  if (savetoken == null){
+    console.log("old saveToken.");
+    res.render("save", {content: "already saved", csrfToken: req.csrfToken()});
+  }
+  else
+  {
+    if (err) {
+      console.log("saveToken find error.");
+      next(err);
+    }
+    handlesaveToken.DeleteToken(req.body.saveToken, function (err, doc){
+      if (err) {
+        console.log("saveToken delete error.");
+        // do not execute next(err)
+      }
+    });
+    executeUpdate(err, req, res);
+  }
+}
+
+function executeUpdate(err, req, res){
+  editKnowledge.updateKnowledge(
+    req.body.id,
+    1, // TODO: version number update
+    req.body.ktitle,
+    req.body.content.substring(0, 80),
+    req.user.username,
+    function(err, theKnowledge){
+      if (err) {
+        next(err);
+      }
+      console.log("Knowledge updated: id=" + theKnowledge.id);
+      updateKnowledgeContent(err, req, res, theKnowledge)
+  });
+}
+
+function updateKnowledgeContent(err, req, res, theKnowledge){
+  editKnowledge.updateKnowledgeContent(
+    theKnowledge.id,
+    theKnowledge.version,
+    req.body.content,
+    function(err, theKnowledgeContent){
+      if (err) {
+        next(err);
+      }
+      console.log("KnowledgeContent saved: id=" + theKnowledge.id);
+      updateKnowledgeFTS(err, req, res, theKnowledge, req.body.content);
+  });
+}
+
+function updateKnowledgeFTS(err, req, res, theKnowledge, content){
+  editKnowledge.updateKnowledgeFTS(
+    ngram.getNgramText(theKnowledge.id.toString()),
+    ngram.getNgramText(theKnowledge.title),
+    ngram.getNgramText(content),
+    ngram.getNgramText(theKnowledge.author),
+    function(err, doc){
+      if (err) {
+        next(err);
+      }
+      console.log("KnowledgeFTS saved: id=" + theKnowledge.id.toString());
+      // render the same as save.html
+      renderSaveHtml(err, theKnowledge.id, req, res);
+  });
+}
+
 module.exports = router;

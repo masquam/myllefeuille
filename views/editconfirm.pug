@@ -8,6 +8,8 @@ block content
   form(action='/admin/update.html', method='post')
     include csrf
     p
+      input(type='hidden', name='id', value=id) 
+    p
       input(type='hidden', name='ktitle', value=title) 
     p
       input(type='hidden', name='content', value=content) 
