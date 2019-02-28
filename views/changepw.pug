@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 パスワードの変更
-  p #{user.username} のパスワードを変更
+  p #{user.displayname} のパスワードを変更
   form(action='/admin/changepw.html', method='post')
     include csrf
     p #{message}

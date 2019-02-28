@@ -40,7 +40,7 @@ router.get("/menu.html", isLogined, function(req, res){
 });
 
 router.get("/make.html", csrfProtection, isLogined, function(req, res){
-    res.render("make", {user: req.user, csrfToken: req.csrfToken()});
+    res.render("make", {csrfToken: req.csrfToken()});
 });
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
@@ -145,7 +145,7 @@ function renderSaveHtml(err, counterValue, req, res){
 }
 
 router.get("/select.html", csrfProtection, isLogined, function(req, res){
-    res.render("select", {user: req.user, csrfToken: req.csrfToken()});
+    res.render("select", {csrfToken: req.csrfToken()});
 });
 
 router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
@@ -169,7 +169,8 @@ router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
         console.log("rendering search.html...");
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
-        res.render('selectresult', {docs: listKnowledge, searchstring: searchstring});
+        res.render('selectresult', 
+          {docs: listKnowledge, searchstring: searchstring});
       }
     });
 });
@@ -188,8 +189,7 @@ router.get("/edit.html", csrfProtection, isLogined, function(req, res){
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
         res.render("edit",
-          { user: req.user,
-            title: knowledge.title,
+          { title: knowledge.title,
             content: knowledgeContent.content,
             id: id,
             csrfToken: req.csrfToken()});

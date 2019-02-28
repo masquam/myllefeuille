@@ -11,6 +11,7 @@ let getHash = function(target){
 
 let authSchema = mongoose.Schema({ 
   username: 'string',
+  displayname: 'string',
   password: 'string',
   role: 'string'
 });

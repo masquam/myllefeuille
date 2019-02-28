@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1 ナレッジ作成
-  p ようこそ, #{user.username}
   form(action='/admin/makeconfirm.html', method='post')
     include csrf
     p

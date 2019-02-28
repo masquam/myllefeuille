@@ -21,6 +21,7 @@ db.once('open', function() {
 
   var authSchema = mongoose.Schema({ 
     username: 'string',
+    displayname: 'string',
     password: 'string',
     role: 'string'
   });
@@ -32,6 +33,7 @@ db.once('open', function() {
   console.log("start creating the user...");
   var testUser = new User();
   testUser.username = "testuser";
+  testUser.displayname = "test user";
   testUser.password = getHash("Ab$de123");
   testUser.role = "administrator";
   testUser.save(function(err, user){
