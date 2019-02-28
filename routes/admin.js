@@ -15,6 +15,7 @@ var saveKnowledge = require('../lib/saveKnowledge');
 var searchKnowledgeList = require('../lib/searchKnowledgeList');
 var readKnowledge = require('../lib/readKnowledge');
 var editKnowledge = require('../lib/editKnowledge');
+var userMaintenance = require('../lib/userMaintenance');
 
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
@@ -279,5 +280,26 @@ function updateKnowledgeFTS(err, req, res, theKnowledge, content){
       renderSaveHtml(err, theKnowledge.id, req, res);
   });
 }
+
+router.get("/changepw.html", csrfProtection, isLogined, function(req, res){
+  res.render("changepw", {user: req.user, csrfToken: req.csrfToken()});
+});
+
+router.post("/savepw.html", csrfProtection, isLogined, function(req, res){
+  // TODO: sanitize
+  userMaintenance.updatePassword(
+    req.body.username,
+    req.body.password,
+    function(err, theUser){
+      if (err) {
+        next(err);
+      } else {
+        res.render("savepw", 
+          {user: req.body.username, password: req.body.password,
+           csrfToken: req.csrfToken()});
+      }
+  });
+});
+
 
 module.exports = router;

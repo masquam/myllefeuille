@@ -21,13 +21,6 @@ var readKnowledge = require('./lib/readKnowledge');
 var app = express();
 var session = require('express-session');
 
-var crypto = require("crypto");
-var secretKey = "qw/lQwTSpbW#IW=R3+Ke";
-var getHash = function(target){
-        var sha = crypto.createHmac("sha256", secretKey);
-            sha.update(target);
-                return sha.digest("hex");
-};
 var flash = require("connect-flash");
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
@@ -41,16 +34,7 @@ mongoose.connect(dburi, {useNewUrlParser: true}, function(error) {
   }
 });
 
-var authSchema = mongoose.Schema({ 
-  username: 'string',
-  password: 'string',
-  role: 'string'
-});
-authSchema.methods.validPassword = function( pwd ) {
-    return ( this.password === getHash(pwd) );
-};
-var User = mongoose.model('users', authSchema);
-
+var User = models('User');
 passport.use(new LocalStrategy({
   passReqToCallback : true
 }, function(req, username, password, done) {
@@ -58,11 +42,11 @@ passport.use(new LocalStrategy({
       User.findOne({ username: username }, function(err, user) {
         if (err) { return done(err); }
         if (!user) {
-          req.flash('error', 'ユーザーが見つかりませんでした。');
+          req.flash('error', 'ユーザーまたはパスワードが間違っています。');
           return done(null, false);
         }
         if (!user.validPassword(password)) {
-          req.flash('error', 'パスワードが間違っています。');
+          req.flash('error', 'ユーザーまたはパスワードが間違っています。');
           return done(null, false);
         }
         return done(null, user);
