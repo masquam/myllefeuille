@@ -16,6 +16,7 @@ var searchKnowledgeList = require('../lib/searchKnowledgeList');
 var readKnowledge = require('../lib/readKnowledge');
 var editKnowledge = require('../lib/editKnowledge');
 var userMaintenance = require('../lib/userMaintenance');
+var validatePassword = require('../lib/validatePassword');
 
 
 var dburi = "mongodb://localhost:27017/myllefeuille";
@@ -285,21 +286,27 @@ router.get("/changepw.html", csrfProtection, isLogined, function(req, res){
   res.render("changepw", {user: req.user, csrfToken: req.csrfToken()});
 });
 
-router.post("/savepw.html", csrfProtection, isLogined, function(req, res){
-  // TODO: sanitize
-  userMaintenance.updatePassword(
-    req.body.username,
-    req.body.password,
-    function(err, theUser){
-      if (err) {
-        next(err);
-      } else {
-        res.render("savepw", 
-          {user: req.body.username, password: req.body.password,
-           csrfToken: req.csrfToken()});
-      }
-  });
+router.post("/changepw.html", csrfProtection, isLogined, function(req, res){
+  if (validatePassword.validate(req.body.password) === false) {
+    res.render("changepw", 
+      {user: req.user, csrfToken: req.csrfToken(),
+       message: "フォーマットが正しくありません"});
+  } else {
+    userMaintenance.updatePassword(
+      req.body.username,
+      req.body.password,
+      function(err, theUser){
+        if (err) {
+          next(err);
+        } else {
+          res.redirect("/admin/savepw.html");
+        }
+    });
+  }
 });
 
+router.get("/savepw.html", csrfProtection, isLogined, function(req, res){
+  res.render("savepw", {csrfToken: req.csrfToken()});
+});
 
 module.exports = router;

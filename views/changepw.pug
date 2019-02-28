@@ -3,8 +3,9 @@ extends layout
 block content
   h1 パスワードの変更
   p #{user.username} のパスワードを変更
-  form(action='/admin/savepw.html', method='post')
+  form(action='/admin/changepw.html', method='post')
     include csrf
+    p #{message}
     p
       input(type='hidden', name='username')&attributes({value: user.username})
     p
@@ -12,6 +13,13 @@ block content
       input(type='password', name='password')
     p
       input.ui-btn.ui-btn-inline(type='submit', data-ajax="false", value='保存')
+  p パスワードのフォーマット
+    ul
+      li 8文字以上100文字まで
+      li 英大文字と英小文字を含む
+      li 数字を含む
+      li シンボルを含む
+      li 空白を含まない
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
   p

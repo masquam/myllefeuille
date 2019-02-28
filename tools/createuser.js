@@ -32,7 +32,7 @@ db.once('open', function() {
   console.log("start creating the user...");
   var testUser = new User();
   testUser.username = "testuser";
-  testUser.password = getHash("password");
+  testUser.password = getHash("Ab$de123");
   testUser.role = "administrator";
   testUser.save(function(err, user){
     if (err) return console.error(err); 
