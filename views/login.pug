@@ -7,13 +7,17 @@ block content
   form(action='/login.html', method='post')
     include csrf
     p
-      label ユーザーID: 
-      input(type='text', name='username')
+      div.ui-field-contain
+        label(for='username-input') ユーザーID: 
+        input(id='username-input', type='text', name='username')
     p
-      label パスワード: 
-      input(type='password', name='password')
+      div.ui-field-contain
+        label(for='password-input') パスワード: 
+        input(id='password-input', type='password', name='password')
     p
-      input.ui-btn.ui-btn-inline(type='submit', value='ログイン')
+      div.ui-field-contain
+        label(for='login-submit') 
+        input.ui-btn.ui-btn-inline(id='login-submit', type='submit', value='ログイン', data-icon='lock')
     p
-      a.ui-btn.ui-btn-inline(href='/', data-ajax="false") トップページ
+      a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/', data-ajax="false") トップページ
 

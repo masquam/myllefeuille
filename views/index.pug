@@ -6,10 +6,12 @@ block content
   p
     h2 検索
   form(action='/search.html', method='get')
-    input(type='search' name='searchstring' size='30' maxlength='255' autofocus='' )
-    input.ui-btn.ui-btn-inline(type='submit', value='検索', data-ajax="false" )
+    fieldset(class='ui-grid-a')
+      div(class='ui-block-a', style='width:60%')
+        input(type='search' name='searchstring' size='30' maxlength='255' autofocus='', style='height: 44px' )
+      div(class='ui-block-b', style='width:40%')
+        input.ui-btn(type='submit', value='検索', data-ajax='false', data-inline='true', data-icon='search')
 
-  //a.ui-btn.ui-btn-inline(href='/search.html', data-ajax="false") 検索
   p
     h2 新着情報
   if Object.keys(docs).length == 0
@@ -19,15 +21,15 @@ block content
       each doc in docs
         li
           a(href=`${doc.id}.html`)
-            h3 #{doc.title}
+            div(style='font-size: 1.2em; white-space: pre-wrap; ') #{doc.title}
             p(style='font-size: 1.0em;') #{doc.content_summary}
             p(style='font-size: 0.8em;') #{doc.author}
   p
-    a.ui-btn.more(href='#', style='display: none') もっと表示
+    a.ui-btn.ui-icon-carat-d.ui-btn-icon-bottom.more(href='#', style='display: none') もっと表示
   p
     h2 メニュー
-  a.ui-btn.ui-btn-inline(href='/', data-ajax="false") リロード
-  a.ui-btn.ui-btn-inline(href='/login.html') ログイン
+  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/', data-ajax='false') リロード
+  a.ui-btn.ui-btn-inline.ui-icon-lock.ui-btn-icon-left(href='/login.html') ログイン
   script.
     var url = '/newAjax.json';
     var skipcount = 5;
