@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 ユーザーの作成
+  form(action='/admin/createuser.html', method='post', autocomplete='off')
+    include csrf
+    p #{message}
+    p
+      div.ui-field-contain
+        label(for='username-input') ユーザーID: 
+        input(id='username-input', type='text', name='username', value='')
+    p
+      div.ui-field-contain
+        label(for='displayname-input') 表示用ユーザー名: 
+        input(id='displayname-input', type='text', name='displayname', value='')
+    p
+      div.ui-field-contain
+        label(for='password-input') パスワード: 
+        input(id='password-input', type='password', name='password', value='')
+    p
+      div.ui-field-contain
+        label(for='admin-input') 管理者(ユーザーメンテナンス)権限を付与 
+        input(id='admin-input', type='checkbox', name='admin', value='')
+    p
+      div.ui-field-contain
+        input.ui-btn.ui-btn-inline(id='createuser-submit', type='submit', value='作成', data-icon='lock')
+
+  p パスワード・ポリシー
+    ul
+      li 8文字以上100文字まで
+      li 英大文字と英小文字を含む
+      li 数字を含む
+      li シンボルを含む
+      li 空白を含まない
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+  p
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト

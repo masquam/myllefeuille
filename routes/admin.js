@@ -155,7 +155,6 @@ router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){
 
 router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
   console.log("selectresult start");
-  //var url_parse = url.parse(req.url, true);
   searchKnowledgeList.getList(
     res,
     ngram.getNgramTextSpaceSeparated(req.body.searchstring),
@@ -290,7 +289,7 @@ router.post("/changepw.html", csrfProtection, isLogined, function(req, res){
   if (validatePassword.validate(req.body.password) === false) {
     res.render("changepw", 
       {user: req.user, csrfToken: req.csrfToken(),
-       message: "フォーマットが正しくありません"});
+       message: "パスワード・ポリシーを満たしていません"});
   } else {
     userMaintenance.updatePassword(
       req.body.username,
@@ -307,6 +306,48 @@ router.post("/changepw.html", csrfProtection, isLogined, function(req, res){
 
 router.get("/savepw.html", csrfProtection, isLogined, function(req, res){
   res.render("savepw", {csrfToken: req.csrfToken()});
+});
+
+router.get("/createuser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
+  res.render("createuser", {csrfToken: req.csrfToken()});
+});
+
+router.post("/createuser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
+  userMaintenance.findOne(req.body.username, function(err, theUser){
+    if (theUser){
+      res.render("createuser", 
+        {user: req.user, csrfToken: req.csrfToken(),
+         message: "ユーザーIDは既に使用されています。"});
+    } else if (validatePassword.validate(req.body.password) === false) {
+      res.render("createuser", 
+        {user: req.user, csrfToken: req.csrfToken(),
+         message: "パスワード・ポリシーを満たしていません。"});
+    } else {
+      userMaintenance.createUser(
+        req.body.username,
+        req.body.displayname,
+        req.body.password,
+        req.body.admin,
+        function(err, theUser){
+          if (err) {
+            next(err);
+          } else {
+            res.redirect("/admin/saveuser.html");
+          }
+      });
+    }
+  }); 
+});
+
+router.get("/saveuser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.render("saveuser", {csrfToken: req.csrfToken()});
 });
 
 module.exports = router;

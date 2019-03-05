@@ -10,7 +10,7 @@ let getHash = function(target){
 
 
 let authSchema = mongoose.Schema({ 
-  username: 'string',
+  username: { type: String, unique: true },
   displayname: 'string',
   password: 'string',
   role: 'string'

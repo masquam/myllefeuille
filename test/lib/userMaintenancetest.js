@@ -21,18 +21,7 @@ describe("userMaintenance", function() {
     let db = mongoose.connection; 
     db.on('error', function (err) {return done(err)});
     db.once('open', function() { 
-/*
-      var authSchema = mongoose.Schema({ 
-        username: 'string',
-        password: 'string',
-        role: 'string'
-      });
-      authSchema.methods.validPassword = function( pwd ) {
-        return ( this.password === getHash(pwd) );
-      };
-      var Users = mongoose.model('users', authSchema);
-*/
-  var User = models('User');
+      var User = models('User');
       User.deleteMany({}, function(err){
         if (err) return done(err);
         saveTestData1(done, User);
@@ -44,7 +33,8 @@ function saveTestData1(done, User){
   console.log("start creating the user...");
   var testUser = new User();
   testUser.username = "testuser";
-  testUser.password = getHash("password");
+  testUser.displayname = "test user";
+  testUser.password = getHash("Ab$de123");
   testUser.role = "administrator";
   testUser.save(function(err, user){
     if (err) return done(err); 
@@ -72,5 +62,98 @@ function saveTestData1(done, User){
       });
     });
   }); 
+
+  describe('findOne()', function() {
+    it('should find without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.findOne(
+          "testuser",
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser");
+            done();
+        });
+      });
+    });
+  });
+
+  describe('findOne()', function() {
+    it('should not find', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.findOne(
+          "testuse",
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.strictEqual(theUser, null);
+            done();
+        });
+      });
+    });
+  }); 
+
+  describe('createUser()', function() {
+    it('should create without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.createUser(
+          "testuser2",
+          "test user 2",
+          getHash("Ab$de123"),
+          true,
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser2");
+            done();
+        });
+      });
+    });
+  });
+
+  describe('createUser()', function() {
+    it('should not create duplicate user', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.createUser(
+          "testuser",
+          "test user duplicate",
+          getHash("Ab$de123"),
+          true,
+          function(err, theUser){
+            if (err) {
+              assert.ok(true);
+              done();
+            } else {
+              assert.fail();
+            }
+       });
+      });
+    });
+  });
 
 });
