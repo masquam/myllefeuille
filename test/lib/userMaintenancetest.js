@@ -12,7 +12,7 @@ var getHash = function(target){
 
 var dburi = "mongodb://localhost:27017/myllefeuilletest";
 
-var test_id = 0;
+var test_id = "";
 
 describe("userMaintenance", function() {
   this.timeout(10000);
@@ -37,7 +37,8 @@ function saveTestData1(done, User){
   testUser.password = getHash("Ab$de123");
   testUser.role = "administrator";
   testUser.save(function(err, user){
-    if (err) return done(err); 
+    if (err) return done(err);
+    test_id = user._id;
     done();
   });
 }
@@ -105,6 +106,51 @@ function saveTestData1(done, User){
       });
     });
   }); 
+
+  describe('findOneById()', function() {
+    it('should find without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        console.log("id = " + test_id);
+        userMaintenance.findOneById(
+          test_id,
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser");
+            done();
+        });
+      });
+    });
+  });
+
+  describe('findOneById()', function() {
+    it('should not find', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.findOneById(
+          "dummy",
+          function(err, theUser){
+            if (err) {
+              assert.strictEqual(theUser, undefined);
+              done();
+            } else {
+              assert.fail();
+            }
+        });
+      });
+    });
+  });
 
   describe('createUser()', function() {
     it('should create without error', function(done) {

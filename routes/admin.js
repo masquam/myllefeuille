@@ -350,4 +350,83 @@ router.get("/saveuser.html", csrfProtection, isAdministrator,
   res.render("saveuser", {csrfToken: req.csrfToken()});
 });
 
+
+router.get('/searchuser.html', isAdministrator, function(req, res) {
+  var findparameters = {};
+console.log(req);
+  if (!!req.query.searchstring) {
+    findparameters = { "displayname": { $regex: '.*' + req.query.searchstring + '.*' , $options: 'i'} }
+  }
+  console.log(findparameters);
+  var User = models('User');
+  User.find(
+    findparameters,
+    function (err, docs) {
+      if (err) {
+        console.log('searchuser.html find error');
+        next(err);
+      } else {
+        renderSearchUser(err, docs, res);
+      }
+    }).sort({_id: -1});
+});
+
+function renderSearchUser(err, docs, res){
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
+  res.setHeader( 'Pragma', 'no-cache' );
+  res.render('searchuser', {docs: docs});
+}
+
+router.get("/edituser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  userMaintenance.findOneById(
+    req.query.id,
+    function(err, theUser){
+      if (err) {
+        next(err);
+      } else {
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render("edituser", 
+          {username: theUser.username,
+           displayname: theUser.displayname,
+           admin: (theUser.role === 'administrator'),
+           csrfToken: req.csrfToken()});
+      }
+  });
+});
+
+/*
+router.post("/edituser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
+  userMaintenance.findOne(req.body.username, function(err, theUser){
+    if (theUser){
+      res.render("createuser", 
+        {user: req.user, csrfToken: req.csrfToken(),
+         message: "ユーザーIDは既に使用されています。"});
+    } else if (validatePassword.validate(req.body.password) === false) {
+      res.render("createuser", 
+        {user: req.user, csrfToken: req.csrfToken(),
+         message: "パスワード・ポリシーを満たしていません。"});
+    } else {
+      userMaintenance.editUser(
+        req.body.username,
+        req.body.displayname,
+        req.body.password,
+        req.body.admin,
+        function(err, theUser){
+          if (err) {
+            next(err);
+          } else {
+            res.redirect("/admin/saveuser.html");
+          }
+      });
+    }
+  }); 
+});
+*/
+
+
 module.exports = router;
