@@ -353,13 +353,10 @@ router.get("/saveuser.html", csrfProtection, isAdministrator,
 
 router.get('/searchuser.html', isAdministrator, function(req, res) {
   var findparameters = {};
-console.log(req);
   if (!!req.query.searchstring) {
     findparameters = { "displayname": { $regex: '.*' + req.query.searchstring + '.*' , $options: 'i'} }
   }
-  console.log(findparameters);
-  var User = models('User');
-  User.find(
+  userMaintenance.findUsers(
     findparameters,
     function (err, docs) {
       if (err) {
@@ -368,7 +365,7 @@ console.log(req);
       } else {
         renderSearchUser(err, docs, res);
       }
-    }).sort({_id: -1});
+    });
 });
 
 function renderSearchUser(err, docs, res){

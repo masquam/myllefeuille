@@ -152,6 +152,30 @@ function saveTestData1(done, User){
     });
   });
 
+  describe('findUsers()', function() {
+    it('should find without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        console.log("id = " + test_id);
+        userMaintenance.findUsers(
+          { "displayname": { $regex: '.*' + 'test' + '.*' , $options: 'i'} },
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser[0].username, "testuser");
+            done();
+        });
+      });
+    });
+  });
+
+
   describe('createUser()', function() {
     it('should create without error', function(done) {
       mongoose.connect(dburi, {useNewUrlParser: true});
