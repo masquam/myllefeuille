@@ -19,7 +19,7 @@ block content
     ul.listView(data-role='listview')
       each doc in docs
         li
-          a(href=`edituser.html?id=${doc.id}` data-ajax='false')
+          a(href=`edituser.html?id=${doc.id}`, data-ajax='false')
             div(style='font-size: 1.2em; white-space: pre-wrap; ') #{doc.displayname}
             p(style='font-size: 1.0em;') #{doc.username}
             p(style='font-size: 0.8em;') #{doc.role}

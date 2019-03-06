@@ -2,56 +2,39 @@ extends layout
 
 block content
   h1 ユーザーの編集
-  div(data-role='popup', id='pop1', data-overlay-theme='b', data-dismissible='false', data-history='false')
+  form(id='editUserForm', action='/admin/edituser.html', method='post', autocomplete='off')
+    fieldset
+      include csrf
+      p #{message}
+      p
+        input(type='hidden', id='deleteUser', name='deleteUser', value='false')
+      p
+        input(type='hidden', name='id', value=id)
+      p
+        div.ui-field-contain
+          label(for='username-input') ユーザーID（編集不可）: 
+          input(readonly id='username-input', type='text', name='username')&attributes({value: username})
+      p
+        div.ui-field-contain
+          label(for='displayname-input') 表示用ユーザー名: 
+          input(id='displayname-input', type='text', name='displayname')&attributes({value: displayname})
+      p
+        div.ui-field-contain
+          label(for='admin-input') 管理者(ユーザーメンテナンス)権限を付与 
+          input(id='admin-input', type='checkbox', name='admin')&attributes({checked: admin})
+      p
+        div.ui-field-contain
+          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', data-ajax='false', value='保存')
+      p
+        div.ui-field-contain
+          a.ui-btn.ui-corner-all.ui-icon-delete.ui-btn-icon-left(href='#popupdialog', data-transition='pop', data-rel='popup', data-position-to='window') 削除
+  div(id='popupdialog', data-role='popup', data-overlay-theme='b', data-dismissible='false', data-history='false')
     div(data-role='header', data-theme='b')
       h1 削除の確認
     div.ui-content(role='main')
       p ユーザーを削除してよろしいですか？
       a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserOk') はい
-      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserNg') いいえ
-
-  form(id='editUserForm', action='/admin/edituser.html', method='post', autocomplete='off')
-    include csrf
-    p #{message}
-    p
-      input(type='hidden', id='editPassword', name='editPassword', value='false')
-    p
-      input(type='hidden', id='deleteUser', name='deleteUser', value='false')
-    p
-      input(type='hidden', name='id', value=id)
-    p
-      div.ui-field-contain
-        label(for='username-input') ユーザーID（編集不可）: 
-        input(readonly id='username-input', type='text', name='username')&attributes({value: username})
-    p
-      div.ui-field-contain
-        label(for='displayname-input') 表示用ユーザー名: 
-        input(id='displayname-input', type='text', name='displayname')&attributes({value: displayname})
-    p
-      div.ui-field-contain(id='editPasswordDisplayButton')
-        button.ui-btn(type='button') パスワードを編集する
-    p
-      div.ui-field-contain(id='editPasswordField', style='display: none;')
-        label(for='password-input') パスワード: 
-        input(id='password-input', type='password', name='password', value='')
-    p
-      div.ui-field-contain
-        label(for='admin-input') 管理者(ユーザーメンテナンス)権限を付与 
-        input(id='admin-input', type='checkbox', name='admin')&attributes({checked: admin})
-    p
-      div.ui-field-contain
-        input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
-    p
-      div.ui-field-contain
-        a.ui-btn.ui-corner-all(href='#pop1', data-rel='popup', data-position-to='window', data-transition='pop') 削除
-
-  p パスワード・ポリシー
-    ul
-      li 8文字以上100文字まで
-      li 英大文字と英小文字を含む
-      li 数字を含む
-      li シンボルを含む
-      li 空白を含まない
+      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-transition='flow', data-rel='back', id='deleteuserNg') いいえ
   p
     a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') ユーザー検索画面に戻る
   p
@@ -60,13 +43,10 @@ block content
     a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
   script.
     $(function(){
-      $('#editPasswordDisplayButton').on('click', function() {
-        $('#editPasswordDisplayButton').hide();
-        $('#editPasswordField').show();
-        $('#editPassword').val('true');
-      });
       $('#deleteuserOk').on('click', function(){
         $('#deleteUser').val('true');
-        $('#editUserForm').submit();
+        var target = document.getElementById("editUserForm");
+        target.method = "post";
+        target.submit();
       });
     })

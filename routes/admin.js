@@ -382,6 +382,9 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
       if (err) {
         next(err);
       } else {
+        if (theUser === null){
+          return res.render("edituser_error");
+        }
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
         res.render("edituser", 
@@ -398,27 +401,20 @@ router.post("/edituser.html", csrfProtection, isAdministrator,
     function(req, res){
 //  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
 //  res.setHeader( 'Pragma', 'no-cache' );
-  console.log("editPassword = " + req.body.editPassword);
+  console.log("id = " + req.body.id);
+  console.log("username = " + req.body.username);
+  console.log("displayname = " + req.body.displayname);
+  console.log("admin = " + req.body.admin);
   console.log("deleteUser = " + req.body.deleteUser);
 
-
-  res.redirect("/admin/saveuser.html");
-
   // delete user フラグが立っている場合
+  if (req.body.deleteUser === "true") {
+    console.log("edituser.html deleteUser start");
+    // TODO: 正しいリダイレクト先
+    res.render("saveuser");
+  } else {
 
 
-  //パスワード変更フラグが立っている場合で、
-/*
-  if (validatePassword.validate(req.body.password) === false) {
-    return res.render("edituser", 
-      {user: req.user, csrfToken: req.csrfToken(),
-       message: "パスワード・ポリシーを満たしていません。"});
-  }
-*/
-
-  //パスワード変更フラグが立っていない場合
-
-  //パスワード変更フラグが立っている場合
 /*
     userMaintenance.editUser(
       req.body.username,
@@ -433,7 +429,8 @@ router.post("/edituser.html", csrfProtection, isAdministrator,
         }
     });
 */
-
+    res.redirect("/admin/saveuser.html");
+  }
 });
 
 
