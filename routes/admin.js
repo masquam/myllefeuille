@@ -417,26 +417,28 @@ router.post("/edituser.html", csrfProtection, isAdministrator,
         }
     });
   } else {
-/*
     userMaintenance.editUser(
-      req.body.username,
+      req.body.id,
       req.body.displayname,
-      req.body.password,
       req.body.admin,
       function(err, theUser){
         if (err) {
           next(err);
         } else {
-          res.redirect("/admin/saveuser.html");
+          res.redirect("/admin/edituserresult.html");
         }
     });
-*/
-    res.redirect("/admin/saveuser.html");
   }
+});
+
+router.get("/edituserresult.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.render("edituserresult", {csrfToken: req.csrfToken()});
 });
 
 router.get("/deleteuser.html", csrfProtection, isAdministrator,
     function(req, res){
   res.render("deleteuser", {csrfToken: req.csrfToken()});
 });
+
 module.exports = router;

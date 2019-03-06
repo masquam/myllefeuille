@@ -175,7 +175,6 @@ function saveTestData1(done, User){
     });
   });
 
-
   describe('createUser()', function() {
     it('should create without error', function(done) {
       mongoose.connect(dburi, {useNewUrlParser: true});
@@ -222,6 +221,58 @@ function saveTestData1(done, User){
               assert.fail();
             }
        });
+      });
+    });
+  });
+
+  describe('editUser()', function() {
+    it('should edit without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() {
+        userMaintenance.editUser(
+          test_id,
+          "updated display name",
+          undefined,
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser");
+            assert.strictEqual(theUser.displayname, "updated display name");
+            assert.strictEqual(theUser.role, "");
+            done();
+        });
+      });
+    });
+  });
+
+  describe('editUser()', function() {
+    it('should edit without error (admin)', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() {
+        userMaintenance.editUser(
+          test_id,
+          "updated display name",
+          "on",
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser");
+            assert.strictEqual(theUser.displayname, "updated display name");
+            assert.strictEqual(theUser.role, "administrator");
+            done();
+        });
       });
     });
   });
