@@ -399,22 +399,24 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
 
 router.post("/edituser.html", csrfProtection, isAdministrator,
     function(req, res){
-//  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
-//  res.setHeader( 'Pragma', 'no-cache' );
   console.log("id = " + req.body.id);
   console.log("username = " + req.body.username);
   console.log("displayname = " + req.body.displayname);
   console.log("admin = " + req.body.admin);
   console.log("deleteUser = " + req.body.deleteUser);
 
-  // delete user フラグが立っている場合
   if (req.body.deleteUser === "true") {
     console.log("edituser.html deleteUser start");
-    // TODO: 正しいリダイレクト先
-    res.render("saveuser");
+    userMaintenance.deleteUserById(
+      req.body.id,
+      function(err, theUser){
+        if (err) {
+          res.render("edituser_error");
+        } else {
+          res.redirect("/admin/deleteuser.html");
+        }
+    });
   } else {
-
-
 /*
     userMaintenance.editUser(
       req.body.username,
@@ -433,5 +435,8 @@ router.post("/edituser.html", csrfProtection, isAdministrator,
   }
 });
 
-
+router.get("/deleteuser.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.render("deleteuser", {csrfToken: req.csrfToken()});
+});
 module.exports = router;

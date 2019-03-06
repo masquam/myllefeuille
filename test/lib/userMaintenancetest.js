@@ -226,4 +226,48 @@ function saveTestData1(done, User){
     });
   });
 
+  describe('deleteUserById()', function() {
+    it('should not delete', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.deleteUserById(
+          "dummy",
+          function(err, theUser){
+            if (err) {
+              assert.ok(true);
+              done();
+            } else {
+              assert.fail();
+            }
+        });
+      });
+    });
+  });
+
+  describe('deleteUserById()', function() {
+    it('should delete without error', function(done) {
+      mongoose.connect(dburi, {useNewUrlParser: true});
+      var db = mongoose.connection; 
+      db.on('error', function(err){
+        callback(err, null);
+      });
+      db.once('open', function() { 
+        userMaintenance.deleteUserById(
+          test_id,
+          function(err, theUser){
+            if (err) {
+              assert.fail();
+            }
+            assert.notStrictEqual(theUser, null);
+            assert.strictEqual(theUser.username, "testuser");
+            done();
+        });
+      });
+    });
+  });
+
 });
