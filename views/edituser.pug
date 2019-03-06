@@ -2,15 +2,23 @@ extends layout
 
 block content
   h1 ユーザーの編集
-  form(id='editUserForm', action='/admin/createuser.html', method='post', autocomplete='off')
+  div(data-role='popup', id='pop1', data-overlay-theme='b', data-dismissible='false', data-history='false')
+    div(data-role='header', data-theme='b')
+      h1 削除の確認
+    div.ui-content(role='main')
+      p ユーザーを削除してよろしいですか？
+      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserOk') はい
+      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserNg') いいえ
+
+  form(id='editUserForm', action='/admin/edituser.html', method='post', autocomplete='off')
     include csrf
     p #{message}
     p
-      input(type='hidden', id='editPassword', value='false') 
+      input(type='hidden', id='editPassword', name='editPassword', value='false')
     p
-      input(type='hidden', id='deleteUser', value='false') 
+      input(type='hidden', id='deleteUser', name='deleteUser', value='false')
     p
-      input(type='hidden', id='id')&attributes({value: id})
+      input(type='hidden', name='id', value=id)
     p
       div.ui-field-contain
         label(for='username-input') ユーザーID（編集不可）: 
@@ -35,7 +43,7 @@ block content
         input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
     p
       div.ui-field-contain
-        ibutton.ui-btn(type='button', id='deleteuser-submit', name='deleteuser-submit') 削除
+        a.ui-btn.ui-corner-all(href='#pop1', data-rel='popup', data-position-to='window', data-transition='pop') 削除
 
   p パスワード・ポリシー
     ul
@@ -57,10 +65,8 @@ block content
         $('#editPasswordField').show();
         $('#editPassword').val('true');
       });
-      $('#deleteuser-submit').on('click', function(){
-        // TODO: dialog
-        //
-
+      $('#deleteuserOk').on('click', function(){
+        $('#deleteUser').val('true');
         $('#editUserForm').submit();
       });
     })

@@ -385,7 +385,8 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
         res.render("edituser", 
-          {username: theUser.username,
+          {id: theUser._id,
+           username: theUser.username,
            displayname: theUser.displayname,
            admin: (theUser.role === 'administrator'),
            csrfToken: req.csrfToken()});
@@ -393,37 +394,47 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
   });
 });
 
-/*
 router.post("/edituser.html", csrfProtection, isAdministrator,
     function(req, res){
-  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.setHeader( 'Pragma', 'no-cache' );
-  userMaintenance.findOne(req.body.username, function(err, theUser){
-    if (theUser){
-      res.render("createuser", 
-        {user: req.user, csrfToken: req.csrfToken(),
-         message: "ユーザーIDは既に使用されています。"});
-    } else if (validatePassword.validate(req.body.password) === false) {
-      res.render("createuser", 
-        {user: req.user, csrfToken: req.csrfToken(),
-         message: "パスワード・ポリシーを満たしていません。"});
-    } else {
-      userMaintenance.editUser(
-        req.body.username,
-        req.body.displayname,
-        req.body.password,
-        req.body.admin,
-        function(err, theUser){
-          if (err) {
-            next(err);
-          } else {
-            res.redirect("/admin/saveuser.html");
-          }
-      });
-    }
-  }); 
-});
+//  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+//  res.setHeader( 'Pragma', 'no-cache' );
+  console.log("editPassword = " + req.body.editPassword);
+  console.log("deleteUser = " + req.body.deleteUser);
+
+
+  res.redirect("/admin/saveuser.html");
+
+  // delete user フラグが立っている場合
+
+
+  //パスワード変更フラグが立っている場合で、
+/*
+  if (validatePassword.validate(req.body.password) === false) {
+    return res.render("edituser", 
+      {user: req.user, csrfToken: req.csrfToken(),
+       message: "パスワード・ポリシーを満たしていません。"});
+  }
 */
+
+  //パスワード変更フラグが立っていない場合
+
+  //パスワード変更フラグが立っている場合
+/*
+    userMaintenance.editUser(
+      req.body.username,
+      req.body.displayname,
+      req.body.password,
+      req.body.admin,
+      function(err, theUser){
+        if (err) {
+          next(err);
+        } else {
+          res.redirect("/admin/saveuser.html");
+        }
+    });
+*/
+
+});
 
 
 module.exports = router;
