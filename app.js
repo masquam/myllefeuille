@@ -16,6 +16,7 @@ var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var adminRouter = require('./routes/admin');
 
+var markup = require('./lib/markup');
 var readKnowledge = require('./lib/readKnowledge');
 
 var app = express();
@@ -107,7 +108,7 @@ app.get('/:page.html', function(req, res, next) {
           res.render('number', 
             { id: id,
               title: knowledge.title,
-              content: knowledgeContent.content,
+              content: markup.getMarkedUpText(knowledgeContent.content),
               author: knowledge.author });
         }
     });

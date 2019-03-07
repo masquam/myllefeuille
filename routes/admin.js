@@ -11,6 +11,7 @@ var models = require('../models');
 var ngram = require('../lib/ngram');
 var handlesaveToken = require('../lib/handlesaveToken');
 var counters = require('../lib/counters');
+var markup = require('../lib/markup');
 var saveKnowledge = require('../lib/saveKnowledge');
 var searchKnowledgeList = require('../lib/searchKnowledgeList');
 var readKnowledge = require('../lib/readKnowledge');
@@ -48,8 +49,10 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
   handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
     if (err) return console.error(err); 
     res.render("makeconfirm", 
-      {title: req.body.ktitle, content: req.body.content,
-      csrfToken: req.csrfToken(), saveToken: objid});
+      {title: req.body.ktitle,
+       content: req.body.content,
+       displaycontent: markup.getMarkedUpText(req.body.content),
+       csrfToken: req.csrfToken(), saveToken: objid});
   });
 });
 

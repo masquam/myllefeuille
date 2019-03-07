@@ -3,8 +3,7 @@ extends layout
 block content
   h1 ナレッジ保存確認
   p #{title}
-  - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
-  p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
+  p.ui-corner-all !{displaycontent}
   form(action='/admin/save.html', method='post')
     include csrf
     p
