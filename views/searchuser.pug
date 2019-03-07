@@ -9,7 +9,7 @@ block content
       div(class='ui-block-a', style='width:60%')
         input(type='search' name='searchstring' size='30' maxlength='255' autofocus='', style='height: 44px' )
       div(class='ui-block-b', style='width:40%')
-        input.ui-btn(type='submit', value='検索', data-ajax='false', data-inline='true', data-icon='search')
+        input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
 
   p
     h2 検索結果
@@ -19,11 +19,11 @@ block content
     ul.listView(data-role='listview')
       each doc in docs
         li
-          a(href=`edituser.html?id=${doc.id}`, data-ajax='false')
+          a(href=`edituser.html?id=${doc.id}`)
             div(style='font-size: 1.2em; white-space: pre-wrap; ') #{doc.displayname}
             p(style='font-size: 1.0em;') #{doc.username}
             p(style='font-size: 0.8em;') #{doc.role}
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html', data-ajax='false') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト

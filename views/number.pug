@@ -7,4 +7,4 @@ block content
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
   p #{author}
-  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/', data-ajax="false") トップページ
+  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') トップページ

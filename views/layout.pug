@@ -11,6 +11,10 @@ html
       background: #003366 !important;
       }
     script(src="/javascripts/jquery.js")
+    script.
+      $( document ).on( "mobileinit", function() {
+        $.mobile.ajaxEnabled  = false;
+      });
     script(src="/javascripts/jquery.mobile-1.4.5.min.js")
   body
     div(data-role='header', data-theme="b")

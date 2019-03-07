@@ -24,7 +24,7 @@ block content
           input(id='admin-input', type='checkbox', name='admin')&attributes({checked: admin})
       p
         div.ui-field-contain
-          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', data-ajax='false', value='保存')
+          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
       p
         div.ui-field-contain
           a.ui-btn.ui-corner-all.ui-icon-delete.ui-btn-icon-left(href='#popupdialog', data-transition='pop', data-rel='popup', data-position-to='window') 削除
@@ -40,7 +40,7 @@ block content
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html', data-ajax='false') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
   script.
     $(function(){
       $('#deleteuserOk').on('click', function(){
