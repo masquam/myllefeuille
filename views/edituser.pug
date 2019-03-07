@@ -12,8 +12,8 @@ block content
         input(type='hidden', name='id', value=id)
       p
         div.ui-field-contain
-          label(for='username-input') ユーザーID（編集不可）: 
-          input(readonly id='username-input', type='text', name='username')&attributes({value: username})
+          label(for='username-input') ユーザーID: 
+          label(id='username-input') #{username}
       p
         div.ui-field-contain
           label(for='displayname-input') 表示用ユーザー名: 
