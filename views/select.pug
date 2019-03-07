@@ -6,7 +6,7 @@ block content
   p
   form(action='/admin/selectresult.html', method='post')
     include csrf
-    input(type='search' name='searchstring' size='30' maxlength='255' autofocus='' )
+    input(autofocus, type='search', name='searchstring', size='30', maxlength='255')
     input.ui-btn.ui-btn-inline(type='submit', value='検索')
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー

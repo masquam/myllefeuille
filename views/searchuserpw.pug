@@ -4,10 +4,10 @@ block content
   h1 パスワードを変更するユーザーの検索
   p
     h2 検索
-  form(action='/admin/searchuser.html', method='get')
+  form(action='/admin/searchuserpw.html', method='get')
     fieldset(class='ui-grid-a')
       div(class='ui-block-a', style='width:60%')
-        input(type='search' name='searchstring' size='30' maxlength='255' autofocus='', style='height: 44px' )
+        input(type='search' name='searchstring' size='30' maxlength='255' autofocus='', style='height: 44px' )&attributes({value: searchstring})
       div(class='ui-block-b', style='width:40%')
         input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
 

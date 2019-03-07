@@ -363,15 +363,15 @@ router.get('/searchuser.html', isAdministrator, function(req, res) {
         console.log('searchuser.html find error');
         next(err);
       } else {
-        renderSearchUser(err, docs, res);
+        renderSearchUser(err, docs, res, req.query.searchstring);
       }
     });
 });
 
-function renderSearchUser(err, docs, res){
+function renderSearchUser(err, docs, res, searchstring){
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render('searchuser', {docs: docs});
+  res.render('searchuser', {docs: docs, searchstring: searchstring});
 }
 
 router.get("/edituser.html", csrfProtection, isAdministrator,
@@ -453,15 +453,15 @@ router.get('/searchuserpw.html', isAdministrator, function(req, res) {
         console.log('searchuser.html find error');
         next(err);
       } else {
-        renderSearchUserPw(err, docs, res);
+        renderSearchUserPw(err, docs, res, req.query.searchstring);
       }
     });
 });
 
-function renderSearchUserPw(err, docs, res){
+function renderSearchUserPw(err, docs, res, searchstring){
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render('searchuserpw', {docs: docs});
+  res.render('searchuserpw', {docs: docs, searchstring: searchstring});
 }
 
 

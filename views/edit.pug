@@ -9,7 +9,7 @@ block content
       input(type='hidden', name='id', value=id) 
     p
       label タイトル: 
-      input(name='ktitle', type='text')&attributes({value: title})
+      input(autofocus, name='ktitle', type='text')&attributes({value: title})
     p
       label 内容: 
       textarea(name='content') #{content}
