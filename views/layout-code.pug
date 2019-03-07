@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/themes/default/jquery.mobile-1.4.5.min.css')
+    link(rel='stylesheet', href='/stylesheets/highlightjs-line-numbers.css')
+    link(rel='stylesheet', href='/stylesheets/header.css')
+    link(rel='stylesheet', href='/stylesheets/androidstudio.css')
+    style.
+      .ui-page .ui-header {
+      background: #003366 !important;
+      }
+    script(src="/javascripts/jquery.js")
+    script.
+      $( document ).on( "mobileinit", function() {
+        $.mobile.ajaxEnabled  = false;
+      });
+    script(src="/javascripts/jquery.mobile-1.4.5.min.js")
+    script(src="/javascripts/highlight.pack.js")
+    script(src="/javascripts/highlightjs-line-numbers.js")
+    script.
+      hljs.initHighlightingOnLoad();
+      hljs.initLineNumbersOnLoad();
+  body
+    div(data-role='header', data-theme="b")
+      h1
+        img(src='/images/title.png', width='180', height='62')
+    div(style='margin: 2em')
+      block content
