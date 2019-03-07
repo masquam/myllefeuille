@@ -8,7 +8,7 @@ block content
   form(action='/search.html', method='get')
     fieldset(class='ui-grid-a')
       div(class='ui-block-a', style='width:60%')
-        input(autofocus, type='search', name='searchstring', size='30', maxlength='255', style='height: 44px' )
+        input(autofocus, id='searchinput', type='search', name='searchstring', size='30', maxlength='255', style='height: 44px' )
       div(class='ui-block-b', style='width:40%')
         input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
 
@@ -31,6 +31,10 @@ block content
   a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') リロード
   a.ui-btn.ui-btn-inline.ui-icon-lock.ui-btn-icon-left(href='/login.html') ログイン
   script.
+    $(document).bind('pageshow', function() {
+      $('#searchinput').focus();
+    });
+
     var url = '/newAjax.json';
     var skipcount = 5;
     var resps = {};

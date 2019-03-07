@@ -7,7 +7,7 @@ block content
   form(action='/admin/searchuser.html', method='get')
     fieldset(class='ui-grid-a')
       div(class='ui-block-a', style='width:60%')
-        input(autofocus, type='search' name='searchstring' size='30' maxlength='255', style='height: 44px' )&attributes({value: searchstring})
+        input(autofocus, id='searchinput', type='search' name='searchstring' size='30' maxlength='255', style='height: 44px' )&attributes({value: searchstring})
       div(class='ui-block-b', style='width:40%')
         input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
 
@@ -27,3 +27,7 @@ block content
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
   p
     a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+  script.
+    $(document).bind('pageshow', function() {
+      $('#searchinput').focus();
+    });
