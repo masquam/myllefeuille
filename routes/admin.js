@@ -441,4 +441,74 @@ router.get("/deleteuser.html", csrfProtection, isAdministrator,
   res.render("deleteuser", {csrfToken: req.csrfToken()});
 });
 
+router.get('/searchuserpw.html', isAdministrator, function(req, res) {
+  var findparameters = {};
+  if (!!req.query.searchstring) {
+    findparameters = { "displayname": { $regex: '.*' + req.query.searchstring + '.*' , $options: 'i'} }
+  }
+  userMaintenance.findUsers(
+    findparameters,
+    function (err, docs) {
+      if (err) {
+        console.log('searchuser.html find error');
+        next(err);
+      } else {
+        renderSearchUserPw(err, docs, res);
+      }
+    });
+});
+
+function renderSearchUserPw(err, docs, res){
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
+  res.setHeader( 'Pragma', 'no-cache' );
+  res.render('searchuserpw', {docs: docs});
+}
+
+
+router.get("/edituserpw.html", csrfProtection, isAdministrator,
+    function(req, res){
+  userMaintenance.findOneById(
+    req.query.id,
+    function(err, theUser){
+      if (err) {
+        next(err);
+      } else {
+        if (theUser === null){
+          return res.render("edituser_error");
+        }
+        res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader( 'Pragma', 'no-cache' );
+        res.render("edituserpw", 
+          {id: theUser._id,
+           username: theUser.username,
+           displayname: theUser.displayname,
+           admin: (theUser.role === 'administrator'),
+           csrfToken: req.csrfToken()});
+      }
+  });
+});
+
+router.post("/edituserpw.html", csrfProtection, isAdministrator,
+    function(req, res){
+  console.log("username = " + req.body.username);
+
+  userMaintenance.updatePassword(
+    req.body.username,
+    req.body.password,
+    function(err, theUser){
+      if (err) {
+        next(err);
+      } else {
+        res.redirect("/admin/edituserpwresult.html");
+      }
+  });
+
+});
+
+router.get("/edituserpwresult.html", csrfProtection, isAdministrator,
+    function(req, res){
+  res.render("edituserpwresult", {csrfToken: req.csrfToken()});
+});
+
+
 module.exports = router;

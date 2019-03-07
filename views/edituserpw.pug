@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 ユーザーのパスワード変更
+  form(id='editUserForm', action='/admin/edituserpw.html', method='post', autocomplete='off')
+    fieldset
+      include csrf
+      p #{message}
+      p
+        input(type='hidden', name='username', value=username)
+      p
+        div.ui-field-contain
+          label(for='username-input') ユーザーID: 
+          label(id='username-input') #{username}
+      p
+        div.ui-field-contain
+          label(for='displayname-input') 表示用ユーザー名: 
+          label(id='displayname-input') #{displayname}
+      p
+        div.ui-field-contain
+          label(for='admin-input') 権限: 
+          if (admin)
+            label(id='admin-input') 管理者権限
+          else
+            label(id='admin-input') ナレッジ作成編集のみ
+      p
+        div.ui-field-contain
+          label(for='password-input') パスワード: 
+          input(id='password-input', type='password', name='password')
+      p
+        div.ui-field-contain
+          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/searchuserpw.html') ユーザー検索画面に戻る
+  p
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+  p
+    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
