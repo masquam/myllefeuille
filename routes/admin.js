@@ -200,10 +200,26 @@ router.get("/edit.html", csrfProtection, isLogined, function(req, res){
 
 });
 
+router.post("/edit.html", csrfProtection, isLogined, function(req, res){
+  console.log("POST edit.html start");
+  var url_parse = url.parse(req.url, true);
+  var id = Number(url_parse.query.id);
+  console.log("rendering: id=" + id);
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
+  res.render("edit",
+    { title: req.body.ktitle,
+      content: req.body.content,
+      id: id,
+      csrfToken: req.csrfToken()});
+});
+
 router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
   handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
     if (err) return console.error(err); 
+    res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader( 'Pragma', 'no-cache' );
     res.render("editconfirm", 
       {title: req.body.ktitle, content: req.body.content,
       csrfToken: req.csrfToken(), saveToken: objid, id: req.body.id});

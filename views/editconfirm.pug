@@ -5,7 +5,7 @@ block content
   p #{title}
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{content.replace(/[&"'<>]/g,function(c){return escapeMap.hasOwnProperty(c)?escapeMap[c]:c}).replace(/\r?\n|\r/g,"<br>")}
-  form(action='/admin/update.html', method='post')
+  form(id='form1', action='/admin/update.html', method='post')
     include csrf
     p
       input(type='hidden', name='id', value=id) 
@@ -18,14 +18,19 @@ block content
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
-    a.ui-btn.ui-btn-inline(href='/admin/edit.html?id=' + id) 戻る
+    button.ui-btn.ui-btn-inline(id='revertButton') 戻る
+    //a.ui-btn.ui-btn-inline(href='/admin/edit.html?id=' + id) 戻る
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
     a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
   script.
     (function () {
-      $("form").on("submit", function onsubmit (event) {
+      $("#form1").on("submit", function onsubmit (event) {
         $(this).off("submit", onsubmit).on("submit", false);
+      });
+      $('#revertButton').click(function() {
+        $("#form1").attr("action","/admin/edit.html?id=" + #{id});
+        $('#form1').submit();
       });
     })();
