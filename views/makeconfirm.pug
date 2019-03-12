@@ -4,7 +4,7 @@ block content
   h1 ナレッジ保存確認
   p #{title}
   p.ui-corner-all !{displaycontent}
-  form(action='/admin/save.html', method='post')
+  form(id='form1', action='/admin/save.html', method='post')
     include csrf
     p
       input(type='hidden', name='ktitle', value=title) 
@@ -15,7 +15,7 @@ block content
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p
-    a.ui-btn.ui-btn-inline(href='/admin/make.html') 戻る
+    button.ui-btn.ui-btn-inline(id='revertButton') 戻る
   p
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
   p
@@ -24,5 +24,9 @@ block content
     (function () {
       $("form").on("submit", function onsubmit (event) {
         $(this).off("submit", onsubmit).on("submit", false);
+      });
+      $('#revertButton').click(function() {
+        $("#form1").attr("action","/admin/make.html");
+        $('#form1').submit();
       });
     })();

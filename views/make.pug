@@ -6,10 +6,10 @@ block content
     include csrf
     p
       label タイトル: 
-      input(autofocus, name='ktitle', type='text')
+      input(autofocus, name='ktitle', type='text')&attributes({value: title})
     p
       label 内容: 
-      textarea(name='content')
+      textarea(name='content') #{content}
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
   p

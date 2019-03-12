@@ -41,13 +41,27 @@ router.get("/menu.html", isLogined, function(req, res){
 });
 
 router.get("/make.html", csrfProtection, isLogined, function(req, res){
+    res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader( 'Pragma', 'no-cache' );
     res.render("make", {csrfToken: req.csrfToken()});
+});
+
+router.post("/make.html", csrfProtection, isLogined, function(req, res){
+  // TODO: delete savetoken
+    res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader( 'Pragma', 'no-cache' );
+    res.render("make", 
+      {title: req.body.ktitle,
+       content: req.body.content,
+       csrfToken: req.csrfToken()});
 });
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
   handlesaveToken.generateAndSave("saveKnowledge", function(err, objid){
     if (err) return console.error(err); 
+    res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader( 'Pragma', 'no-cache' );
     res.render("makeconfirm", 
       {title: req.body.ktitle,
        content: req.body.content,
@@ -144,6 +158,8 @@ function renderSaveHtml(err, counterValue, req, res){
     console.log("counter update error.");
     next(err);
   }
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
   res.render("save", {content: counterValue.toString(), csrfToken: req.csrfToken()});
 }
 
