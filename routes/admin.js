@@ -47,13 +47,15 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
 });
 
 router.post("/make.html", csrfProtection, isLogined, function(req, res){
-  // TODO: delete savetoken
-    res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader( 'Pragma', 'no-cache' );
-    res.render("make", 
-      {title: req.body.ktitle,
-       content: req.body.content,
-       csrfToken: req.csrfToken()});
+  handlesaveToken.DeleteToken(req.body.saveToken, function(err, objid){
+    // nop
+  });
+  res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader( 'Pragma', 'no-cache' );
+  res.render("make", 
+    {title: req.body.ktitle,
+     content: req.body.content,
+     csrfToken: req.csrfToken()});
 });
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
