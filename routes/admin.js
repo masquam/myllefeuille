@@ -239,8 +239,11 @@ router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
     res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader( 'Pragma', 'no-cache' );
     res.render("editconfirm", 
-      {title: req.body.ktitle, content: req.body.content,
-      csrfToken: req.csrfToken(), saveToken: objid, id: req.body.id});
+      {title: req.body.ktitle,
+       content: req.body.content,
+       displaycontent: markup.getMarkedUpText(req.body.content),
+       csrfToken: req.csrfToken(),
+       saveToken: objid, id: req.body.id});
   });
 });
 
