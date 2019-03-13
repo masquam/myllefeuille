@@ -27,6 +27,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 var mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 var models = require('./models');
 mongoose.connect(dburi, {useNewUrlParser: true}, function(error) {
   if (error) {
