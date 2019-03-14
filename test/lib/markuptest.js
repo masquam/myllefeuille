@@ -80,4 +80,41 @@ describe('markup', function() {
     });
   });
 
+  describe('getMarkedUpText()', function() {
+    it('should return "##" with "{{{}}}"', function() {
+      assert.strictEqual(markup.getMarkedUpText("start{{{## title}}}\ndone"), "start## title<br>done");
+    });
+  });
+
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 1', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](http://localhost:3000/1.html)done"), "start<a href='http://localhost:3000/1.html'>link</a>done");
+    });
+  });
+
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 2', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](1.html)done"), "start<a href='1.html'>link</a>done");
+    });
+  });
+
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 3 - invalid scheme', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](javascript:alert('oops'))done"), "start<a href=''>link</a>done");
+    });
+  });
+
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 4 - linkstring escape', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[<b>link</b>](1.html)done"), "start<a href='1.html'>&lt;b&gt;link&lt;/b&gt;</a>done");
+    });
+  });
+
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 5 - includes &', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](1.html?a=1&b=2)done"), "start<a href='1.html?a=1&b=2'>link</a>done");
+    });
+  });
+
+
 });
