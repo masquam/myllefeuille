@@ -12,6 +12,14 @@ block content
       input(autofocus, name='ktitle', type='text')&attributes({value: title})
     p
       label 内容: 
+      button.ui-btn.ui-btn-inline(type='button', id='h2button') &lt;h2&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='h3button') &lt;h3&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='bbutton') &lt;b&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='ibutton') &lt;i&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='ulbutton') &lt;ul&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='olbutton') &lt;ol&gt;
+      a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline.ui-btn-a(href="#popupLink", data-rel="popup", data-transition="pop", data-position-to="window", id='abutton') Link
+      button.ui-btn.ui-btn-inline(type='button', id='codebutton') &lt;code&gt;
       textarea(name='content') #{content}
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
@@ -19,3 +27,80 @@ block content
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
   p
     a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+  div.ui-corner-all(id="popupLink", data-role="popup", data-theme="a", data-dismissible="false")
+    div(style="padding:10px 20px;")
+      h3 入力してください
+       label(for="str") 文字列:
+       input(name="str", id="str", type="text", value="", data-theme="a")
+       label(for="uri") URI:
+       input(name="uri", id="uri", type='url', value="", data-theme="a")
+       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') 挿入
+       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") キャンセル
+  script.
+    $('#h2button').click(function() {
+      insertTextarea('## ', '');
+    })
+    $('#h3button').click(function() {
+      insertTextarea('### ', '');
+    })
+    $('#bbutton').click(function() {
+      insertTextarea('**', '**');
+    })
+    $('#ibutton').click(function() {
+      insertTextarea('_', '_');
+    })
+    $('#ulbutton').click(function() {
+      insertTextarea2('* ');
+    })
+    $('#olbutton').click(function() {
+      insertTextarea2('1. ');
+    })
+    $('#abutton').click(function() {
+      var textarea = document.querySelector('textarea');
+      var pos_start = textarea.selectionStart;
+      var pos_end = textarea.selectionEnd;
+      var val = textarea.value;
+      var range = val.slice(pos_start, pos_end);
+      $('#str').val(range);
+    })
+    $('#ainsertbutton').click(function() {
+      insertTextarea3('[' + $('#str').val() +'](' + $('#uri').val()  + ')');
+    })
+    $('#codebutton').click(function() {
+      insertTextarea('~', '~');
+    })
+    function insertTextarea(before, after) {
+      var textarea = document.querySelector('textarea');
+      var pos_start = textarea.selectionStart;
+      var pos_end = textarea.selectionEnd;
+      var val = textarea.value;
+      var range = val.slice(pos_start, pos_end);
+      var beforeNode = val.slice(0, pos_start);
+      var afterNode = val.slice(pos_end);
+      var insertNode = before + range + after;
+      textarea.value = beforeNode + insertNode + afterNode;
+    }
+    function insertTextarea2(pre) {
+      var textarea = document.querySelector('textarea');
+      var pos_start = textarea.selectionStart;
+      var pos_end = textarea.selectionEnd;
+      var val = textarea.value;
+      var range = val.slice(pos_start, pos_end);
+      var beforeNode = val.slice(0, pos_start);
+      var afterNode = val.slice(pos_end);
+      var insertNode = pre + replaceAll(range, '\n', '\n' + pre);
+      textarea.value = beforeNode + insertNode + afterNode;
+    }
+    function replaceAll(str, before, after) {
+      return str.split(before).join(after);
+    };
+    function insertTextarea3(update) {
+      var textarea = document.querySelector('textarea');
+      var pos_start = textarea.selectionStart;
+      var pos_end = textarea.selectionEnd;
+      var val = textarea.value;
+      var range = val.slice(pos_start, pos_end);
+      var beforeNode = val.slice(0, pos_start);
+      var afterNode = val.slice(pos_end);
+      textarea.value = beforeNode + update + afterNode;
+    }
