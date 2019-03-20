@@ -17,6 +17,7 @@ block content
       button.ui-btn.ui-btn-inline(type='button', id='olbutton') &lt;ol&gt;
       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline.ui-btn-a(href="#popupLink", data-rel="popup", data-transition="pop", data-position-to="window", id='abutton') Link
       button.ui-btn.ui-btn-inline(type='button', id='codebutton') &lt;code&gt;
+      button.ui-btn.ui-btn-inline(type='button', id='nobutton') no markup
       textarea(id='content', name='content') #{content}
     p
       input.ui-btn.ui-btn-inline(type='submit', value='保存')
@@ -66,6 +67,9 @@ block content
     })
     $('#codebutton').click(function() {
       insertTextarea('~', '~');
+    })
+    $('#nobutton').click(function() {
+      insertTextarea('{{{', '}}}');
     })
     function insertTextarea(before, after) {
       var textarea = document.querySelector('textarea');
