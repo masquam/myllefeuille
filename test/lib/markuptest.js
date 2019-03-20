@@ -116,5 +116,15 @@ describe('markup', function() {
     });
   });
 
+  describe('getMarkedUpText()', function() {
+    it("should return <a> 6 - includes '", function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](1.html?a='&b=2)done"), "start<a href='1.html?a=&#39;&b=2'>link</a>done");
+    });
+  });
 
+  describe('getMarkedUpText()', function() {
+    it('should return <a> 7 - double', function() {
+      assert.strictEqual(markup.getMarkedUpText("start[link](http://localhost:3000/1.html)donestart[link](http://localhost:3000/1.html)done"), "start<a href='http://localhost:3000/1.html'>link</a>donestart<a href='http://localhost:3000/1.html'>link</a>done");
+    });
+  });
 });
