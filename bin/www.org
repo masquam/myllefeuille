@@ -4,42 +4,22 @@
  * Module dependencies.
  */
 
-var useHTTPS = true;
-
-var fs = require('fs');
 var app = require('../app');
 var debug = require('debug')('myllefeuille:server');
-
-if(useHTTPS) {
-  var https = require('https');
-} else {
-  var http = require('http');
-}
+var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-if(useHTTPS) {
-  var port = normalizePort(process.env.PORT || '443');
-} else {
-  var port = normalizePort(process.env.PORT || '3000');
-}
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-if(useHTTPS) {
-  var options = {
-    key:  fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
-    cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem')
-  };
-  var server = https.createServer(options, app);
-} else {
-  var server = http.createServer(app);
-}
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

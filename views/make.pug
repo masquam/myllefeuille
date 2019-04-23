@@ -16,6 +16,7 @@ block content
       button.ui-btn.ui-btn-inline(type='button', id='ulbutton') &lt;ul&gt;
       button.ui-btn.ui-btn-inline(type='button', id='olbutton') &lt;ol&gt;
       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline.ui-btn-a(href="#popupLink", data-rel="popup", data-transition="pop", data-position-to="window", id='abutton') Link
+      a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline.ui-btn-a(href="#popupLink_img", data-rel="popup", data-transition="pop", data-position-to="window", id='abutton_img') img
       button.ui-btn.ui-btn-inline(type='button', id='codebutton') &lt;code&gt;
       button.ui-btn.ui-btn-inline(type='button', id='nobutton') no markup
       textarea(id='content', name='content') #{content}
@@ -35,6 +36,13 @@ block content
        input(name="uri", id="uri", type='url', value="", data-theme="a")
        a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') 挿入
        a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") キャンセル
+  div.ui-corner-all(id="popupLink_img", data-role="popup", data-theme="a", data-dismissible="false")
+    form(id="uploadimageform")
+      div(style="padding:10px 20px;")
+        h3 アップロードする画像ファイルを指定してください
+        include csrf
+        input(type="file", name="upfile")
+        button(type="button", onclick="file_upload()") アップロード
   script.
     $('#h2button').click(function() {
       insertTextarea('## ', '');
@@ -105,4 +113,24 @@ block content
       var beforeNode = val.slice(0, pos_start);
       var afterNode = val.slice(pos_end);
       textarea.value = beforeNode + update + afterNode;
+    }
+    function file_upload()
+    {
+      var formdata = new FormData($('#uploadimageform').get()[0]);
+      $.ajax({
+        url  : "/admin/uploadimage",
+        type : "POST",
+        data : formdata,
+        cache       : false,
+        contentType : false,
+        processData : false,
+        headers: { "X-CSRF-Token" : "!{csrfToken}" },
+        dataType    : 'json'
+      })
+      .done(function(data, textStatus, jqXHR){
+        alert("upload succeeded");
+      })
+      .fail(function(jqXHR, textStatus, errorThrown){
+        alert("fail");
+      });
     }

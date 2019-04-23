@@ -1,12 +1,22 @@
-var csrf = require('csurf')
-var express = require('express');
-var bodyParser = require('body-parser')
+var express = require('express')
+var multer  = require('multer')
 var router = express.Router();
-var flash = require("connect-flash");
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/img')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+var upload = multer({ storage: storage }).single('upfile');
+var bodyParser = require('body-parser')
+var csrf = require('csurf')
+var flash = require("connect-flash")
 var passport = require('passport')
 var mongoose = require('mongoose')
-var url = require('url');
-;
+var url = require('url')
+
 var models = require('../models');
 var ngram = require('../lib/ngram');
 var handlesaveToken = require('../lib/handlesaveToken');
@@ -57,6 +67,20 @@ router.post("/make.html", csrfProtection, isLogined, function(req, res){
      content: req.body.content,
      csrfToken: req.csrfToken()});
 });
+
+router.post('/uploadimage', parseForm, isLogined, csrfProtection,
+    function (req, res) {
+  console.log("start upload image");
+  upload(req, res, function (err) {
+    if (err) {
+      console.log(err);
+      next(err);
+    }
+    // Everything went fine.
+    console.log("upload done: " + req.file.originalname);
+    res.send(JSON.stringify('Ok'));
+  })
+})
 
 router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
     function(req, res){
