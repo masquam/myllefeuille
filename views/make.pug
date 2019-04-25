@@ -36,14 +36,18 @@ block content
        input(name="uri", id="uri", type='url', value="", data-theme="a")
        a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') 挿入
        a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") キャンセル
-  div.ui-corner-all(id="popupLink_img", data-role="popup", data-theme="a", data-dismissible="false")
+  div.ui-corner-all(id="popupLink_img", data-role="popup", data-theme="a")
+    a.ui-btn-right(href="#", data-rel="back", data-role="button", data-theme="a", data-icon="delete", data-iconpos="notext") Close
     form(id="uploadimageform")
       div(style="padding:10px 20px;")
         h3 アップロードする画像ファイルを指定してください
         include csrf
-        input(type="file", name="upfile")
+        input(type="file", name="upfile", id="upfile")
         button(type="button", onclick="file_upload()") アップロード
+  div(id="popupUploading", data-role="popup")
+    p アップロード中...
   script.
+    var uploadfilename = "";
     $('#h2button').click(function() {
       insertTextarea('## ', '');
     })
@@ -116,6 +120,10 @@ block content
     }
     function file_upload()
     {
+      var tmparray = $('#upfile').val().split(/\\|\\/);
+      uploadfilename = tmparray[tmparray.length - 1];
+      $( "#popupLink_img" ).popup( "close" );
+      $( "#popupUploading" ).popup( "open" );
       var formdata = new FormData($('#uploadimageform').get()[0]);
       $.ajax({
         url  : "/admin/uploadimage",
@@ -128,9 +136,13 @@ block content
         dataType    : 'json'
       })
       .done(function(data, textStatus, jqXHR){
-        alert("upload succeeded");
+        $( "#popupUploading" ).popup( "close" );
+        alert("アップロードが完了しました。");
+        insertTextarea3('![](/img/' + uploadfilename  + ')');
+
       })
       .fail(function(jqXHR, textStatus, errorThrown){
-        alert("fail");
+        $( "#popupUploading" ).popup( "close" );
+        alert("アップロードに失敗しました。");
       });
     }

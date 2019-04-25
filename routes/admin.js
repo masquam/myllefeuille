@@ -9,13 +9,25 @@ var storage = multer.diskStorage({
     cb(null, file.originalname)
   }
 })
-var upload = multer({ storage: storage }).single('upfile');
+var upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    console.log("file.originalname = " + file.originalname);
+    var ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+      console.log("invalid upload file");
+      return cb(new Error('invalid upload file'));
+    }
+    cb(null, true);
+  }
+}).single('upfile');
 var bodyParser = require('body-parser')
 var csrf = require('csurf')
 var flash = require("connect-flash")
 var passport = require('passport')
 var mongoose = require('mongoose')
 var url = require('url')
+const path = require('path');
 
 var models = require('../models');
 var ngram = require('../lib/ngram');
@@ -69,16 +81,17 @@ router.post("/make.html", csrfProtection, isLogined, function(req, res){
 });
 
 router.post('/uploadimage', parseForm, isLogined, csrfProtection,
-    function (req, res) {
+    function (req, res, next) {
   console.log("start upload image");
   upload(req, res, function (err) {
     if (err) {
       console.log(err);
       next(err);
+    } else {
+      // Everything went fine.
+      console.log("upload done: " + req.file.originalname);
+      res.send(JSON.stringify('Ok'));
     }
-    // Everything went fine.
-    console.log("upload done: " + req.file.originalname);
-    res.send(JSON.stringify('Ok'));
   })
 })
 
