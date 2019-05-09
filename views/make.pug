@@ -5,6 +5,8 @@ block content
   form(action='/admin/makeconfirm.html', method='post')
     include csrf
     p
+      input(type='hidden', name='directory', value=directory) 
+    p
       label タイトル: 
       input(autofocus, name='ktitle', type='text')&attributes({value: title})
     p
