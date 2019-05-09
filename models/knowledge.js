@@ -10,7 +10,8 @@ let knowledgeSchema = new mongoose.Schema({
   author: String,
   timestamp: { type: Date, default: Date.now },
   accesscount: Number,
-  like: Number
+  like: Number,
+  imgdir: String
 })
 
 module.exports = mongoose.model('Knowledge', knowledgeSchema);

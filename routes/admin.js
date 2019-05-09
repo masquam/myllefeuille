@@ -7,9 +7,14 @@ var storage = multer.diskStorage({
     console.log("multer.diskStorage directory = " + req.body.directory);
     fs.mkdir('./public/img/' + req.body.directory, function(err){
       if (err) {
-        return console.error(err);
+        if (err.code === 'EEXIST') {
+          console.log("Directory already exists.");
+          //cb(null, './public/img/' + req.body.directory);
+        } else {
+          return console.error(err);
+        }
       }
-      console.log("Directory created successfully");
+      console.log("Directory created successfully.");
       cb(null, './public/img/' + req.body.directory)
     });
   },
@@ -165,6 +170,7 @@ function executeSave(err, counterValue, req, res){
     req.body.ktitle,
     req.body.content.substring(0, 80),
     req.user.username,
+    req.body.directory,
     function(err, theKnowledge){
       if (err) {
         next(err);
@@ -263,6 +269,7 @@ router.get("/edit.html", csrfProtection, isLogined, function(req, res){
           { title: knowledge.title,
             content: knowledgeContent.content,
             id: id,
+            directory: knowledge.imgdir,
             csrfToken: req.csrfToken()});
       }
   });
@@ -280,6 +287,7 @@ router.post("/edit.html", csrfProtection, isLogined, function(req, res){
     { title: req.body.ktitle,
       content: req.body.content,
       id: id,
+      directory: req.body.directory,
       csrfToken: req.csrfToken()});
 });
 
@@ -293,6 +301,7 @@ router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
       {title: req.body.ktitle,
        content: req.body.content,
        displaycontent: markup.getMarkedUpText(req.body.content),
+       directory: req.body.directory,
        csrfToken: req.csrfToken(),
        saveToken: objid, id: req.body.id});
   });
@@ -333,6 +342,7 @@ function executeUpdate(err, req, res){
     req.body.ktitle,
     req.body.content.substring(0, 80),
     req.user.username,
+    req.body.directory,
     function(err, theKnowledge){
       if (err) {
         next(err);

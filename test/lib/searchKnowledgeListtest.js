@@ -29,6 +29,7 @@ describe("searchKnowledgeList", function() {
               "test title",
               "content summary",
               "author",
+              "5cd390421950e333383d9c56",
               function(err, theKnowledge){
                 if (err) done(err);
                 saveKnowledge.saveKnowledgeContent(

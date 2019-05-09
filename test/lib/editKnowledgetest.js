@@ -39,6 +39,7 @@ function saveTestData1(done){
     "test title",
     "content summary",
     "author",
+    "5cd390421950e333383d9c56",
     function(err, theKnowledge){
       if (err) done(err);
 
@@ -84,6 +85,7 @@ function saveTestData1(done){
           "updated test title",
           "updated content summary",
           "updated author",
+          "5cd390421950e333383d9c56",
           function(err, theKnowledge){
             if (err) {
               assert.fail();
