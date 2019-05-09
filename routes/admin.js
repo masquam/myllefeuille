@@ -1,9 +1,17 @@
+var fs = require('fs');
 var express = require('express')
 var multer  = require('multer')
 var router = express.Router();
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/img')
+    console.log("multer.diskStorage directory = " + req.body.directory);
+    fs.mkdir('./public/img/' + req.body.directory, function(err){
+      if (err) {
+        return console.error(err);
+      }
+      console.log("Directory created successfully");
+      cb(null, './public/img/' + req.body.directory)
+    });
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -65,7 +73,9 @@ router.get("/menu.html", isLogined, function(req, res){
 router.get("/make.html", csrfProtection, isLogined, function(req, res){
     res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader( 'Pragma', 'no-cache' );
-    res.render("make", {csrfToken: req.csrfToken()});
+    res.render("make", 
+      {directory: mongoose.Types.ObjectId(),
+       csrfToken: req.csrfToken()});
 });
 
 router.post("/make.html", csrfProtection, isLogined, function(req, res){
@@ -77,12 +87,14 @@ router.post("/make.html", csrfProtection, isLogined, function(req, res){
   res.render("make", 
     {title: req.body.ktitle,
      content: req.body.content,
+     directory: req.body.directory,
      csrfToken: req.csrfToken()});
 });
 
 router.post('/uploadimage', parseForm, isLogined, csrfProtection,
     function (req, res, next) {
   console.log("start upload image");
+  console.log("directory = " + req.body.directory);
   upload(req, res, function (err) {
     if (err) {
       console.log(err);
