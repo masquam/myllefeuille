@@ -2,7 +2,9 @@ const config = {
   app: {
     useHTTPS: true,
     key: '/etc/ssl/private/ssl-cert-snakeoil.key',
-    cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+    cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+    httpsport: '443',
+    httpport: '3000'
   },
   dbconf: {
     host: 'localhost',

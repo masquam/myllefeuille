@@ -22,9 +22,9 @@ if(useHTTPS) {
  */
 
 if(useHTTPS) {
-  var port = normalizePort(process.env.PORT || '443');
+  var port = normalizePort(process.env.PORT || config.app.httpsport );
 } else {
-  var port = normalizePort(process.env.PORT || '3000');
+  var port = normalizePort(process.env.PORT || config.app.httpport );
 }
 app.set('port', port);
 
