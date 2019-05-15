@@ -6,6 +6,9 @@ var url = require('url');
 var ngram = require('../lib/ngram');
 var searchKnowledgeList = require('../lib/searchKnowledgeList');
 
+const config = require('../config/config');
+const resourcefile = config.resource.file;
+const resource = require('../config/' + resourcefile);
 
 router.get('/', function(req, res, next) {
   console.log("search.js start");
@@ -23,7 +26,10 @@ router.get('/', function(req, res, next) {
         console.log("rendering search.html...");
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
-        res.render('search', {docs: listKnowledge, searchstring: searchstring});      }
+        res.render('search', {docs: listKnowledge,
+                              searchstring: url_parse.query.searchstring,
+                              resource: resource.search });
+      }
     });
 });
 

@@ -13,7 +13,14 @@ const resource = {
     knowledgeNo: 'ナレッジ #',
     lastUpdate: '最終更新日時: ',
     author: '著者: ',
-    toppage: 'トップページ'
+    topPage: 'トップページ'
+  },
+  search: {
+    searchResult: '検索結果',
+    searchString: '検索文字列: ',
+    noKnowledges: '該当するナレッジがありません。',
+    more: 'もっと表示',
+    topPage: 'トップページ'
   }
 };
 

@@ -2,10 +2,10 @@ extends layout
 
 block content
   p
-    h2 検索結果
-  p 検索文字列: #{searchstring}
+    h2 #{resource.searchResult}
+  p #{resource.searchString} #{searchstring}
   if Object.keys(docs).length == 0
-    p 該当するナレッジがありません。
+    p #{resource.noKnowledges}
   else
     ul.listView(data-role='listview')
       each doc in docs
@@ -16,8 +16,8 @@ block content
               document.write("<p style='font-size: 0.8em;'>" + new Date(Date.parse("#{doc.timestamp}")).toLocaleString() + "</p>")
             p(style='font-size: 0.8em;') #{doc.author}
   p
-    a.ui-btn.more(href='#', style='display: none') もっと表示
-  a.ui-btn.ui-btn-inline(href='/') トップページ
+    a.ui-btn.more(href='#', style='display: none') #{resource.more}
+  a.ui-btn.ui-btn-inline(href='/') #{resource.topPage}
   script.
     var url = '/searchAjax.json';
     var skipcount = 5;
