@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
         next(err);
       }
       renderIndex(err, docs, res);
-    }).sort({_id: -1}).limit(5);
+    }).sort({timestamp: -1}).limit(5);
 });
 
 function renderIndex(err, docs, res){
