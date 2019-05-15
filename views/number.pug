@@ -4,6 +4,8 @@ block content
   p
   h3 ナレッジ # #{id}
   h1 #{title}
+  script.
+    document.write("<p>" + "最終更新日時：" + new Date(Date.parse("#{timestamp}")).toLocaleString() + "</p>")
   p.ui-corner-all !{content}
-  p #{author}
+  p 著者： #{author}
   a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') トップページ

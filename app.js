@@ -110,7 +110,8 @@ app.get('/:page.html', function(req, res, next) {
             { id: id,
               title: knowledge.title,
               content: markup.getMarkedUpText(knowledgeContent.content),
-              author: knowledge.author });
+              author: knowledge.author,
+              timestamp: knowledge.timestamp });
         }
     });
   }
