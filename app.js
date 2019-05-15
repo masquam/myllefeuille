@@ -1,7 +1,6 @@
 const config = require('./config/config');
-const { db: { host, port, name } } = config;
+const { dbconf: { host, port, name } } = config;
 const dburi = `mongodb://${host}:${port}/${name}`;
-//var dburi = "mongodb://localhost:27017/myllefeuille";
 
 var createError = require('http-errors');
 var express = require('express');

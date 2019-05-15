@@ -8,8 +8,12 @@ var getHash = function(target){
             sha.update(target);
                 return sha.digest("hex");
 };
+const config = require('../config/config');
+const { dbconf: { host, port, name } } = config;
+const dburi = `mongodb://${host}:${port}/${name}`;
+
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/myllefeuille', {useNewUrlParser: true});
+mongoose.connect(dburi, {useNewUrlParser: true});
 
 var db = mongoose.connection; 
 
