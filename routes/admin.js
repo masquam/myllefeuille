@@ -341,6 +341,7 @@ function executeUpdate(err, req, res){
     1, // TODO: version number update
     req.body.ktitle,
     req.body.content.substring(0, 80),
+    Date.now(),
     req.user.username,
     req.body.directory,
     function(err, theKnowledge){

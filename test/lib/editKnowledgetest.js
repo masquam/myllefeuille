@@ -84,6 +84,7 @@ function saveTestData1(done){
           1,
           "updated test title",
           "updated content summary",
+          Date.now(),
           "updated author",
           "5cd390421950e333383d9c56",
           function(err, theKnowledge){
