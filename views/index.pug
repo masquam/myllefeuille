@@ -21,7 +21,7 @@ block content
       each doc in docs
         li
           a(href=`${doc.id}.html`)
-            div(style='font-size: 1.2em; white-space: pre-wrap; ') #{doc.title}
+            h3 #{doc.title}
             script.
               document.write("<p style='font-size: 0.8em;'>" + new Date(Date.parse("#{doc.timestamp}")).toLocaleString() + "</p>")
             p(style='font-size: 0.8em;') #{doc.author}
