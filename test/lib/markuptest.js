@@ -131,7 +131,7 @@ describe('markup', function() {
 
   describe('getMarkedUpText()', function() {
     it('should return <img> 1', function() {
-      assert.strictEqual(markup.getMarkedUpText("start![](http://localhost:3000/1.png)done"), "start<img src='http://localhost:3000/1.png' alt='' />done");
+      assert.strictEqual(markup.getMarkedUpText("start![](http://localhost:3000/1.png)done"), "start<img class='mylimg' src='http://localhost:3000/1.png' alt='' />done");
     });
   });
 
