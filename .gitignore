@@ -1,3 +1,6 @@
+# configuration
+config/config.js
+
 # uploading image
 public/img/
 

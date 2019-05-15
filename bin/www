@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var useHTTPS = true;
+const config = require('../config/config');
+var useHTTPS = config.app.useHTTPS;
 
 var fs = require('fs');
 var app = require('../app');
@@ -33,8 +34,8 @@ app.set('port', port);
 
 if(useHTTPS) {
   var options = {
-    key:  fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
-    cert: fs.readFileSync('/etc/ssl/certs/ssl-cert-snakeoil.pem')
+    key:  fs.readFileSync(config.app.key),
+    cert: fs.readFileSync(config.app.cert)
   };
   var server = https.createServer(options, app);
 } else {
