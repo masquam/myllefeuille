@@ -10,6 +10,9 @@ const config = {
     host: 'localhost',
     port: 27017,
     name: 'myllefeuille'
+  },
+  resource: {
+    file: 'resource-ja.js'
   }
 };
 

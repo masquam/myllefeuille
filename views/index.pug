@@ -2,20 +2,20 @@ extends layout
 
 block content
   p
-  p Welcome to myllefeuille, a tiny knowledge management system
+  p #{resource.welcome}
   p
-    h2 検索
+    h2 #{resource.search}
   form(action='/search.html', method='get')
     fieldset(class='ui-grid-a')
       div(class='ui-block-a', style='width:60%')
         input(autofocus, id='searchinput', type='search', name='searchstring', size='30', maxlength='255', style='height: 44px' )
       div(class='ui-block-b', style='width:40%')
-        input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
+        input.ui-btn(type='submit', value=`${resource.search}`, data-inline='true', data-icon='search')
 
   p
-    h2 新着情報
+    h2 #{resource.newArrival}
   if Object.keys(docs).length == 0
-    p 該当するナレッジがありません。
+    p #{resource.noKnowledges}
   else
     ul.listView(data-role='listview')
       each doc in docs
@@ -26,11 +26,11 @@ block content
               document.write("<p style='font-size: 0.8em;'>" + new Date(Date.parse("#{doc.timestamp}")).toLocaleString() + "</p>")
             p(style='font-size: 0.8em;') #{doc.author}
   p
-    a.ui-btn.ui-icon-carat-d.ui-btn-icon-bottom.more(href='#', style='display: none') もっと表示
+    a.ui-btn.ui-icon-carat-d.ui-btn-icon-bottom.more(href='#', style='display: none') #{resource.more}
   p
-    h2 メニュー
-  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') リロード
-  a.ui-btn.ui-btn-inline.ui-icon-lock.ui-btn-icon-left(href='/login.html') ログイン
+    h2 #{resource.menu}
+  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') #{resource.reload}
+  a.ui-btn.ui-btn-inline.ui-icon-lock.ui-btn-icon-left(href='/login.html') #{resource.login}
   script.
     $(document).bind('pageshow', function() {
       $('#searchinput').focus();
