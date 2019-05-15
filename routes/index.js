@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   var Knowledge = models('Knowledge');
   Knowledge.find(
     {},
-    '_id id title content_summary author accesscount like',
+    '_id id title timestamp author accesscount like',
     function (err, docs) {
       if (err) {
         console.log('index.html find error');

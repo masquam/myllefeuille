@@ -8,6 +8,7 @@ let knowledgeSchema = new mongoose.Schema({
   title: String,
   content_summary: String,
   author: String,
+  createdate: { type: Date, default: Date.now },
   timestamp: { type: Date, default: Date.now },
   accesscount: Number,
   like: Number,
