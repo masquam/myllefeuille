@@ -2,10 +2,10 @@ extends layout-code
 
 block content
   p
-  h3 ナレッジ # #{id}
+  h3 #{resource.knowledgeNo} #{id}
   h1 #{title}
   script.
-    document.write("<p>" + "最終更新日時：" + new Date(Date.parse("#{timestamp}")).toLocaleString() + "</p>")
+    document.write("<p>" + "#{resource.lastUpdate}" + new Date(Date.parse("#{timestamp}")).toLocaleString() + "</p>")
   p.ui-corner-all !{content}
-  p 著者： #{author}
-  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') トップページ
+  p #{resource.author} #{author}
+  a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') #{resource.toppage}

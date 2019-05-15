@@ -8,6 +8,12 @@ const resource = {
     menu: 'メニュー',
     reload: 'リロード',
     login: 'ログイン'
+  },
+  number: {
+    knowledgeNo: 'ナレッジ #',
+    lastUpdate: '最終更新日時: ',
+    author: '著者: ',
+    toppage: 'トップページ'
   }
 };
 

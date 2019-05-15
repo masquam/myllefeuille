@@ -2,6 +2,9 @@ const config = require('./config/config');
 const { dbconf: { host, port, name } } = config;
 const dburi = `mongodb://${host}:${port}/${name}`;
 
+const resourcefile = config.resource.file;
+const resource = require('./config/' + resourcefile);
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -108,12 +111,14 @@ app.get('/:page.html', function(req, res, next) {
           next(err);
         } else {
           console.log("rendering: id=" + id);
+          //console.log(resource.number);
           res.render('number', 
             { id: id,
               title: knowledge.title,
               content: markup.getMarkedUpText(knowledgeContent.content),
               author: knowledge.author,
-              timestamp: knowledge.timestamp });
+              timestamp: knowledge.timestamp,
+              resource: resource.number });
         }
     });
   }
