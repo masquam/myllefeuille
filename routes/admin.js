@@ -493,7 +493,7 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
         next(err);
       } else {
         if (theUser === null){
-          return res.render("edituser_error");
+          return res.render("edituser_error", {resource: resource.edituser_error});
         }
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );

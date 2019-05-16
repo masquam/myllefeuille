@@ -106,6 +106,12 @@ const resource = {
     backToUserSearch: 'ユーザー検索画面に戻る',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  edituser_error: {
+    error: 'エラー',
+    userNotFound: 'ユーザーが見つかりませんでした。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
