@@ -2,7 +2,7 @@ extends layout
 
 block content
   p
-  h1 編集対象ナレッジの検索
+  h1 #{resource.searchKnowledgeToEdit}
   p
   form(action='/admin/selectresult.html', method='post')
     include csrf
@@ -10,11 +10,11 @@ block content
       div(class='ui-block-a', style='width:60%')
         input(autofocus, id='searchinput', type='search', name='searchstring', size='30', maxlength='255', style='height: 44px' )
       div(class='ui-block-b', style='width:40%')
-        input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
+        input.ui-btn(type='submit', value=`${resource.search}`, data-inline='true', data-icon='search')
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
   script.
     $(document).bind('pageshow', function() {
       $('#searchinput').focus();

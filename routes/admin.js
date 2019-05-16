@@ -233,7 +233,8 @@ function renderSaveHtml(err, counterValue, req, res){
 }
 
 router.get("/select.html", csrfProtection, isLogined, function(req, res){
-    res.render("select", {csrfToken: req.csrfToken()});
+    res.render("select", {csrfToken: req.csrfToken(),
+                          resource: resource.select});
 });
 
 router.get("/selectresult.html", csrfProtection, isLogined, function(req, res){

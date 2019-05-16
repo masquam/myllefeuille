@@ -207,6 +207,13 @@ const resource = {
     userNotFound: '該当するユーザーがありません。',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  select: {
+    searchKnowledgeToEdit: '編集対象ナレッジの検索',
+    search: '検索',
+    searchResult: '検索結果',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
