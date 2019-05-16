@@ -1,17 +1,17 @@
 extends layout
 
 block content
-  h1 管理メニュー
-  p ユーザー名: #{user.displayname}
+  h1 #{resource.adminMenu}
+  p #{resource.userName} #{user.displayname}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/make.html') ナレッジ作成
-    a.ui-btn.ui-btn-inline(href='/admin/select.html') ナレッジ編集
+    a.ui-btn.ui-btn-inline(href='/admin/make.html') #{resource.createKnowledge}
+    a.ui-btn.ui-btn-inline(href='/admin/select.html') #{resource.editKnowledge}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/changepw.html') パスワード変更
+    a.ui-btn.ui-btn-inline(href='/admin/changepw.html') #{resource.changePassword}
   if user.role === 'administrator'
     p
-      a.ui-btn.ui-btn-inline(href='/admin/createuser.html') ユーザー作成
-      a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') ユーザー編集
-      a.ui-btn.ui-btn-inline(href='/admin/searchuserpw.html') ユーザーのパスワード変更
+      a.ui-btn.ui-btn-inline(href='/admin/createuser.html') #{resource.createUser}
+      a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') #{resource.editUser}
+      a.ui-btn.ui-btn-inline(href='/admin/searchuserpw.html') #{resource.changePasswordOfAUser}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}

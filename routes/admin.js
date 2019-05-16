@@ -74,7 +74,8 @@ var isAdministrator = function(req, res, next){
 };
 
 router.get("/menu.html", isLogined, function(req, res){
-    res.render("menu", {user: req.user});
+    res.render("menu", {user: req.user, 
+                        resource: resource.menu });
 });
 
 router.get("/make.html", csrfProtection, isLogined, function(req, res){

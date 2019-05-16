@@ -164,7 +164,17 @@ const resource = {
     menu: 'メニュー',
     logout: 'ログアウト'
   },
-
+  menu: {
+    adminMenu: '管理メニュー',
+    userName: 'ユーザー名:',
+    createKnowledge: 'ナレッジ作成',
+    editKnowledge: 'ナレッジ編集',
+    changePassword: 'パスワード変更',
+    createUser: 'ユーザー作成',
+    editUser: 'ユーザー編集',
+    changePasswordOfAUser: 'ユーザーのパスワード変更',
+    logout: 'ログアウト'
+  }
 };
 
 module.exports = resource;
