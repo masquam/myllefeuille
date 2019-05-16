@@ -1,9 +1,9 @@
 extends layout
 
 block content
-  h1 ユーザーを作成
-  p ユーザーを作成しました。
+  h1 #{resource.saveUser}
+  p #{resource.saveUserMessage}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}

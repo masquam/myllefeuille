@@ -1,9 +1,9 @@
 extends layout
 
 block content
-  h1 パスワードを保存
-  p パスワードを変更しました。
+  h1 #{resource.savePassword}
+  p #{resource.savePasswordMessage}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}

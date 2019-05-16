@@ -6,6 +6,8 @@ var router = express.Router();
 const config = require('../config/config');
 const resourcefile = config.resource.file;
 const resource = require('../config/' + resourcefile);
+const { dbconf: { host, port, name } } = config;
+const dburi = `mongodb://${host}:${port}/${name}`;
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -225,7 +227,9 @@ function renderSaveHtml(err, counterValue, req, res){
   }
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render("save", {content: counterValue.toString(), csrfToken: req.csrfToken()});
+  res.render("save", {content: counterValue.toString(),
+                      csrfToken: req.csrfToken(),
+                      resource: resource.save });
 }
 
 router.get("/select.html", csrfProtection, isLogined, function(req, res){
@@ -418,7 +422,8 @@ router.post("/changepw.html", csrfProtection, isLogined, function(req, res){
 });
 
 router.get("/savepw.html", csrfProtection, isLogined, function(req, res){
-  res.render("savepw", {csrfToken: req.csrfToken()});
+  res.render("savepw", {csrfToken: req.csrfToken(),
+                        resource: resource.savepw });
 });
 
 router.get("/createuser.html", csrfProtection, isAdministrator,
@@ -461,7 +466,8 @@ router.post("/createuser.html", csrfProtection, isAdministrator,
 
 router.get("/saveuser.html", csrfProtection, isAdministrator,
     function(req, res){
-  res.render("saveuser", {csrfToken: req.csrfToken()});
+  res.render("saveuser", {csrfToken: req.csrfToken(),
+                          resource: resource.saveuser });
 });
 
 

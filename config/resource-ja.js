@@ -174,6 +174,23 @@ const resource = {
     editUser: 'ユーザー編集',
     changePasswordOfAUser: 'ユーザーのパスワード変更',
     logout: 'ログアウト'
+  },
+  save: {
+    saveKnowledge: 'ナレッジを保存しました',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
+  },
+  savepw: {
+    savePassword: 'パスワードを保存',
+    savePasswordMessage: 'パスワードを変更しました。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
+  },
+  saveuser: {
+    saveUser: 'ユーザーを作成',
+    saveUserMessage: 'ユーザーを作成しました。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
