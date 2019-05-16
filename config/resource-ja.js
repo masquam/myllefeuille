@@ -112,6 +112,19 @@ const resource = {
     userNotFound: 'ユーザーが見つかりませんでした。',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  edituserpw: {
+    changePasswordOfAUser: 'ユーザーのパスワード変更',
+    userId: 'ユーザーID: ',
+    displayName: '表示用ユーザー名: ',
+    authority: '権限: ',
+    adminAuthority: '管理者権限',
+    onlyCreateEditKnowledges: 'ナレッジ作成編集のみ',
+    password: 'パスワード: ',
+    save: '保存',
+    backToUserSearch: 'ユーザー検索画面に戻る',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 

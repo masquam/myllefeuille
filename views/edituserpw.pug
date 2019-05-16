@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 ユーザーのパスワード変更
+  h1 #{resource.changePasswordOfAUser}
   form(id='editUserForm', action='/admin/edituserpw.html', method='post', autocomplete='off')
     fieldset
       include csrf
@@ -10,29 +10,29 @@ block content
         input(type='hidden', name='username', value=username)
       p
         div.ui-field-contain
-          label(for='username-input') ユーザーID: 
+          label(for='username-input') #{resource.userId}
           label(id='username-input') #{username}
       p
         div.ui-field-contain
-          label(for='displayname-input') 表示用ユーザー名: 
+          label(for='displayname-input') #{resource.displayName}
           label(id='displayname-input') #{displayname}
       p
         div.ui-field-contain
-          label(for='admin-input') 権限: 
+          label(for='admin-input') #{resource.authority}
           if (admin)
-            label(id='admin-input') 管理者権限
+            label(id='admin-input') #{resource.adminAuthority}
           else
-            label(id='admin-input') ナレッジ作成編集のみ
+            label(id='admin-input') #{resource.onlyCreateEditKnowledges}
       p
         div.ui-field-contain
-          label(for='password-input') パスワード: 
+          label(for='password-input') #{resource.password}
           input(autofocus, id='password-input', type='password', name='password')
       p
         div.ui-field-contain
-          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
+          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value=`${resource.save}`)
   p
-    a.ui-btn.ui-btn-inline(href='/admin/searchuserpw.html') ユーザー検索画面に戻る
+    a.ui-btn.ui-btn-inline(href='/admin/searchuserpw.html') #{resource.backToUserSearch}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
