@@ -418,7 +418,8 @@ router.get("/createuser.html", csrfProtection, isAdministrator,
     function(req, res){
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render("createuser", {csrfToken: req.csrfToken()});
+  res.render("createuser", {csrfToken: req.csrfToken(),
+                            resource: resource.createuser });
 });
 
 router.post("/createuser.html", csrfProtection, isAdministrator,

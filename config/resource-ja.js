@@ -42,6 +42,22 @@ const resource = {
     adminMenu: '管理メニュー',
     logout: 'ログアウト',
     notSatisfiedPasswordPolicy: 'パスワード・ポリシーを満たしていません'
+  },
+  createuser: {
+    createUser: 'ユーザーの作成',
+    userId: 'ユーザーID: ',
+    displayName: '表示用ユーザー名: ',
+    password: 'パスワード: ',
+    grantAdmin: '管理者(ユーザーメンテナンス)権限を付与',
+    create: '作成',
+    passwordPolicy: 'パスワード・ポリシー',
+    passwordPolicy1: '8文字以上100文字まで',
+    passwordPolicy2: '英大文字と英小文字を含む',
+    passwordPolicy3: '数字を含む',
+    passwordPolicy4: 'シンボルを含む',
+    passwordPolicy5: '空白を含まない',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
