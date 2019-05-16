@@ -502,7 +502,8 @@ router.get("/edituser.html", csrfProtection, isAdministrator,
            username: theUser.username,
            displayname: theUser.displayname,
            admin: (theUser.role === 'administrator'),
-           csrfToken: req.csrfToken()});
+           csrfToken: req.csrfToken(), 
+           resource: resource.edituser});
       }
   });
 });

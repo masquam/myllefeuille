@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 ユーザーの編集
+  h1 #{resource.editUser}
   form(id='editUserForm', action='/admin/edituser.html', method='post', autocomplete='off')
     fieldset
       include csrf
@@ -12,35 +12,35 @@ block content
         input(type='hidden', name='id', value=id)
       p
         div.ui-field-contain
-          label(for='username-input') ユーザーID: 
+          label(for='username-input') #{resource.userId}
           label(id='username-input') #{username}
       p
         div.ui-field-contain
-          label(for='displayname-input') 表示用ユーザー名: 
+          label(for='displayname-input') #{resource.displayName}
           input(autofocus, id='displayname-input', type='text', name='displayname')&attributes({value: displayname})
       p
         div.ui-field-contain
-          label(for='admin-input') 管理者(ユーザーメンテナンス)権限を付与 
+          label(for='admin-input') #{resource.grantAdmin}
           input(id='admin-input', type='checkbox', name='admin')&attributes({checked: admin})
       p
         div.ui-field-contain
-          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value='保存')
+          input.ui-btn.ui-btn-inline(id='edituser-submit', name='edituser-submit',type='submit', value=`${resource.save}`)
       p
         div.ui-field-contain
-          a.ui-btn.ui-corner-all.ui-icon-delete.ui-btn-icon-left(href='#popupdialog', data-transition='pop', data-rel='popup', data-position-to='window') 削除
+          a.ui-btn.ui-corner-all.ui-icon-delete.ui-btn-icon-left(href='#popupdialog', data-transition='pop', data-rel='popup', data-position-to='window') #{resource.delete}
   div(id='popupdialog', data-role='popup', data-overlay-theme='b', data-dismissible='false', data-history='false')
     div(data-role='header', data-theme='b')
-      h1 削除の確認
+      h1 #{resource.confirmOfDelete}
     div.ui-content(role='main')
-      p ユーザーを削除してよろしいですか？
-      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserOk') はい
-      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-transition='flow', data-rel='back', id='deleteuserNg') いいえ
+      p #{resource.areYouSureYouWantToDeleteTheUser}
+      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-rel='back', id='deleteuserOk') #{resource.yes}
+      a.ui-btn.ui-corner-all.ui-btn-inline(href='#', data-transition='flow', data-rel='back', id='deleteuserNg') #{resource.no}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') ユーザー検索画面に戻る
+    a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') #{resource.backToUserSearch}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
   script.
     $(function(){
       $('#deleteuserOk').on('click', function(){

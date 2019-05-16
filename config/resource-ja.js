@@ -91,6 +91,21 @@ const resource = {
     back: '戻る',
     menu: 'メニュー',
     logout: 'ログアウト'
+  },
+  edituser: {
+    editUser: 'ユーザーの編集',
+    userId: 'ユーザーID: ',
+    displayName: '表示用ユーザー名: ',
+    grantAdmin: '管理者(ユーザーメンテナンス)権限を付与',
+    save: '保存',
+    delete: '削除',
+    confirmOfDelete: '削除の確認',
+    areYouSureYouWantToDeleteTheUser: 'ユーザーを削除してよろしいですか？',
+    yes: 'はい',
+    no: 'いいえ',
+    backToUserSearch: 'ユーザー検索画面に戻る',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
