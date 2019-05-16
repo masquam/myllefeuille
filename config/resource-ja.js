@@ -84,6 +84,13 @@ const resource = {
     uploading: 'アップロード中...',
     uploadedSuccessfully: 'アップロードが完了しました。',
     failedToUpload: 'アップロードに失敗しました。'
+  },
+  editconfirm: {
+    confirmEdit: 'ナレッジ編集確認',
+    save: '保存',
+    back: '戻る',
+    menu: 'メニュー',
+    logout: 'ログアウト'
   }
 };
 

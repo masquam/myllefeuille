@@ -1,7 +1,7 @@
 extends layout-code
 
 block content
-  h1 ナレッジ編集確認
+  h1 #{resource.confirmEdit}
   p #{title}
   - var escapeMap = {'&':'&amp;', '\'':'&#39;', '"':'&quot;', '<':'&lt;', '>':'&gt;'};
   p.ui-corner-all !{displaycontent}
@@ -18,13 +18,13 @@ block content
     p
       input(type='hidden', name='saveToken', value=saveToken) 
     p
-      input.ui-btn.ui-btn-inline(type='submit', value='保存')
+      input.ui-btn.ui-btn-inline(type='submit', value=`${resource.save}`)
   p
-    button.ui-btn.ui-btn-inline(id='revertButton') 戻る
+    button.ui-btn.ui-btn-inline(id='revertButton') #{resource.back}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.menu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
   script.
     (function () {
       $("#form1").on("submit", function onsubmit (event) {

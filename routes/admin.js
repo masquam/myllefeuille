@@ -307,7 +307,8 @@ router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
        displaycontent: markup.getMarkedUpText(req.body.content),
        directory: req.body.directory,
        csrfToken: req.csrfToken(),
-       saveToken: objid, id: req.body.id});
+       saveToken: objid, id: req.body.id,
+       resource: resource.editconfirm });
   });
 });
 
