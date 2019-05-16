@@ -31,7 +31,8 @@ block content
     a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
     a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
-  div.ui-corner-all(id="popupLink", data-role="popup", data-theme="a", data-dismissible="false")
+  div.ui-corner-all(id="popupLink", data-role="popup", data-theme="a")
+    a.ui-btn-right(href="#", data-rel="back", data-role="button", data-theme="a", data-icon="delete", data-iconpos="notext") Close
     div(style="padding:10px 20px;")
       h3 #{resource.pleaseEnter}
        label(for="str") #{resource.strings}
@@ -39,7 +40,6 @@ block content
        label(for="uri") #{resource.uri}
        input(name="uri", id="uri", type='url', value="", data-theme="a")
        a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') #{resource.insert}
-       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") #{resource.cancel}
   div.ui-corner-all(id="popupLink_img", data-role="popup", data-theme="a")
     a.ui-btn-right(href="#", data-rel="back", data-role="button", data-theme="a", data-icon="delete", data-iconpos="notext") Close
     form(id="uploadimageform")
