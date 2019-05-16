@@ -58,6 +58,13 @@ const resource = {
     passwordPolicy5: '空白を含まない',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  deleteuser: {
+    deleteCompleted: 'ユーザー削除完了',
+    deleteCompletedMessage: 'ユーザーの削除が完了しました。',
+    backToUserSearch: 'ユーザー検索画面に戻る',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
