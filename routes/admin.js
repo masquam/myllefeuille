@@ -127,7 +127,8 @@ router.post('/makeconfirm.html', parseForm, isLogined, csrfProtection,
        content: req.body.content,
        directory: req.body.directory,
        displaycontent: markup.getMarkedUpText(req.body.content),
-       csrfToken: req.csrfToken(), saveToken: objid});
+       csrfToken: req.csrfToken(), saveToken: objid, 
+       resource: resource.makeconfirm });
   });
 });
 

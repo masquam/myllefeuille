@@ -156,7 +156,15 @@ const resource = {
     uploading: 'アップロード中...',
     uploadedSuccessfully: 'アップロードが完了しました。',
     failedToUpload: 'アップロードに失敗しました。'
-  }
+  },
+  makeconfirm: {
+    confirmSave: 'ナレッジ保存確認',
+    save: '保存',
+    back: '戻る',
+    menu: 'メニュー',
+    logout: 'ログアウト'
+  },
+
 };
 
 module.exports = resource;
