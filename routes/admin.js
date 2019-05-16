@@ -585,7 +585,8 @@ router.get('/searchuserpw.html', isAdministrator, function(req, res) {
 function renderSearchUserPw(err, docs, res, searchstring){
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render('searchuserpw', {docs: docs, searchstring: searchstring});
+  res.render('searchuserpw', {docs: docs, searchstring: searchstring,
+                              resource: resource.searchuserpw });
 }
 
 

@@ -199,6 +199,14 @@ const resource = {
     userNotFound: '該当するユーザーがありません。',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  searchuserpw: {
+    searchUserToChangePassword: 'パスワードを変更するユーザーの検索',
+    search: '検索',
+    searchResult: '検索結果',
+    userNotFound: '該当するユーザーがありません。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
