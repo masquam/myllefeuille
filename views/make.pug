@@ -1,16 +1,16 @@
 extends layout
 
 block content
-  h1 ナレッジ作成
+  h1 #{resource.createKnowledge}
   form(action='/admin/makeconfirm.html', method='post')
     include csrf
     p
       input(type='hidden', name='directory', value=directory) 
     p
-      label タイトル: 
+      label #{resource.title}
       input(autofocus, name='ktitle', type='text')&attributes({value: title})
     p
-      label 内容: 
+      label #{resource.contents}
       button.ui-btn.ui-btn-inline(type='button', id='h2button') &lt;h2&gt;
       button.ui-btn.ui-btn-inline(type='button', id='h3button') &lt;h3&gt;
       button.ui-btn.ui-btn-inline(type='button', id='bbutton') &lt;b&gt;
@@ -23,32 +23,32 @@ block content
       button.ui-btn.ui-btn-inline(type='button', id='nobutton') no markup
       textarea(id='content', name='content') #{content}
     p
-      input.ui-btn.ui-btn-inline(type='submit', value='保存')
+      input.ui-btn.ui-btn-inline(type='submit', value=`${resource.save}`)
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
 
   div.ui-corner-all(id="popupLink", data-role="popup", data-theme="a", data-dismissible="false")
     div(style="padding:10px 20px;")
-      h3 入力してください
-       label(for="str") 文字列:
+      h3 #{resource.pleaseEnter}
+       label(for="str") #{resource.strings}
        input(name="str", id="str", type="text", value="", data-theme="a")
-       label(for="uri") URI:
+       label(for="uri") #{resource.uri}
        input(name="uri", id="uri", type='url', value="", data-theme="a")
-       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') 挿入
-       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") キャンセル
+       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back", id='ainsertbutton') #{resource.insert}
+       a.ui-btn.ui-corner-all.ui-shadow.ui-btn-inline(href="#", data-rel="back") #{resource.cancel}
   div.ui-corner-all(id="popupLink_img", data-role="popup", data-theme="a")
     a.ui-btn-right(href="#", data-rel="back", data-role="button", data-theme="a", data-icon="delete", data-iconpos="notext") Close
     form(id="uploadimageform")
       div(style="padding:10px 20px;")
-        h3 アップロードする画像ファイルを指定してください
+        h3 #{resource.pleaseSpecifyImageFileToUpload}
         include csrf
         input(type='hidden', name='directory', value=directory) 
         input(type="file", name="upfile", id="upfile")
-        button(type="button", onclick="file_upload()") アップロード
+        button(type="button", onclick="file_upload()") #{resource.upload}
   div(id="popupUploading", data-role="popup")
-    p アップロード中...
+    p #{resource.uploading}
   script.
     var uploadfilename = "";
     $('#h2button').click(function() {
@@ -140,12 +140,12 @@ block content
       })
       .done(function(data, textStatus, jqXHR){
         $( "#popupUploading" ).popup( "close" );
-        alert("アップロードが完了しました。");
+        alert("#{resource.uploadedSuccessfully}");
         insertTextarea3('![](/img/' + '!{directory}' + '/' + uploadfilename  + ')');
 
       })
       .fail(function(jqXHR, textStatus, errorThrown){
         $( "#popupUploading" ).popup( "close" );
-        alert("アップロードに失敗しました。");
+        alert("#{resource.failedToUpload}");
       });
     }

@@ -82,7 +82,8 @@ router.get("/make.html", csrfProtection, isLogined, function(req, res){
     res.setHeader( 'Pragma', 'no-cache' );
     res.render("make", 
       {directory: mongoose.Types.ObjectId(),
-       csrfToken: req.csrfToken()});
+       csrfToken: req.csrfToken(),
+       resource: resource.make });
 });
 
 router.post("/make.html", csrfProtection, isLogined, function(req, res){
@@ -95,7 +96,8 @@ router.post("/make.html", csrfProtection, isLogined, function(req, res){
     {title: req.body.ktitle,
      content: req.body.content,
      directory: req.body.directory,
-     csrfToken: req.csrfToken()});
+     csrfToken: req.csrfToken(),
+       resource: resource.make });
 });
 
 router.post('/uploadimage', parseForm, isLogined, csrfProtection,
