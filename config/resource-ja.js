@@ -125,6 +125,12 @@ const resource = {
     backToUserSearch: 'ユーザー検索画面に戻る',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  edituserpwresult: {
+    changePasswordOfAUser: 'ユーザーのパスワード変更',
+    changePasswordOfAUserMessage: 'ユーザーのパスワードを変更しました。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 

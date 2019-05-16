@@ -620,7 +620,8 @@ router.post("/edituserpw.html", csrfProtection, isAdministrator,
 
 router.get("/edituserpwresult.html", csrfProtection, isAdministrator,
     function(req, res){
-  res.render("edituserpwresult", {csrfToken: req.csrfToken()});
+  res.render("edituserpwresult", {csrfToken: req.csrfToken(), 
+                                  resource: resource.edituserpwresult});
 });
 
 
