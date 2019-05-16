@@ -258,7 +258,8 @@ router.post("/selectresult.html", csrfProtection, isLogined, function(req, res){
         res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader( 'Pragma', 'no-cache' );
         res.render('selectresult', 
-          {docs: listKnowledge, searchstring: searchstring});
+          {docs: listKnowledge, searchstring: searchstring,
+           resource: resource.selectresult });
       }
     });
 });

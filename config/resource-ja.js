@@ -214,6 +214,14 @@ const resource = {
     searchResult: '検索結果',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  selectresult: {
+    searchResult: '検索結果',
+    noKnowledgeFound: '該当するナレッジがありません。',
+    more: 'もっと表示',
+    backToSearch: '検索画面に戻る',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 
