@@ -191,6 +191,14 @@ const resource = {
     saveUserMessage: 'ユーザーを作成しました。',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  searchuser: {
+    searchUserToEdit: '編集するユーザーの検索',
+    search: '検索',
+    searchResult: '検索結果',
+    userNotFound: '該当するユーザーがありません。',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 

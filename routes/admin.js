@@ -491,7 +491,8 @@ router.get('/searchuser.html', isAdministrator, function(req, res) {
 function renderSearchUser(err, docs, res, searchstring){
   res.setHeader( 'Cache-Control', 'no-cache, no-store, must-revalidate' );
   res.setHeader( 'Pragma', 'no-cache' );
-  res.render('searchuser', {docs: docs, searchstring: searchstring});
+  res.render('searchuser', {docs: docs, searchstring: searchstring,
+                            resource: resource.searchuser});
 }
 
 router.get("/edituser.html", csrfProtection, isAdministrator,

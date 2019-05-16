@@ -1,20 +1,20 @@
 extends layout
 
 block content
-  h1 編集するユーザーの検索
+  h1 #{resource.searchUserToEdit}
   p
-    h2 検索
+    h2 #{resource.search}
   form(action='/admin/searchuser.html', method='get')
     fieldset(class='ui-grid-a')
       div(class='ui-block-a', style='width:60%')
         input(autofocus, id='searchinput', type='search' name='searchstring' size='30' maxlength='255', style='height: 44px' )&attributes({value: searchstring})
       div(class='ui-block-b', style='width:40%')
-        input.ui-btn(type='submit', value='検索', data-inline='true', data-icon='search')
+        input.ui-btn(type='submit', value=`${resource.search}`, data-inline='true', data-icon='search')
 
   p
-    h2 検索結果
+    h2 #{resource.searchResult}
   if Object.keys(docs).length == 0
-    p 該当するユーザーがありません。
+    p #{resource.userNotFound}
   else
     ul.listView(data-role='listview')
       each doc in docs
@@ -24,9 +24,9 @@ block content
             p(style='font-size: 1.0em;') #{doc.username}
             p(style='font-size: 0.8em;') #{doc.role}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
   script.
     $(document).bind('pageshow', function() {
       $('#searchinput').focus();
