@@ -65,6 +65,25 @@ const resource = {
     backToUserSearch: 'ユーザー検索画面に戻る',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  edit: {
+    editKnowledge: 'ナレッジ編集',
+    knowledgeNo: 'ナレッジ # ',
+    title: 'タイトル: ',
+    contents: '内容: ',
+    save: '保存',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト',
+    pleaseEnter: '入力してください',
+    strings: '文字列: ',
+    uri: 'URI: ',
+    insert: '挿入',
+    cancel: 'キャンセル',
+    pleaseSpecifyImageFileToUpload: 'アップロードする画像ファイルを指定してください',
+    upload: 'アップロード',
+    uploading: 'アップロード中...',
+    uploadedSuccessfully: 'アップロードが完了しました。',
+    failedToUpload: 'アップロードに失敗しました。'
   }
 };
 

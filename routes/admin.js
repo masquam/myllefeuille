@@ -272,7 +272,8 @@ router.get("/edit.html", csrfProtection, isLogined, function(req, res){
             content: knowledgeContent.content,
             id: id,
             directory: knowledge.imgdir,
-            csrfToken: req.csrfToken()});
+            csrfToken: req.csrfToken(), 
+            resource: resource.edit });
       }
   });
 
@@ -290,7 +291,8 @@ router.post("/edit.html", csrfProtection, isLogined, function(req, res){
       content: req.body.content,
       id: id,
       directory: req.body.directory,
-      csrfToken: req.csrfToken()});
+      csrfToken: req.csrfToken(),
+      resource: resource.edit });
 });
 
 router.post('/editconfirm.html', parseForm, isLogined, csrfProtection,
