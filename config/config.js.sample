@@ -12,7 +12,7 @@ const config = {
     name: 'myllefeuille'
   },
   resource: {
-    file: 'resource-ja.js'
+    file: 'resource.js'
   }
 };
 

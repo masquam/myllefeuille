@@ -10,7 +10,7 @@ const resource = {
     login: 'ログイン'
   },
   number: {
-    knowledgeNo: 'ナレッジ #',
+    knowledgeNo: 'ナレッジ # ',
     lastUpdate: '最終更新日時: ',
     author: '著者: ',
     topPage: 'トップページ'
