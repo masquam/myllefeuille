@@ -8,16 +8,16 @@ block content
     include csrf
     p
       div.ui-field-contain
-        label(for='username-input') ユーザーID: 
+        label(for='username-input') #{resource.userId}
         input(autofocus, id='username-input', type='text', name='username', style='ime-mode:disabled;')
     p
       div.ui-field-contain
-        label(for='password-input') パスワード: 
+        label(for='password-input') #{resource.password}
         input(id='password-input', type='password', name='password', style='ime-mode:disabled;')
     p
       div.ui-field-contain
         label(for='login-submit') 
-        input.ui-btn.ui-btn-inline(id='login-submit', type='submit', value='ログイン', data-icon='lock')
+        input.ui-btn.ui-btn-inline(id='login-submit', type='submit', value=`${resource.login}`, data-icon='lock')
     p
-      a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') トップページ
+      a.ui-btn.ui-btn-inline.ui-icon-home.ui-btn-icon-left(href='/') #{resource.topPage}
 

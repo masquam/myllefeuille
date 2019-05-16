@@ -21,6 +21,12 @@ const resource = {
     noKnowledges: '該当するナレッジがありません。',
     more: 'もっと表示',
     topPage: 'トップページ'
+  },
+  login: {
+    userId: 'ユーザーID: ',
+    password: 'パスワード: ',
+    login: 'ログイン',
+    topPage: 'トップページ'
   }
 };
 

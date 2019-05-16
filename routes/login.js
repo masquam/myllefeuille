@@ -9,12 +9,15 @@ var sanitize = require('mongo-sanitize');
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
 
+const config = require('../config/config');
+const resourcefile = config.resource.file;
+const resource = require('../config/' + resourcefile);
 
 
 router.get('/', csrfProtection, function(req, res, next) {
   res.render('login', 
     {username: sanitize(req.user), message: req.flash("error"),
-     csrfToken: req.csrfToken() });
+     csrfToken: req.csrfToken(), resource: resource.login });
 });
 router.post('/', parseForm, csrfProtection,
   passport.authenticate('local', { successRedirect: '/admin/menu.html',
