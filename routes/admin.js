@@ -2,6 +2,11 @@ var fs = require('fs');
 var express = require('express')
 var multer  = require('multer')
 var router = express.Router();
+
+const config = require('../config/config');
+const resourcefile = config.resource.file;
+const resource = require('../config/' + resourcefile);
+
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log("multer.diskStorage directory = " + req.body.directory);
@@ -53,9 +58,6 @@ var readKnowledge = require('../lib/readKnowledge');
 var editKnowledge = require('../lib/editKnowledge');
 var userMaintenance = require('../lib/userMaintenance');
 var validatePassword = require('../lib/validatePassword');
-
-
-var dburi = "mongodb://localhost:27017/myllefeuille";
 
 var csrfProtection = csrf({ cookie: true })
 var parseForm = bodyParser.urlencoded({ extended: false })
@@ -384,14 +386,16 @@ function updateKnowledgeFTS(err, req, res, theKnowledge, content){
 }
 
 router.get("/changepw.html", csrfProtection, isLogined, function(req, res){
-  res.render("changepw", {user: req.user, csrfToken: req.csrfToken()});
+  res.render("changepw", {user: req.user, csrfToken: req.csrfToken(),
+                          resource: resource.changepw });
 });
 
 router.post("/changepw.html", csrfProtection, isLogined, function(req, res){
   if (validatePassword.validate(req.body.password) === false) {
     res.render("changepw", 
       {user: req.user, csrfToken: req.csrfToken(),
-       message: "パスワード・ポリシーを満たしていません"});
+       message: resource.changepw.notSatisfiedPasswordPolicy,
+       resource: resource.changepw });
   } else {
     userMaintenance.updatePassword(
       req.body.username,

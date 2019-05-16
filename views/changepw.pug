@@ -1,26 +1,26 @@
 extends layout
 
 block content
-  h1 パスワードの変更
-  p #{user.displayname} のパスワードを変更
+  h1 #{resource.changePassword}
+  p #{resource.changePasswordTo} #{user.displayname}
   form(action='/admin/changepw.html', method='post')
     include csrf
     p #{message}
     p
       input(type='hidden', name='username')&attributes({value: user.username})
     p
-      label パスワード: 
+      label #{resource.password}
       input(autofocus, type='password', name='password')
     p
-      input.ui-btn.ui-btn-inline(type='submit', value='保存')
-  p パスワード・ポリシー
+      input.ui-btn.ui-btn-inline(type='submit', value=`${resource.save}`)
+  p #{resource.passwordPolicy}
     ul
-      li 8文字以上100文字まで
-      li 英大文字と英小文字を含む
-      li 数字を含む
-      li シンボルを含む
-      li 空白を含まない
+      li #{resource.passwordPolicy1}
+      li #{resource.passwordPolicy2}
+      li #{resource.passwordPolicy3}
+      li #{resource.passwordPolicy4}
+      li #{resource.passwordPolicy5}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}
