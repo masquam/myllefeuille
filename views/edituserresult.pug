@@ -1,11 +1,11 @@
 extends layout
 
 block content
-  h1 ユーザー編集
-  p ユーザーを編集しました。
+  h1 #{resource.editUser}
+  p #{resource.editUserMessage}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') ユーザー編集画面に戻る
+    a.ui-btn.ui-btn-inline(href='/admin/searchuser.html') #{resource.backToEditUser}
   p
-    a.ui-btn.ui-btn-inline(href='/admin/menu.html') 管理メニュー
+    a.ui-btn.ui-btn-inline(href='/admin/menu.html') #{resource.adminMenu}
   p
-    a.ui-btn.ui-btn-inline(href='/logout.html') ログアウト
+    a.ui-btn.ui-btn-inline(href='/logout.html') #{resource.logout}

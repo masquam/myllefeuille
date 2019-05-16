@@ -131,6 +131,13 @@ const resource = {
     changePasswordOfAUserMessage: 'ユーザーのパスワードを変更しました。',
     adminMenu: '管理メニュー',
     logout: 'ログアウト'
+  },
+  edituserresult: {
+    editUser: 'ユーザー編集',
+    editUserMessage: 'ユーザーを編集しました。',
+    backToEditUser: 'ユーザー検索画面に戻る',
+    adminMenu: '管理メニュー',
+    logout: 'ログアウト'
   }
 };
 

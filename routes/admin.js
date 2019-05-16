@@ -544,7 +544,8 @@ router.post("/edituser.html", csrfProtection, isAdministrator,
 
 router.get("/edituserresult.html", csrfProtection, isAdministrator,
     function(req, res){
-  res.render("edituserresult", {csrfToken: req.csrfToken()});
+  res.render("edituserresult", {csrfToken: req.csrfToken(),
+                                resource: resource.edituserresult });
 });
 
 router.get("/deleteuser.html", csrfProtection, isAdministrator,
