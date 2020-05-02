@@ -14,11 +14,19 @@
     "express": "~4.17.1",
     "express-session": "^1.17.1",
     "http-errors": "~1.7.3",
+<<<<<<< HEAD
     "mocha": "^7.1.2",
     "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.11",
     "morgan": "~1.10.0",
+=======
+    "mocha": "^6.2.0",
+    "mongo-sanitize": "^1.0.1",
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.7.5",
+    "morgan": "~1.9.1",
+>>>>>>> 5cf9d4edff7bd98f160106f611ade49e8d54ead3
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
